@@ -1,0 +1,21 @@
+{
+  "name": "@odd/root",
+  "private": true,
+  "devDependencies": {
+    "craco": "^0.0.3",
+    "lerna": "^4.0.0"
+  },
+  "scripts": {
+    "start:admin": "lerna exec --scope @odd/admin -- yarn start",
+    "start:user": "lerna exec --scope @odd/user -- yarn start",
+    "start:driver": "lerna exec --scope @odd/driver -- yarn start",
+    "build:admin": "lerna exec --scope @odd/admin -- yarn build",
+    "build:user": "lerna exec --scope @odd/user -- yarn build",
+    "build:driver": "lerna exec --scope @odd/driver -- yarn build"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/**"
+    ]
+  }
+}
