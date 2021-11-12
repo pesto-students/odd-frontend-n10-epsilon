@@ -1,8 +1,5 @@
 import React, { ReactElement } from "react";
 
-//components
-import { Button as AntButton } from "antd";
-
 import classNames from "classnames";
 
 interface IProps {
@@ -44,7 +41,7 @@ function Button(props: IProps & any): ReactElement {
   );
 
   return (
-    <AntButton
+    <button
       style={style}
       className={classnames}
       disabled={disabled}
@@ -57,7 +54,7 @@ function Button(props: IProps & any): ReactElement {
       {...rest}
     >
       {children}
-    </AntButton>
+    </button>
   );
 }
 
