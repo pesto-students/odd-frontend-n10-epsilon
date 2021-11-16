@@ -1,7 +1,7 @@
 import "@odd/components/src/output.css";
 
 //atoms
-import { Button, Input, Label, Switch } from "@odd/components";
+import { Button, Input, AppModal, Label, Switch } from "@odd/components";
 
 //molecules
 import {
@@ -22,7 +22,7 @@ function App() {
       <TestButtons />
       <TestSwitches />
       <TestLabel />
-      <TestInputs />
+      <AppModal />
       <TestVehicleCards />
       <TestLabeledIcons />
       <TextDocUploadListItems />
@@ -130,50 +130,6 @@ const TestLabel = () => {
         <Label title="Regular" regular />
         <Label title="Light" light />
       </div>
-    </div>
-  );
-};
-
-const TestInputs = () => {
-  return (
-    <div className="space-y-4">
-      <Input name="location" placeholder="Select location" />
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-      />
-
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-        leadingIcon={IconPin}
-      />
-
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-        trailingIcon={IconPin}
-      />
-
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-        leadingIcon={IconPin}
-        trailingIcon={IconPin}
-      />
-
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-        leadingIcon={IconPin}
-        trailingIcon={IconPin}
-        error="This is error"
-      />
     </div>
   );
 };
