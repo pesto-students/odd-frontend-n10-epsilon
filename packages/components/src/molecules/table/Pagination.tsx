@@ -20,44 +20,46 @@ const Pagination: React.FC<IProps> = (props: IProps & any) => {
   const { pageCount, onPageChange, onPageActive } = props;
 
   return (
-    <ReactPaginate
-      pageCount={pageCount}
-      pageRangeDisplayed={3}
-      marginPagesDisplayed={1}
-      previousLabel={
-        <ArrowContainer>
-          <span className="sr-only">Next</span>
-          <img
-            src={ChevronLeftIcon}
-            style={{ opacity: 0.6, transform: "rotate(180deg)" }}
-          />
-        </ArrowContainer>
-      }
-      nextLabel={
-        <ArrowContainer>
-          <span className="sr-only">Next</span>
-          <img src={ChevronRightIcon} style={{ opacity: 0.6 }} />
-        </ArrowContainer>
-      }
-      breakLabel={<DotItem />}
-      breakClassName="null"
-      breakLinkClassName="null"
-      onPageChange={({ selected }) => {
-        if (onPageChange) {
-          onPageChange(selected);
+    <div className="flex flex-row-reverse my-4">
+      <ReactPaginate
+        pageCount={pageCount}
+        pageRangeDisplayed={3}
+        marginPagesDisplayed={1}
+        previousLabel={
+          <ArrowContainer>
+            <span className="sr-only">Next</span>
+            <img
+              src={ChevronLeftIcon}
+              style={{ opacity: 0.6, transform: "rotate(180deg)" }}
+            />
+          </ArrowContainer>
         }
-      }}
-      onPageActive={({ selected }) => {
-        if (onPageActive) {
-          onPageActive(selected);
+        nextLabel={
+          <ArrowContainer>
+            <span className="sr-only">Next</span>
+            <img src={ChevronRightIcon} style={{ opacity: 0.6 }} />
+          </ArrowContainer>
         }
-      }}
-      initialPage={0}
-      disableInitialCallback={false}
-      containerClassName="bg-white flex items-center justify-between sm:px-6 relative z-0 inline-flex rounded-md -space-x-px px-2 py-3 bg-white shadow"
-      pageClassName="text-center items-center px-2 py-2 rounded h-9 w-10 font-medium text-base mx-auto my-auto bg-transparent text-gray"
-      activeLinkClassName="text-center items-center px-2 py-2 rounded h-full w-full font-medium text-base mx-auto my-auto bg-green text-primary bg-opacity-20"
-    />
+        breakLabel={<DotItem />}
+        breakClassName="null"
+        breakLinkClassName="null"
+        onPageChange={({ selected }) => {
+          if (onPageChange) {
+            onPageChange(selected);
+          }
+        }}
+        onPageActive={({ selected }) => {
+          if (onPageActive) {
+            onPageActive(selected);
+          }
+        }}
+        initialPage={0}
+        disableInitialCallback={false}
+        containerClassName="bg-white items-center justify-between sm:px-6 inline-flex rounded-md -space-x-px px-2 py-3 bg-white shadow"
+        pageClassName="text-center items-center px-2 py-2 rounded h-9 w-10 font-medium text-base mx-auto my-auto bg-transparent text-gray"
+        activeLinkClassName="text-center items-center px-2 py-2 rounded h-full w-full font-medium text-base mx-auto my-auto bg-green text-primary bg-opacity-20"
+      />
+    </div>
   );
 };
 

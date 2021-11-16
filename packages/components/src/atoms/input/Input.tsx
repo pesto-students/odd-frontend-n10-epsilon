@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //Components
 import { Label } from "..";
@@ -11,7 +11,10 @@ interface IProps {
   leadingIcon?: string;
   trailingIcon?: string;
   secure?: boolean;
+  className?: string;
   style?: React.CSSProperties;
+  defaultValue?: string;
+  onChange?(value: string): void;
 }
 
 const Input: React.FC<IProps> = (props: IProps & any) => {
@@ -23,8 +26,13 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
     leadingIcon,
     trailingIcon,
     secure = false,
+    className,
     style,
+    defaultValue,
+    onChange,
   } = props;
+
+  const [value, setValue] = useState(defaultValue);
 
   return (
     <div className="flex gap-2 flex-col" style={style}>
@@ -34,11 +42,18 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
       <div className="relative flex">
         {leadingIcon && <Icon icon={leadingIcon} leading={true} />}
         <input
-          className={`border border-gray rounded w-full h-9 py-2 leading-tight focus:border-primary focus:ring-0 active:border-primary active:ring-0 
+          className={`${className} border border-gray rounded w-full h-9 py-2 leading-tight focus:border-primary focus:ring-0 active:border-primary active:ring-0 
             ${leadingIcon && " pl-8 "} ${trailingIcon && " pr-8 "}`}
           placeholder={placeholder}
           id={name}
           type={secure ? "password" : "text"}
+          value={value || ""}
+          onChange={(e) => {
+            setValue(e.target.value);
+            if (onChange) {
+              onChange(e.target.value);
+            }
+          }}
         />
         {trailingIcon && <Icon icon={trailingIcon} leading={false} />}
       </div>

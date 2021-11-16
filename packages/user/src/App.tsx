@@ -1,242 +1,157 @@
-import "@odd/components/src/output.css";
-
-//atoms
-import { Button, Input, Label, Switch } from "@odd/components";
-
-//molecules
+import React from "react";
 import {
-  ChooseVehicle,
-  SteppedAddresses,
-  LabeledIcon,
-  DocUploadListItem,
-} from "@odd/components";
+  AvatarItem,
+  StatusItem,
+  TextItem,
+} from "@odd/components/src/molecules"; // new
+import DataTable from "@odd/components/src/molecules/table/DataTable";
 
-//icons
-import IconDummyVehicle from "@odd/components/src/assets/svgs/icn-vehicle-dummy.svg";
-import IconPin from "@odd/components/src/assets/svgs/icn-pin.svg";
-import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
+const getData = () => {
+  const data = [
+    {
+      name: "Jane Cooper",
+      email: "jane.cooper@example.com",
+      title: "Regional Paradigm Technician",
+      department: "Optimization",
+      status: "Active",
+      role: "Admin",
+      age: 27,
+      imgUrl:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+    {
+      name: "Cody Fisher",
+      email: "cody.fisher@example.com",
+      title: "Product Directives Officer",
+      department: "Intranet",
+      status: "Inactive",
+      role: "Owner",
+      age: 43,
+      imgUrl:
+        "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+    {
+      name: "Esther Howard",
+      email: "esther.howard@example.com",
+      title: "Forward Response Developer",
+      department: "Directives",
+      status: "yellow",
+      role: "Member",
+      age: 32,
+      imgUrl:
+        "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+    {
+      name: "Jenny Wilson",
+      email: "jenny.wilson@example.com",
+      title: "Central Security Manager",
+      department: "Program",
+      status: "blue",
+      role: "Member",
+      age: 29,
+      imgUrl:
+        "https://images.unsplash.com/photo-1498551172505-8ee7ad69f235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+    {
+      name: "Kristin Watson",
+      email: "kristin.watson@example.com",
+      title: "Lean Implementation Liaison",
+      department: "Mobility",
+      status: "Inactive",
+      role: "Admin",
+      age: 36,
+      imgUrl:
+        "https://images.unsplash.com/photo-1532417344469-368f9ae6d187?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+    {
+      name: "Cameron Williamson",
+      email: "cameron.williamson@example.com",
+      title: "Internal Applications Engineer",
+      department: "Security",
+      status: "Active",
+      role: "Member",
+      age: 24,
+      imgUrl:
+        "https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+  ];
+  return [
+    ...data,
+    ...data,
+    ...data,
+    ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+    // ...data,
+  ];
+};
 
 function App() {
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "Name",
+        accessor: "name",
+        Cell: AvatarItem,
+        imgAccessor: "imgUrl",
+        emailAccessor: "email",
+      },
+      {
+        Header: "Title",
+        accessor: "title",
+        Cell: TextItem,
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+        Cell: StatusItem,
+      },
+      {
+        Header: "Age",
+        accessor: "age",
+        Cell: TextItem,
+      },
+      {
+        Header: "Role",
+        accessor: "role",
+        filter: "includes",
+        Cell: TextItem,
+      },
+    ],
+    []
+  );
+
+  const data = React.useMemo(() => getData(), []);
+
   return (
-    <div className="p-16 grid gap-4">
-      <TestButtons />
-      <TestSwitches />
-      <TestLabel />
-      <TestInputs />
-      <TestVehicleCards />
-      <TestLabeledIcons />
-      <TextDocUploadListItems />
-      <TestSteppedAddresses />
+    <div className="min-h-screen bg-gray-100 text-gray-900 bg-background">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="mt-6">
+          <DataTable
+            columns={columns}
+            data={data}
+            titleTemplate={(totalData) => {
+              return `Total no of Users (${totalData})`;
+            }}
+          />
+        </div>
+      </main>
     </div>
   );
 }
-
-const TestButtons = () => {
-  return (
-    <div className=" space-x-2">
-      <Button
-        onClick={() => {}}
-        disabled
-        shadow
-        block
-        style={{ width: "136px", height: "37px" }}
-      >
-        Block
-      </Button>
-
-      <Button
-        onClick={() => {}}
-        disabled
-        shadow
-        style={{ width: "136px", height: "37px" }}
-      >
-        Next
-      </Button>
-
-      <Button
-        onClick={() => {}}
-        primary
-        shadow
-        style={{ width: "136px", height: "37px" }}
-      >
-        cancel
-      </Button>
-
-      <Button
-        onClick={() => {}}
-        secondary
-        shadow
-        style={{ width: "201px", height: "40px" }}
-      >
-        BYPASS
-      </Button>
-
-      <Button
-        onClick={() => {}}
-        primary
-        shadow
-        style={{ width: "130px", height: "40px" }}
-      >
-        Send package
-      </Button>
-
-      <Button
-        onClick={() => {}}
-        outlined
-        style={{ width: "129px", height: "46px" }}
-      >
-        Sign In
-      </Button>
-
-      <Button onClick={() => {}} primary className=" w-28 h-10">
-        + Add
-      </Button>
-    </div>
-  );
-};
-
-const TestSwitches = () => {
-  return (
-    <div className="space-x-2">
-      <Switch
-        onChange={(value: boolean) => {
-          console.log(value);
-        }}
-      />
-    </div>
-  );
-};
-
-const TestLabel = () => {
-  return (
-    <div>
-      <div className="space-x-2">
-        <Label title="Primary medium" primary medium />
-        <Label title="Primary regular" primary regular />
-        <Label title="Primary light" primary light />
-      </div>
-      <div className="space-x-2">
-        <Label title="Secondary medium" secondary medium />
-        <Label title="Secondary regular" secondary regular />
-        <Label title="Secondary light" secondary light />
-      </div>
-      <div className="space-x-2">
-        <Label title="Gray Medium" gray medium />
-        <Label title="Gray Regular" gray regular />
-        <Label title="Gray Light" gray light />
-      </div>
-      <div className="space-x-2">
-        <Label title="medium" medium />
-        <Label title="Regular" regular />
-        <Label title="Light" light />
-      </div>
-    </div>
-  );
-};
-
-const TestInputs = () => {
-  return (
-    <div className="space-y-4">
-      <Input name="location" placeholder="Select location" />
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-      />
-
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-        leadingIcon={IconPin}
-      />
-
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-        trailingIcon={IconPin}
-      />
-
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-        leadingIcon={IconPin}
-        trailingIcon={IconPin}
-      />
-
-      <Input
-        name="location"
-        label="Search Location"
-        placeholder="Select location"
-        leadingIcon={IconPin}
-        trailingIcon={IconPin}
-        error="This is error"
-      />
-    </div>
-  );
-};
-
-const TestVehicleCards = () => {
-  return (
-    <div className="space-y-4">
-      <ChooseVehicle
-        _id="Single"
-        title="THREE WHEELER"
-        desc="Recommended for Large items like small Furniture, appliances etc."
-        icon={IconDummyVehicle}
-        baseRate={10}
-        price={100}
-        extraRate={20}
-        defaultState={true}
-        onSelect={(_id, selected) => {
-          console.log(_id);
-          console.log(selected);
-        }}
-      />
-
-      <ChooseVehicle
-        _id="Single2"
-        title="THREE WHEELER"
-        desc="Recommended for Large items like small Furniture, appliances etc."
-        icon={IconDummyVehicle}
-        showRates={false}
-        onSelect={(_id, selected) => {
-          console.log(_id);
-          console.log(selected);
-        }}
-      />
-    </div>
-  );
-};
-
-const TestSteppedAddresses = () => {
-  return (
-    <div className="mt-4 space-y-8 h-32">
-      <SteppedAddresses deliveryStatus={IDeliveryStatus.Created} />
-      <SteppedAddresses deliveryStatus={IDeliveryStatus.PickedUp} />
-      <SteppedAddresses deliveryStatus={IDeliveryStatus.DroppedOff} />
-    </div>
-  );
-};
-
-const TestLabeledIcons = () => {
-  return (
-    <div className="mt-4 space-y-8">
-      <LabeledIcon title="Send parcel" icon={IconDummyVehicle} />
-      <LabeledIcon title="Send parcel" icon={IconDummyVehicle} reverse />
-    </div>
-  );
-};
-
-const TextDocUploadListItems = () => {
-  return (
-    <div className="mt-4 space-y-8 w-52">
-      <DocUploadListItem title="Profile Photo" completed />
-      <DocUploadListItem title="Profile Photo" />
-    </div>
-  );
-};
 
 export default App;
