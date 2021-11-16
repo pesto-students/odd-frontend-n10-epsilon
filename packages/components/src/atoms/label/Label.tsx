@@ -31,14 +31,14 @@ const Label: React.FC<IProps> = (props: IProps & any) => {
   } = props;
 
   const classnames = classNames(
-    className,
     block && "block",
     primary && "text-primary",
     secondary && "text-typo",
     medium && "font-medium",
     regular && "font-normal",
     light && "font-light",
-    gray && "text-gray"
+    gray && "text-gray",
+    className
   );
 
   return (
