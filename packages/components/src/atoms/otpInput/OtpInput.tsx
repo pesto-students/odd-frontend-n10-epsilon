@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import OtpInput from "react-otp-input";
-import "./style.css";
+
 const style: React.CSSProperties = {
   padding: 0,
   paddingBottom: "5px",
