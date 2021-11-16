@@ -20,7 +20,11 @@ const customStyles: Modal.Styles = {
     transform: "translate(-50%, -50%)",
   },
   overlay: {
+<<<<<<< HEAD
     background: "#000000",
+=======
+    background: "black",
+>>>>>>> 64b4259 (adduser login)
     zIndex: 9999,
 
     border: 0,
@@ -88,15 +92,23 @@ const AppModal: React.FC<IProps> = (props: IProps & any) => {
             placeholder="Enter your mobile number"
             leading={<label className="whitespace-nowrap"> +91 |</label>}
           />
+<<<<<<< HEAD
           {/* <p className="mt-6 mb-3 text-midGray">
+=======
+          <p className="mt-6 mb-3 text-midGray">
+>>>>>>> 64b4259 (adduser login)
             Enter the OTP sent to your Number
           </p>
           <Otp />
           <p className="text-primary mt-2 ">
             {" "}
             <a>Resend Otp</a>
+<<<<<<< HEAD
           </p> */}
           {login}
+=======
+          </p>
+>>>>>>> 64b4259 (adduser login)
 
           <Button
             primary
