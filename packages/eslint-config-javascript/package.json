@@ -1,0 +1,16 @@
+{
+  "name": "@odd/eslint-config-javascript",
+  "version": "1.0.0",
+  "license": "ISC",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "babel-eslint": "10.0.3",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-config-prettier": "6.9.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-react": "^7.20.3"
+  }
+}

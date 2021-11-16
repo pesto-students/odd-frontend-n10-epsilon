@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@odd/components": "0.1.0",
+    "@odd/eslint-config-javascript": "1.0.0",
+    "@odd/eslint-config-typescript": "1.0.0",
+    "@odd/prettier-config": "1.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -19,10 +22,12 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "craco eject"
+    "start": "yarn run lint && craco start",
+    "build": "yarn run lint && craco build",
+    "test": "yarn run lint && craco test",
+    "eject": "yarn run lint && craco eject",
+    "lint": "eslint ./ --ignore-path .gitignore",
+    "lint:fix": "yarn run lint -- --fix"
   },
   "eslintConfig": {
     "extends": [
