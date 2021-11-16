@@ -11,7 +11,9 @@
     "start:driver": "lerna exec --scope @odd/driver -- yarn start",
     "build:admin": "lerna exec --scope @odd/admin -- yarn build",
     "build:user": "lerna exec --scope @odd/user -- yarn build",
-    "build:driver": "lerna exec --scope @odd/driver -- yarn build"
+    "build:driver": "lerna exec --scope @odd/driver -- yarn build",
+    "lint": "eslint ./ --ignore-path .gitignore",
+    "lint:fix": "npm run lint -- --fix"
   },
   "workspaces": {
     "packages": [

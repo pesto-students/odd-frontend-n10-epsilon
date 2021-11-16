@@ -4,6 +4,9 @@
   "private": true,
   "main": "./src/index.ts",
   "dependencies": {
+    "@odd/eslint-config-javascript": "1.0.0",
+    "@odd/eslint-config-typescript": "1.0.0",
+    "@odd/prettier-config": "1.0.0",
     "@headlessui/react": "^1.4.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -20,11 +23,13 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "yarn run watch:css && react-scripts start",
-    "build": "yarn run watch:css && react-scripts build",
-    "test": "yarn run watch:css && react-scripts test",
-    "eject": "yarn run watch:css && react-scripts eject",
-    "watch:css": "yarn run tailwind -i src/index.css -o src/output.css --watch"
+    "start": "npm run lint && yarn run watch:css && react-scripts start",
+    "build": "npm run lint && yarn run watch:css && react-scripts build",
+    "test": "npm run lint && yarn run watch:css && react-scripts test",
+    "eject": "npm run lint && yarn run watch:css && react-scripts eject",
+    "watch:css": "yarn run tailwind -i src/index.css -o src/output.css --watch",
+    "lint": "eslint ./ --ignore-path .gitignore",
+    "lint:fix": "npm run lint -- --fix"
   },
   "eslintConfig": {
     "extends": [
