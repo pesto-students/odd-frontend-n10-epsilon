@@ -1,5 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
-import { useState } from "react";
+import React, { useState, InputHTMLAttributes } from "react";
 
 //Components
 import { Label } from "..";
@@ -8,15 +7,15 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   name?: string;
   label?: string;
   placeholder?: string;
+  textType?: string;
   error?: string;
   leading?: React.ReactNode;
-  textType?: string;
   trailing?: React.ReactNode;
-  secure?: boolean;
   className?: string;
   labelClassName?: string;
   style?: React.CSSProperties;
   onFocus?(): void;
+  defaultValue?: string;
 }
 
 const Input: React.FC<IProps> = (props: IProps & any) => {
@@ -27,17 +26,19 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
     textType,
     error,
     leading,
-    labelClassName,
     trailing,
-    secure = false,
-    style,
     className,
+    labelClassName,
+    style,
+    defaultValue,
+    onChange,
   } = props;
 
   const [focused, setFocus] = useState(false);
 
   const set_focus = () => setFocus(true);
   const set_blur = () => setFocus(false);
+  const [value, setValue] = useState(defaultValue);
 
   return (
     <div className={` block gap-2  ${className}`} style={style}>
@@ -64,6 +65,13 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
           onFocus={set_focus}
           onBlur={set_blur}
           type={textType}
+          value={value || ""}
+          onChange={(e) => {
+            setValue(e.target.value);
+            if (onChange) {
+              onChange(e);
+            }
+          }}
         />
         {trailing && <div className="mx-2">{trailing}</div>}
       </div>
