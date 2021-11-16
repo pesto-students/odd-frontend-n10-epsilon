@@ -20,7 +20,7 @@ const customStyles: Modal.Styles = {
     transform: "translate(-50%, -50%)",
   },
   overlay: {
-    background: "black",
+    background: "#000000",
     zIndex: 9999,
 
     border: 0,
