@@ -1,5 +1,4 @@
-import { count } from "console";
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   useTable,
@@ -79,6 +78,10 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
     usePagination // new,
   );
 
+  useEffect(() => {
+    setPageSize(6);
+  }, []);
+
   // Render the UI for your table
   return (
     <div className="h-full">
@@ -109,9 +112,9 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
                   className="min-w-full divide-y divide-green"
                 >
                   <thead className="bg-white h-16">
-                    {headerGroups.map((headerGroup: any) => (
+                    {headerGroups?.map((headerGroup: any) => (
                       <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map((column: any) => (
+                        {headerGroup.headers?.map((column: any) => (
                           // Add the sorting props to control sorting. For this example
                           // we can add them into the header props
                           <th
@@ -148,12 +151,12 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
                     {...getTableBodyProps()}
                     className="bg-white divide-y divide-green"
                   >
-                    {page.map((row: any, i: number) => {
+                    {page?.map((row: any, i: number) => {
                       // new
                       prepareRow(row);
                       return (
                         <tr {...row.getRowProps()}>
-                          {row.cells.map((cell: any) => {
+                          {row.cells?.map((cell: any) => {
                             return (
                               <td
                                 {...cell.getCellProps()}
