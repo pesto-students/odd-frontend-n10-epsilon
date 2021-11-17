@@ -1,17 +1,22 @@
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
+import { useState } from "react";
 
 //Components
 import { Label } from "..";
 
-interface IProps {
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   name?: string;
   label?: string;
   placeholder?: string;
   error?: string;
-  leadingIcon?: string;
-  trailingIcon?: string;
+  leading?: React.ReactNode;
+  textType?: string;
+  trailing?: React.ReactNode;
   secure?: boolean;
+  className?: string;
+  labelClassName?: string;
   style?: React.CSSProperties;
+  onFocus?(): void;
 }
 
 const Input: React.FC<IProps> = (props: IProps & any) => {
@@ -19,28 +24,48 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
     name,
     label,
     placeholder,
+    textType,
     error,
-    leadingIcon,
-    trailingIcon,
+    leading,
+    labelClassName,
+    trailing,
     secure = false,
     style,
+    className,
   } = props;
 
+  const [focused, setFocus] = useState(false);
+
+  const set_focus = () => setFocus(true);
+  const set_blur = () => setFocus(false);
+
   return (
-    <div className="flex gap-2 flex-col" style={style}>
+    <div className={` block gap-2  ${className}`} style={style}>
       {label && (
-        <Label block secondary title={label} medium style={{ fontSize: 11 }} />
+        <Label
+          className={labelClassName}
+          block
+          secondary
+          title={label}
+          medium
+        />
       )}
-      <div className="relative flex">
-        {leadingIcon && <Icon icon={leadingIcon} leading={true} />}
+      <div
+        className={`flex border  rounded w-full  py-2  
+        ${focused ? "border-primary" : "border-gray"}
+       
+           `}
+      >
+        {leading && <div className="mx-2 flex-initial ">{leading}</div>}
         <input
-          className={`border border-gray rounded w-full h-9 py-2 leading-tight focus:border-primary focus:ring-0 active:border-primary active:ring-0 
-            ${leadingIcon && " pl-8 "} ${trailingIcon && " pr-8 "}`}
           placeholder={placeholder}
           id={name}
-          type={secure ? "password" : "text"}
+          className="w-full px-2 focus:border-0 focus:ring-0 active:border-0 active:ring-0 focus:outline-none"
+          onFocus={set_focus}
+          onBlur={set_blur}
+          type={textType}
         />
-        {trailingIcon && <Icon icon={trailingIcon} leading={false} />}
+        {trailing && <div className="mx-2">{trailing}</div>}
       </div>
       {error && (
         <p className="text-xs italic" style={{ color: "#FF0000" }}>
@@ -48,17 +73,6 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
         </p>
       )}
     </div>
-  );
-};
-
-const Icon: React.FC<any> = ({ icon, leading = true }) => {
-  return (
-    <img
-      className={`absolute pointer-events-none w-2.5 h-2.5 top-1/2 transform -translate-y-1/2 my-auto ${
-        leading ? " left-3 " : " right-3 "
-      }`}
-      src={icon}
-    />
   );
 };
 

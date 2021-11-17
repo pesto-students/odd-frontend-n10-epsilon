@@ -33,7 +33,6 @@ const Button: React.FC<IProps> = (props: IProps & any) => {
   } = props;
 
   const classnames = classNames(
-    className,
     block && "block",
     "py-1 px-2 focus:opacity-70 hover:opacity-70",
     outlined && "border-primary text-primary border-2",
@@ -41,7 +40,8 @@ const Button: React.FC<IProps> = (props: IProps & any) => {
     rounded && !shadow && "rounded-md",
     primary && "bg-primary text-white",
     secondary && "bg-orange text-midGray",
-    disabled && "bg-gray text-darkGray"
+    disabled && "bg-gray text-darkGray",
+    className
   );
 
   return (
