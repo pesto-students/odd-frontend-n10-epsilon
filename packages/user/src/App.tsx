@@ -165,32 +165,22 @@ const TestVehicleCards = () => {
       />
     </div>
   );
-};
 
-const TestSteppedAddresses = () => {
-  return (
-    <div className="mt-4 space-y-8 h-32">
-      <SteppedAddresses deliveryStatus={IDeliveryStatus.Created} />
-      <SteppedAddresses deliveryStatus={IDeliveryStatus.PickedUp} />
-      <SteppedAddresses deliveryStatus={IDeliveryStatus.DroppedOff} />
-    </div>
-  );
-};
+  const data = React.useMemo(() => getData(), []);
 
-const TestLabeledIcons = () => {
   return (
-    <div className="mt-4 space-y-8">
-      <LabeledIcon title="Send parcel" icon={IconDummyVehicle} />
-      <LabeledIcon title="Send parcel" icon={IconDummyVehicle} reverse />
-    </div>
-  );
-};
-
-const TextDocUploadListItems = () => {
-  return (
-    <div className="mt-4 space-y-8 w-52">
-      <DocUploadListItem title="Profile Photo" completed />
-      <DocUploadListItem title="Profile Photo" />
+    <div className="min-h-screen bg-gray-100 text-gray-900 bg-background">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="mt-6">
+          <DataTable
+            columns={columns}
+            data={data}
+            titleTemplate={(totalData) => {
+              return `Total no of Users (${totalData})`;
+            }}
+          />
+        </div>
+      </main>
     </div>
   );
 };
