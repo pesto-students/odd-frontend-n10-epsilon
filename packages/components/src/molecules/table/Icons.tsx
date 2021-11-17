@@ -1,4 +1,4 @@
-export function SortIcon({ className }) {
+export function SortIcon({ className }: any) {
   return (
     <svg
       className={className}
@@ -15,7 +15,7 @@ export function SortIcon({ className }) {
   );
 }
 
-export function SortUpIcon({ className }) {
+export function SortUpIcon({ className }: any) {
   return (
     <svg
       className={className}
@@ -32,7 +32,7 @@ export function SortUpIcon({ className }) {
   );
 }
 
-export function SortDownIcon({ className }) {
+export function SortDownIcon({ className }: any) {
   return (
     <svg
       className={className}
