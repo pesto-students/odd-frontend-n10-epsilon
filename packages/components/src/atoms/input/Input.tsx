@@ -109,9 +109,11 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
   switch (fieldStyle) {
     case "standard":
       return standard;
+    case "legacy":
+      return legacy;
 
     default:
-      return legacy;
+      return standard;
   }
 };
 

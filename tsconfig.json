@@ -36,6 +36,9 @@
     },
     {
       "path": "packages/user"
+    },
+    {
+      "path": "packages/base"
     }
   ],
   "exclude": [

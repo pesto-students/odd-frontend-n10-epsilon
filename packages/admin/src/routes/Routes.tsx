@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Routes, Route, Link, Outlet, Navigate } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { Dashboard } from "../pages/dashboard/Dashboard";
 import { AuthProvider, RequireAuth } from "../pages/login/AuthProvide";
 import { LoginPage } from "../pages/login/Login";

@@ -33,14 +33,14 @@ export function LoginPage() {
           className="absolute top-0 left-0 h-full w-full object-cover"
         />
         <div className="flex h-full w-full min-w-sm z-0">
-          <div className="flex-1 my-auto">
-            <div className="m-auto flex-1 items-center bg-white	 mt-25vh shadow-2xl max-w-md p-10 rounded-lg">
+          <div className="flex-1 my-auto p-3">
+            <div className=" m-auto flex-1 items-center bg-white	 mt-25vh shadow-2xl max-w-md p-10 rounded-lg">
               <h2 className="text-center text-2xl font-semibold mb-10">
-                Admin as Login
+                Login as Admin
               </h2>
               <form onSubmit={handleSubmit}>
-                <Input label="Email" name="username" />
-                <Input label="Password" className="mt-6" />
+                <Input fieldStyle="legacy" label="Email" name="username" />
+                <Input fieldStyle="legacy" label="Password" className="mt-6" />
                 <Button primary block className="rounded-xl" onClick={() => {}}>
                   Login
                 </Button>
