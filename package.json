@@ -6,12 +6,12 @@
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "start:admin": "lerna exec --scope @odd/admin -- yarn start",
-    "start:user": "lerna exec --scope @odd/user -- yarn start",
-    "start:driver": "lerna exec --scope @odd/driver -- yarn start",
-    "build:admin": "lerna exec --scope @odd/admin -- yarn build",
-    "build:user": "lerna exec --scope @odd/user -- yarn build",
-    "build:driver": "lerna exec --scope @odd/driver -- yarn build",
+    "start:admin": "yarn && lerna exec --scope @odd/admin -- yarn start",
+    "start:user": "yarn && lerna exec --scope @odd/user -- yarn start",
+    "start:driver": "yarn && lerna exec --scope @odd/driver -- yarn start",
+    "build:admin": "yarn && lerna exec --scope @odd/admin -- yarn build",
+    "build:user": "yarn && lerna exec --scope @odd/user -- yarn build",
+    "build:driver": "yarn && lerna exec --scope @odd/driver -- yarn build",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix"
   },

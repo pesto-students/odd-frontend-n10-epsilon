@@ -41,11 +41,6 @@ const updateUser = createAsyncThunk<
   return (await response.json()) as MyData;
 });
 
-type SliceState = { state: "loading" } | { state: "finished"; data: string };
-
-// First approach: define the initial state using that type
-const initialState: SliceState = { state: "loading" };
-
 const usersSlice = createSlice({
   name: "users",
   initialState: {
