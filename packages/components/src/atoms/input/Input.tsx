@@ -7,6 +7,7 @@ import { Label } from "..";
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
+  textType?: string;
   error?: string;
   leading?: React.ReactNode;
   fieldStyle?: "standard" | "legacy";

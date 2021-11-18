@@ -88,22 +88,22 @@ const AppModal: React.FC<IProps> = (props: IProps & any) => {
             placeholder="Enter your mobile number"
             leading={<label className="whitespace-nowrap"> +91 |</label>}
           />
-          <p className="mt-6 mb-3 text-midGray">
+          {/* <p className="mt-6 mb-3 text-midGray">
             Enter the OTP sent to your Number
           </p>
           <Otp />
           <p className="text-primary mt-2 ">
             {" "}
-            <a>Resend OTP</a>
-          </p>
+            <a>Resend Otp</a>
+          </p> */}
           {login}
 
           <Button
-            disabled
+            primary
             className="block w-full py-2 mt-8 text-2xl"
             onClick={() => {}}
           >
-            Login
+            Send OTP
           </Button>
         </div>
       </Modal>
