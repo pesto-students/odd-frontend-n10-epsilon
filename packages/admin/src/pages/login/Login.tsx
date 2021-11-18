@@ -23,26 +23,29 @@ export function LoginPage() {
   }
 
   return (
-    <div>
-      <img
-        src={require("../../assets/background.svg").default}
-        alt="img"
-        className="absolute h-screen right-0 z-0"
-      />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-16">
-        <div className="flex flex-1">          <div className="m-auto  flex-1 items-center  bg-white	 mt-25vh shadow-2xl max-w-md p-10 rounded-lg">
-            <h2 className="text-center text-2xl font-semibold mb-10">
-              Admin as Login
-            </h2>
-            <Input label="Email" />
-            <Input label="Password" className="mt-6" />
-            <Button primary block className="rounded-xl" onClick={() => {}}>
-              Login
-            </Button>
+    <div className="w-screen h-screen">
+      <div className="relative flex h-full">
+        <img
+          src={require("../../assets/background.svg").default}
+          alt="img"
+          className="absolute top-0 left-0 h-full w-full object-cover"
+        />
+        <div className="flex h-full w-full min-w-sm z-0">
+          <div className="flex-1 my-auto">
+            <div className="m-auto flex-1 items-center bg-white	 mt-25vh shadow-2xl max-w-md p-10 rounded-lg">
+              <h2 className="text-center text-2xl font-semibold mb-10">
+                Admin as Login
+              </h2>
+              <Input label="Email" />
+              <Input label="Password" className="mt-6" />
+              <Button primary block className="rounded-xl" onClick={() => {}}>
+                Login
+              </Button>
+            </div>
           </div>
+          <div className="flex-none sm:flex-1 justify-items-center" />
         </div>
       </div>
-      <div className="col-span-1 "></div>
     </div>
   );
 }
