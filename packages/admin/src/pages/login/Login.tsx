@@ -17,6 +17,8 @@ export function LoginPage() {
     let formData = new FormData(event.currentTarget);
     let username = formData.get("username") as string;
 
+    console.log(username);
+
     auth.signin(username, () => {
       navigate("/dashboard", { replace: true });
     });
@@ -36,11 +38,13 @@ export function LoginPage() {
               <h2 className="text-center text-2xl font-semibold mb-10">
                 Admin as Login
               </h2>
-              <Input label="Email" />
-              <Input label="Password" className="mt-6" />
-              <Button primary block className="rounded-xl" onClick={() => {}}>
-                Login
-              </Button>
+              <form onSubmit={handleSubmit}>
+                <Input label="Email" name="username" />
+                <Input label="Password" className="mt-6" />
+                <Button primary block className="rounded-xl" onClick={() => {}}>
+                  Login
+                </Button>
+              </form>
             </div>
           </div>
           <div className="flex-none sm:flex-1 justify-items-center" />
