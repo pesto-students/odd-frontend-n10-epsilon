@@ -58,7 +58,6 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
         {leading && <div className="mx-2 flex-initial ">{leading}</div>}
         <input
           placeholder={placeholder}
-          id={name}
           className="w-full px-2 focus:border-0 focus:ring-0 active:border-0 active:ring-0 focus:outline-none"
           onFocus={set_focus}
           onBlur={set_blur}
