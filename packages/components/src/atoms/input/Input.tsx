@@ -10,7 +10,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   error?: string;
   leading?: React.ReactNode;
-  textType?: string;
+  fieldStyle?: 'standard'| 'legacy';
   trailing?: React.ReactNode;
   secure?: boolean;
   className?: string;
@@ -24,7 +24,7 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
     name,
     label,
     placeholder,
-    textType,
+    fieldStyle,
     error,
     leading,
     labelClassName,
@@ -32,6 +32,7 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
     secure = false,
     style,
     className,
+    ...rest
   } = props;
 
   const [focused, setFocus] = useState(false);
@@ -39,7 +40,7 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
   const set_focus = () => setFocus(true);
   const set_blur = () => setFocus(false);
 
-  return (
+  const standard = (
     <div className={` block gap-2  ${className}`} style={style}>
       {label && (
         <Label
@@ -63,7 +64,7 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
           className="w-full px-2 focus:border-0 focus:ring-0 active:border-0 active:ring-0 focus:outline-none"
           onFocus={set_focus}
           onBlur={set_blur}
-          type={textType}
+          {...rest}
         />
         {trailing && <div className="mx-2">{trailing}</div>}
       </div>
@@ -74,6 +75,47 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
       )}
     </div>
   );
+   const legacy = (
+     <div className={` block gap-2  ${className}`} style={style}>
+       {label && (
+         <Label
+           className={focused ? "text-primary" : "text-gray"}
+           block
+           title={label}
+           medium
+         />
+       )}
+       <div
+         className={`flex border-b   w-full  py-2  
+        ${focused ? "border-primary" : "border-gray"}
+       
+           `}
+       >
+         {leading && <div className="mx-2 flex-initial ">{leading}</div>}
+         <input
+           placeholder={placeholder}
+           id={name}
+           className="w-full px-2 focus:border-0 focus:ring-0 active:border-0 active:ring-0 focus:outline-none"
+           onFocus={set_focus}
+           onBlur={set_blur}
+           {...rest}
+         />
+         {trailing && <div className="mx-2">{trailing}</div>}
+       </div>
+       {error && (
+         <p className="text-xs italic" style={{ color: "#FF0000" }}>
+           {error}
+         </p>
+       )}
+     </div>
+   );
+  switch (fieldStyle) {
+    case 'standard':
+     return standard;
+
+    default:
+      return legacy;
+  }
 };
 
 export default Input;

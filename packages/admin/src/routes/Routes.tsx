@@ -9,7 +9,7 @@ export default function AppRoutes() {
     <AuthProvider>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Navigate to="/login" /> } />
+          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/dashboard"
@@ -31,18 +31,5 @@ export default function AppRoutes() {
 }
 
 function Layout() {
-  return (
-    <div>
-      <ul>
-        <li>
-          <Link to="/">Public Page</Link>
-        </li>
-        <li>
-          <Link to="/dashboard">Protected Page</Link>
-        </li>
-      </ul>
-
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 }
