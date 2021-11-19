@@ -4,7 +4,8 @@ class Endpoints {
   baseUrl: string = environment.baseUrl;
   AUTH_BASE = this.baseUrl + "/api/auth";
   USER_BASE = this.baseUrl + "/api/users";
-  CRM_BASE = this.baseUrl + "/api/crm";
+  Driver_BASE = this.baseUrl + "/api/driver";
+  ADMIN_BASE = this.baseUrl + "/api/admin";
 
   private joinPaths(...params: any[]) {
     const newUrl = params.join("/");

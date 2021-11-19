@@ -1,0 +1,6 @@
+:focus input {
+  outline-offset: 2 px;
+ 
+  box-shadow:none !important;
+  border-color:none !important;
+}
