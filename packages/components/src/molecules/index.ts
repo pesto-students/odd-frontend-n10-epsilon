@@ -7,3 +7,4 @@ export { default as DataTable } from "./table/DataTable";
 export { default as AvatarItem } from "./statistics/AvatarItem";
 export { default as StatusItem } from "./statistics/StatusItem";
 export { default as TextItem } from "./statistics/TextItem";
+export { default as Navbar } from "./navbar/Navbar";
