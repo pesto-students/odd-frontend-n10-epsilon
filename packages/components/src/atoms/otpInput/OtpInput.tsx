@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, {  useState } from "react";
 import OtpInput from "react-otp-input";
 const style: React.CSSProperties = {
   padding: 0,
