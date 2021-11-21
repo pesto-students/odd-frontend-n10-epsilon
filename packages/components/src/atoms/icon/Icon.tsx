@@ -16,7 +16,6 @@ const Icon: React.FC<IProps> = ({ iconName, ...rest }) => {
       return <GrLocation {...rest} />;
     case "gps":
       return <BiCurrentLocation {...rest} />;
-    
     default:
       return <FaTimes />;
   }
