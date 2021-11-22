@@ -1,5 +1,9 @@
+import "@odd/components/src/output.css";
+import { Routes } from "./routes";
+
 function App() {
-  return <div>Driver</div>;
+  
+  return <Routes/>;
 }
 
 export default App;

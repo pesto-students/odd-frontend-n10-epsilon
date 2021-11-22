@@ -1,7 +1,9 @@
 import "@odd/components/src/output.css";
+import { Routes } from "./routes";
 
 function App() {
-  return <div>User</div>;
+  
+  return <Routes/>;
 }
 
 export default App;

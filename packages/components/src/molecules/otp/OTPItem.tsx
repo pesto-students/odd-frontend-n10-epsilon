@@ -3,7 +3,7 @@ import React from "react";
 import { Label } from "../..";
 
 interface IProps {
-  otp: String;
+  otp: String|number;
   info?: string;
   infoIcon?: String;
 }

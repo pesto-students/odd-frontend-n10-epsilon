@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-
-import IconRupee from "../../assets/svgs/icn-rupee.svg";
-import IconInfoGray from "../../assets/svgs/icn-info-gray.svg";
 import { Label } from "../..";
+
+const IconRupee = require("../../assets/svgs/icn-rupee.svg").default;
+const IconInfoGray = require("../../assets/svgs/icn-info-gray.svg").default;
 
 interface IProps {
   _id: string;
@@ -35,7 +35,7 @@ const ChooseVehicle: React.FC<IProps> = (props: IProps & any) => {
   return (
     <div
       key={_id}
-      className={`group w-96 h-auto rounded-3xl shadow-largest items-center ${
+      className={`group  h-auto rounded-3xl shadow-lg p-3 items-center ${
         active && "ring-2 ring-primary"
       }`}
       onClick={() => {
@@ -89,8 +89,8 @@ const ChooseVehicle: React.FC<IProps> = (props: IProps & any) => {
             </div>
           </div>
         </div>
-        <div className="col-span-1 h-20 w-20">
-          <img src={icon} />
+        <div className="col-span-1  h-20 w-20">
+          <img src={icon} alt="img" className="m-3" />
         </div>
       </div>
     </div>
