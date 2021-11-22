@@ -1,19 +1,13 @@
 /* eslint-disable class-methods-use-this */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+// eslint-disable-next-line class-methods-use-this
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 class BaseClient {
-  private baseurl: string;
-
-  constructor(baseurl: string) {
-    this.baseurl = baseurl;
-  }
-
   apiGet(
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<any, any>> {
-    return axios.get(this.baseurl + url, config);
+    return axios.get(url, config);
   }
 
   apiPost(
@@ -21,7 +15,7 @@ class BaseClient {
     data?: AxiosRequestConfig<any>,
     config?: AxiosRequestConfig<AxiosRequestConfig<any>>,
   ): Promise<AxiosResponse<any, any>> {
-    return axios.post(this.baseurl + url, data, config);
+    return axios.post(url, data, config);
   }
 
   apiPut(
@@ -29,7 +23,7 @@ class BaseClient {
     data?: AxiosRequestConfig<any>,
     config?: AxiosRequestConfig<AxiosRequestConfig<any>>,
   ): Promise<AxiosResponse<any, any>> {
-    return axios.put(this.baseurl + url, data, config);
+    return axios.put(url, data, config);
   }
 
   apiPatch(
@@ -37,14 +31,14 @@ class BaseClient {
     data?: AxiosRequestConfig<any>,
     config?: AxiosRequestConfig<AxiosRequestConfig<any>>,
   ): Promise<AxiosResponse<any, any>> {
-    return axios.patch(this.baseurl + url, data, config);
+    return axios.patch(url, data, config);
   }
 
   apiDelete(
     url: string,
     config?: AxiosRequestConfig<AxiosRequestConfig<any>>,
   ): Promise<AxiosResponse<any, any>> {
-    return axios.delete(this.baseurl + url, config);
+    return axios.delete(url, config);
   }
 }
 export default BaseClient;
