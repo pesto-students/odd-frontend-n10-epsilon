@@ -3,6 +3,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+import "@odd/components/src/output.css";
 import store from "./redux/store";
 
 ReactDOM.render(

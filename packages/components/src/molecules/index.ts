@@ -7,3 +7,6 @@ export { default as DataTable } from "./table/DataTable";
 export { default as AvatarItem } from "./statistics/AvatarItem";
 export { default as StatusItem } from "./statistics/StatusItem";
 export { default as TextItem } from "./statistics/TextItem";
+export {  Navbar } from "./navbar";
+export {  FareTile } from "./fare-tile";
+export { DriverTile } from "./driver-tile";

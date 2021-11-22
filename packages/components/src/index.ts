@@ -1,4 +1,8 @@
-import './output.css';
+import "./output.css";
 
-export * from './atoms/index';
-export * from './molecules/index';
+export * from "./atoms";
+export * from "./molecules";
+export * from "./template";
+export * from "./layout";
+export * from "./organism"
+export const logo = require("./assets/logo.svg").default;
