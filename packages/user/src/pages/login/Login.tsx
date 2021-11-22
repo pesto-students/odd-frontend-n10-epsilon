@@ -2,14 +2,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Input ,Icon} from "@odd/components";
 
 import { useAuth } from "./AuthProvide";
-// import {Modal} from "@odd/components"
+
 
 export function LoginPage() {
   let navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
 
-  let from = location.state?.from?.pathname || "/";
+  let from = location.state?.from?.pathname || "/dashboard";
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,14 +18,17 @@ export function LoginPage() {
     let username = formData.get("username") as string;
 
     auth.signin(username, () => {
-      navigate("/dashboard", { replace: true });
+      navigate(from, { replace: true });
     });
   }
   const login = (
     <p className="mt-8">
-      By signing up, you accept our <a className="text-primary">Terms of use</a>{" "}
-      and{" "}
-      <a href="#" className="text-primary">
+      By signing up, you accept our{" "}
+      <a href="#policy"  className="text-primary">
+        Terms of use
+      </a>
+      and
+      <a href="#policy" className="text-primary">
         Privacy Policy
       </a>
     </p>

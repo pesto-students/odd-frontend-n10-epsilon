@@ -1,5 +1,5 @@
 import { BsBoxSeam } from "react-icons/bs";
-import { CardLayout, ChooseVehicle, SteppedAddresses } from "@odd/components";
+import { CardLayout} from "@odd/components";
 import Stepper from "./Stepper";
 import InfoForm from "./InfoForm";
 import ChooseVehicleCard from "./ChooseVehicle";

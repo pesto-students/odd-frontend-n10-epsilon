@@ -1,4 +1,4 @@
-import {  DashboardTemplete } from "@odd/components";
+import { DashboardTemplate } from "@odd/components";
 import { MdPersonPin } from "react-icons/md";
 
 const action = [
@@ -16,5 +16,5 @@ const action = [
 ];
 
 export function Dashboard() {
-  return <DashboardTemplete action={action} />;
+  return <DashboardTemplate action={action} />;
 }

@@ -9,7 +9,7 @@ export function LoginPage() {
   let location = useLocation();
   let auth = useAuth();
 
-  let from = location.state?.from?.pathname || "/";
+  let from = location.state?.from?.pathname || "/dashboard";
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -20,7 +20,7 @@ export function LoginPage() {
     console.log(username);
 
     auth.signin(username, () => {
-      navigate("/dashboard", { replace: true });
+      navigate(from, { replace: true });
     });
   }
 
