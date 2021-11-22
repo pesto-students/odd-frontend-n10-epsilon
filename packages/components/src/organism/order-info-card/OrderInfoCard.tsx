@@ -21,7 +21,7 @@ export enum CardType {
      name: string;
      vehicleName: string;
      vehicleNumber: string;
-     contactNumber: number;
+     contactNumber: string;
      image: any;
    };
    info?: {

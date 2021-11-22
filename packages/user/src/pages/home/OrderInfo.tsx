@@ -26,9 +26,16 @@ export interface IProps {
 const OrderInfo: React.FC<IProps> = ({ next }) => {
   return (
     <OrderInfoCard
-      card={CardType.Info}
-      info={{ name: "Two Wheeler", fare: "250", image: IconRupee }}
+      card={CardType.DriverTile}
+      // info={{ name: "Two Wheeler", fare: "250", image: IconRupee }}
       next={() => {}}
+      tile={{
+        contactNumber: "jhgg",
+        image: "hhbhv",
+        name: "hhgbyh",
+        vehicleName: "vgvgcfg",
+        vehicleNumber: "jbjb",
+      }}
       otp="6666"
       deliveryStatus={IDeliveryStatus.DroppedOff}
       pickAddressTitle="B-11,Fasil Road (Delhi)"

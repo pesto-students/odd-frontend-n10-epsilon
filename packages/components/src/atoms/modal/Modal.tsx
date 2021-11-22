@@ -1,10 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Modal from "react-modal";
-import Button from "../button/Button";
-import Icon from "../icon/Icons";
-import Input from "../input/Input";
-import Otp from "../otpInput/OtpInput";
+
 
 const customStyles: Modal.Styles = {
   content: {

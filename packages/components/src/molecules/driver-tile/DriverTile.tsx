@@ -5,7 +5,7 @@ interface IProps {
     name?: string;
     vehicleName?: string;
     vehicleNumber?: string;
-    contactNumber?: number;
+    contactNumber?: string;
     image?: string;
  
 }
