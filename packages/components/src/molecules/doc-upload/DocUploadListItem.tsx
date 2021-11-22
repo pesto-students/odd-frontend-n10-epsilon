@@ -4,9 +4,7 @@ import React from "react";
 import { LabeledIcon } from "../index";
 
 //icons
-import IconFile from "../../assets/svgs/icn-doc.svg";
-import IconCheckMark from "../../assets/svgs/icn-checked.svg";
-import IconArrow from "../../assets/svgs/icn-chevron-right.svg";
+import { Icon } from "../..";
 
 interface IProps {
   title: string;
@@ -18,11 +16,11 @@ const DocUploadListItem: React.FC<IProps> = (props: IProps & any) => {
   return (
     <div className="flex justify-between pr-1 items-center place-items-center">
       <div className="flex gap-3">
-        <LabeledIcon title={title} icon={IconFile} reverse fontSize={18} />
-        {completed && <img src={IconCheckMark} />}
+        <LabeledIcon title={title} iconName="file" reverse fontSize={18} />
+        {completed && <Icon iconName="check-mark" />}
       </div>
       <div>
-        <img src={IconArrow} />
+        <Icon iconName="arrow" />
       </div>
     </div>
   );

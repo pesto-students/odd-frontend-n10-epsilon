@@ -1,7 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
 
-
 const customStyles: Modal.Styles = {
   content: {
     top: "50%",
@@ -52,8 +51,6 @@ const AppModal: React.FC<IProps> = (props: IProps & any) => {
     setIsOpen(false);
   }
 
-  
-
   return (
     <div>
       <button onClick={openModal}>Open Modal</button>
@@ -63,9 +60,7 @@ const AppModal: React.FC<IProps> = (props: IProps & any) => {
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
-      >
-       
-      </Modal>
+      ></Modal>
     </div>
   );
 };

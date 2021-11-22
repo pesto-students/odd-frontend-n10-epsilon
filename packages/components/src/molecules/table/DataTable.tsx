@@ -29,7 +29,7 @@ function GlobalFilter({
     <label className="flex gap-x-2 items-baseline">
       <Input
         placeholder="Search.."
-        className="bg-white text-base text-gray"
+        className="bg-white text-base text-gray rounded"
         defaultValue={value}
         onChange={(newValue) => {
           setValue(newValue);
@@ -46,8 +46,20 @@ interface IProps {
   titleTemplate(totalItem: number): string;
 }
 
+function addIndexToData(data: Array<any>): any {
+  const resultData = [];
+  for (let index = 0; index < data.length; index++) {
+    resultData.push({
+      index: index + 1,
+      ...data[index],
+    });
+  }
+  return resultData;
+}
+
 const DataTable: React.FC<IProps> = (props: IProps & any) => {
-  const { columns, data, titleTemplate } = props;
+  const tableData = React.useMemo(() => addIndexToData(props.data), []);
+  
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
@@ -69,8 +81,8 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
     setGlobalFilter,
   }: any = useTable(
     {
-      columns,
-      data,
+      columns: props.columns,
+      data: tableData,
     },
     useFilters, // useFilters!
     useGlobalFilter,
@@ -84,12 +96,12 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
 
   // Render the UI for your table
   return (
-    <div className="h-full">
+    <div>
       <div>
         {/* Title Nav bar */}
         <div className="flex justify-between items-center">
           <Label
-            title={titleTemplate(data.length)}
+            title={props.titleTemplate(tableData.length)}
             secondary
             regular
             style={{ fontSize: 16, color: "#A7A7A7" }}
@@ -103,10 +115,10 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
           </div>
         </div>
         {/* table */}
-        <div className="mt-9 flex-1 flex-col ">
+        <div className="mt-3 flex-1 flex-col">
           <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="shadow overflow-hidden rounded-2xl">
+              <div className="overflow-hidden rounded-2xl">
                 <table
                   {...getTableProps()}
                   className="min-w-full divide-y divide-green"
@@ -149,7 +161,7 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
                   </thead>
                   <tbody
                     {...getTableBodyProps()}
-                    className="bg-white divide-y divide-green"
+                    className="bg-white divide-y divide-gray"
                   >
                     {page?.map((row: any, i: number) => {
                       // new
@@ -160,7 +172,7 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
                             return (
                               <td
                                 {...cell.getCellProps()}
-                                className="px-6 py-4 whitespace-nowrap"
+                                className="px-6 py-1 whitespace-nowrap"
                                 role="cell"
                               >
                                 {cell.column.Cell.name === "defaultRenderer" ? (
