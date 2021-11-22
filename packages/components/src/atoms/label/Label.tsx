@@ -12,6 +12,7 @@ interface IProps {
   light?: boolean;
   gray?: boolean;
   className?: any;
+  required?:boolean;
   style?: React.CSSProperties;
 }
 
@@ -20,6 +21,7 @@ const Label: React.FC<IProps> = (props: IProps & any) => {
     title,
     block,
     primary,
+    required,
     secondary,
     medium,
     regular,
@@ -43,6 +45,7 @@ const Label: React.FC<IProps> = (props: IProps & any) => {
 
   return (
     <label className={classnames} style={style} {...rest}>
+      {required && <span className="text-primary">*</span>}
       {title}
     </label>
   );
