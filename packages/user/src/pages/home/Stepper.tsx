@@ -1,5 +1,5 @@
+import { Icon } from "@odd/components";
 import React from "react";
-import { MdOutlineDoubleArrow } from "react-icons/md";
 
 interface IProps {
   stepper: { title: string; active: Boolean; completed: Boolean }[];
@@ -17,7 +17,10 @@ const Stepper: React.FC<IProps> = ({ stepper }) => {
             {x.title}
           </button>
           {stepper.length - 1 !== i && (
-            <MdOutlineDoubleArrow className="md:mx lg:mx-7 sm:mx-2 xs:mx md:mx" />
+            <Icon
+              iconName="icn-step-arrow-right"
+              className="md:mx lg:mx-7 sm:mx-2 xs:mx md:mx"
+            />
           )}
         </React.Fragment>
       ))}

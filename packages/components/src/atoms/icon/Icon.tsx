@@ -1,18 +1,35 @@
 import React from "react";
-import { FaChevronDown, FaTimes, FaUser, FaUserFriends } from "react-icons/fa";
+
+//react-icons
 import { GrLocation } from "react-icons/gr";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
+import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import { IconBaseProps } from "react-icons/lib";
+import {
+  FaChevronDown,
+  FaTimes,
+  FaUser,
+  FaUserFriends,
+  FaRegEdit,
+} from "react-icons/fa";
 import {
   BsTruck,
   BsInboxes,
   BsChevronDoubleUp,
   BsStarFill,
   BsFillTelephoneFill,
+  BsBoxSeam,
 } from "react-icons/bs";
-import { MdDateRange } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
-import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import {
+  MdDateRange,
+  MdPlace,
+  MdOutlineHome,
+  MdOutlinePersonOutline,
+  MdCall,
+  MdPersonPin,
+  MdOutlineDoubleArrow,
+} from "react-icons/md";
 
 import {
   BiCurrentLocation,
@@ -20,7 +37,6 @@ import {
   BiHomeAlt,
   BiPackage,
 } from "react-icons/bi";
-import { IconBaseProps } from "react-icons/lib";
 
 enum IconColorType {
   primary,
@@ -123,6 +139,27 @@ const Icon: React.FC<IProps> = ({
 
     case "icn-phone":
       return <BsFillTelephoneFill {...restProps} />;
+
+    case "icn-call":
+      return <MdCall {...restProps} />;
+
+    case "icn-person-pin":
+      return <MdPersonPin {...restProps} />;
+
+    case "icn-parcel":
+      return <BsBoxSeam {...restProps} />;
+
+    case "icn-pin":
+      return <MdPlace {...restProps} />;
+
+    case "icn-house":
+      return <MdOutlineHome {...restProps} />;
+
+    case "icn-person":
+      return <MdOutlinePersonOutline {...restProps} />;
+
+    case "icn-step-arrow-right":
+      return <MdOutlineDoubleArrow {...restProps} />;
 
     default:
       return <FaTimes />;
