@@ -1,34 +1,51 @@
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import { Dashboard } from "../pages/dashboard/Dashboard";
+import {
+  Layout,
+  Login,
+  Dashboard,
+  Drivers,
+  Orders,
+  Users,
+  Vehicles,
+  OrderDetail,
+} from "../pages";
 import { AuthProvider, RequireAuth } from "../pages/login/AuthProvide";
-import { LoginPage } from "../pages/login/Login";
 
 export default function AppRoutes() {
   return (
     <AuthProvider>
       <Routes>
-        <Route element={<Layout />}>
+        <Route>
           <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<Login />} />
           <Route
             path="/dashboard"
             element={
               <RequireAuth>
-                <Dashboard />
+                <Layout />
               </RequireAuth>
             }
           >
-            <Route index element={<h1>Dashboard</h1>} />
-            <Route path="driver" element={<h1>Driver</h1>} />
-            <Route path="user" element={<h1>User</h1>} />
-            <Route path="order" element={<h1>Order</h1>} />
+            <Route index element={<Dashboard />} />
+            <Route path="driver" element={<Drivers />} />
+            <Route path="user" element={<Users />} />
+            <Route path="order" element={<Outlet />}>
+              <Route index element={<Orders />} />
+              <Route path=":id" element={<OrderDetail />} />
+            </Route>
+
+            <Route path="vehicle" element={<Vehicles />} />
+            <Route
+              path="*"
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>There's nothing here!</p>
+                </main>
+              }
+            />
           </Route>
         </Route>
       </Routes>
     </AuthProvider>
   );
-}
-
-function Layout() {
-  return <Outlet />;
 }

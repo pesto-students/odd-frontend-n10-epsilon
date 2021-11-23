@@ -31,7 +31,6 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
     // secure = false,
     style,
     className,
-    required,
     ...rest
   } = props;
 
@@ -43,20 +42,15 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
   const standard = (
     <div className={` block gap-2  ${className}`} style={style}>
       {label && (
-        <>
-          <Label
-            className={labelClassName}
-            block
-            secondary
-            
-            required={required}
-            title={label}
-            medium
-          />
-        </>
+        <Label
+          className={focused ? "text-primary" : "text-gray"}
+          block
+          title={label}
+          medium
+        />
       )}
       <div
-        className={`flex border  rounded w-full  py-2  
+        className={`flex border-b   w-full  py-2  
         ${focused ? "border-primary" : "border-gray"}
        
            `}
@@ -66,7 +60,6 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
           placeholder={placeholder}
           className="w-full px-2 focus:border-0 focus:ring-0 active:border-0 active:ring-0 focus:outline-none"
           onFocus={set_focus}
-          required={required}
           onBlur={set_blur}
           {...rest}
         />

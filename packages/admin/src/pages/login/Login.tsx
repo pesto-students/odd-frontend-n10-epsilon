@@ -4,7 +4,7 @@ import { Button, Input } from "@odd/components";
 
 import "./style.css";
 
-export function LoginPage() {
+function LoginPage() {
   let navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
@@ -30,7 +30,7 @@ export function LoginPage() {
         <img
           src={require("../../assets/background.svg").default}
           alt="img"
-          className="absolute top-0 left-0 h-full w-full object-cover"
+          className="absolute top-0 right-0 h-full w-full object-cover"
         />
         <div className="flex h-full w-full min-w-sm z-0">
           <div className="flex-1 my-auto p-3">
@@ -41,7 +41,12 @@ export function LoginPage() {
               <form onSubmit={handleSubmit}>
                 <Input fieldStyle="legacy" label="Email" name="username" />
                 <Input fieldStyle="legacy" label="Password" className="mt-6" />
-                <Button primary block className="rounded-xl" onClick={() => {}}>
+                <Button
+                  primary
+                  block
+                  className="rounded-xl mt-8"
+                  onClick={() => {}}
+                >
                   Login
                 </Button>
               </form>
@@ -53,3 +58,5 @@ export function LoginPage() {
     </div>
   );
 }
+
+export default LoginPage;

@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import React from "react";
 
 import ReactPaginate from "react-paginate";
@@ -20,7 +19,7 @@ const Pagination: React.FC<IProps> = (props: IProps & any) => {
   const { pageCount, onPageChange, onPageActive } = props;
 
   return (
-    <div className="flex flex-row-reverse my-4">
+    <div className="flex flex-row-reverse mt-4">
       <ReactPaginate
         pageCount={pageCount}
         pageRangeDisplayed={3}
@@ -55,7 +54,7 @@ const Pagination: React.FC<IProps> = (props: IProps & any) => {
         }}
         initialPage={0}
         disableInitialCallback={false}
-        containerClassName="bg-white items-center justify-between sm:px-6 inline-flex rounded-md -space-x-px px-2 py-3 bg-white shadow"
+        containerClassName="bg-white items-center justify-between sm:px-6 inline-flex rounded-md -space-x-px px-2 py-3 bg-white"
         pageClassName="text-center items-center px-2 py-2 rounded h-9 w-10 font-medium text-base mx-auto my-auto bg-transparent text-gray"
         activeLinkClassName="text-center items-center px-2 py-2 rounded h-full w-full font-medium text-base mx-auto my-auto bg-green text-primary bg-opacity-20"
       />
