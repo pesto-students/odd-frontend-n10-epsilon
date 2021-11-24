@@ -10,7 +10,7 @@ enum ITabType {
 }
 
 const getStatusType = (status: string) => {
-  if (status == "completed") {
+  if (status === "completed") {
     return ITabType.completed;
   }
   return ITabType.live;
@@ -633,7 +633,8 @@ const defaultOrders: Array<IOrder> = [
 
 const OrderHistory: React.FC<IProps> = () => {
   const [tab, setTab] = useState(ITabType.live);
-  const [orders, setOrders] = useState([...defaultOrders]);
+  // const [orders, setOrders] = useState([...defaultOrders]);
+  const orders = [...defaultOrders];
 
   useEffect(() => {
     console.log("tab changed");
@@ -671,9 +672,9 @@ const OrderHistory: React.FC<IProps> = () => {
           </div>
         ) : (
           orders
-            .filter((x: IOrder) => getStatusType(x.status) == tab)
+            .filter((x: IOrder) => getStatusType(x.status) === tab)
             .map((order: IOrder) => {
-              if (tab == ITabType.live) {
+              if (tab === ITabType.live) {
                 return (
                   <LiveOrderItem
                     orderId={order.orderId}

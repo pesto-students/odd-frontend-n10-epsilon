@@ -66,7 +66,7 @@ function LoginPage() {
             </p>
             <OtpInput />
             <p className="text-primary mt-2 text-xs font-medium">
-              <a>Resend OTP</a>
+              <a href="/#">Resend OTP</a>
             </p>
             {login}
             <Button
