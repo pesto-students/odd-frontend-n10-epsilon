@@ -1,10 +1,14 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard } from "../pages/dashboard/Dashboard";
-import { Home } from "../pages/home";
-import { Layout } from "../pages/layout";
-import { AuthProvider, RequireAuth } from "../pages/login/AuthProvide";
-import { LoginPage } from "../pages/login";
-import { OrderHistory } from "../pages/order-history";
+import {
+  AuthProvider,
+  Dashboard,
+  Home,
+  Layout,
+  LoginPage,
+  OrderHistory,
+  OrderScreen,
+  RequireAuth,
+} from "../pages";
 
 function AppRoutes() {
   return (
@@ -24,6 +28,7 @@ function AppRoutes() {
             <Route index element={<Navigate to="/dashboard/home" />} />
             <Route path="home" element={<Home />} />
             <Route path="order-history" element={<OrderHistory />} />
+            <Route path="order/:id" element={<OrderScreen />} />
           </Route>
         </Route>
       </Routes>

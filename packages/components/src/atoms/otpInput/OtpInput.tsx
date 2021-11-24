@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import OtpInput from "react-otp-input";
+
 const style: React.CSSProperties = {
   padding: 0,
   paddingBottom: "5px",
@@ -9,7 +10,12 @@ const style: React.CSSProperties = {
   borderLeft: 0,
   outline: 0,
 };
-const Otp = (props: any) => {
+
+interface IProps {
+  onChange(value: string): void;
+}
+
+const Otp = (props: IProps) => {
   const [otp, setOtp] = useState("");
 
   return (
@@ -21,6 +27,7 @@ const Otp = (props: any) => {
       onChange={(value: string) => {
         console.log(value);
         setOtp(value);
+        props.onChange(value);
       }}
       isInputNum
       numInputs={4}

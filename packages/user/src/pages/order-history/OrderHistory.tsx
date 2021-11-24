@@ -1,5 +1,7 @@
-import { IconColorType, Label, LabeledIcon } from "@odd/components";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { IconColorType, Label, LabeledIcon } from "@odd/components";
+
 import { LiveOrderItem, OrderItem } from "../../molecules/order-items";
 
 interface IProps {}
@@ -674,33 +676,36 @@ const OrderHistory: React.FC<IProps> = () => {
           orders
             .filter((x: IOrder) => getStatusType(x.status) === tab)
             .map((order: IOrder) => {
-              if (tab === ITabType.live) {
-                return (
-                  <LiveOrderItem
-                    orderId={order.orderId}
-                    pickUpAddress={order.pickUpAddress}
-                    dropOffAddress={order.dropOffAddress}
-                    pickTime={`${order.pickDate} at ${order.pickTime}`}
-                    driverName={order.driverName}
-                    driverPhone={order.driverPhone}
-                    vehicleImage={""}
-                    vehicleName={order.vehicleName}
-                    amount={order.amount}
-                  />
-                );
-              }
-
               return (
-                <OrderItem
-                  orderId={order.orderId}
-                  pickUpAddress={order.pickUpAddress}
-                  dropOffAddress={order.dropOffAddress}
-                  pickTime={order.pickTime}
-                  pickDate={order.pickDate}
-                  driverName={order.driverName}
-                  driverPhone={order.driverPhone}
-                  amount={order.amount}
-                />
+                <Link
+                  to={`/dashboard/order/${order.orderId}`}
+                  className="flex items-center py-4 "
+                >
+                  {tab === ITabType.live ? (
+                    <LiveOrderItem
+                      orderId={order.orderId}
+                      pickUpAddress={order.pickUpAddress}
+                      dropOffAddress={order.dropOffAddress}
+                      pickTime={`${order.pickDate} at ${order.pickTime}`}
+                      driverName={order.driverName}
+                      driverPhone={order.driverPhone}
+                      vehicleImage={""}
+                      vehicleName={order.vehicleName}
+                      amount={order.amount}
+                    />
+                  ) : (
+                    <OrderItem
+                      orderId={order.orderId}
+                      pickUpAddress={order.pickUpAddress}
+                      dropOffAddress={order.dropOffAddress}
+                      pickTime={order.pickTime}
+                      pickDate={order.pickDate}
+                      driverName={order.driverName}
+                      driverPhone={order.driverPhone}
+                      amount={order.amount}
+                    />
+                  )}
+                </Link>
               );
             })
         )}

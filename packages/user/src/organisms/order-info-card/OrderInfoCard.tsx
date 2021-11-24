@@ -1,9 +1,7 @@
-import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
 import { OrderInfoCard as InfoCard, CardType } from "@odd/components";
 const IconRupee: string = require("./../../assets/vehicle.svg").default;
 
 export interface IProps {
-  deliveryStatus?: IDeliveryStatus;
   pickAddressTitle?: string;
   dropAddressTitle?: string;
   pickAddressFull?: string;
@@ -22,7 +20,6 @@ export interface IProps {
     fare: string;
     image: any;
   };
-  otp?: string | number;
 }
 
 const OrderInfoCard: React.FC<IProps> = ({ next }) => {
@@ -31,15 +28,6 @@ const OrderInfoCard: React.FC<IProps> = ({ next }) => {
       card={CardType.Info}
       info={{ name: "Two Wheeler", fare: "250", image: IconRupee }}
       next={() => {}}
-      // tile={{
-      //   contactNumber: "jhgg",
-      //   image: "hhbhv",
-      //   name: "hhgbyh",
-      //   vehicleName: "vgvgcfg",
-      //   vehicleNumber: "jbjb",
-      // }}
-      otp="6666"
-      deliveryStatus={IDeliveryStatus.DroppedOff}
       pickAddressTitle="B-11,Fasil Road (Delhi)"
       pickAddressFull="3941,Naya Bazar Road, Khari Baoli, Old Delhi, New Delhi, 404041, India"
       dropAddressTitle="3941,Naya Bazar Road (Delhi)"

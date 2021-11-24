@@ -36,35 +36,37 @@ const Home = () => {
       }
       title="Send Parcel"
     >
-      <Stepper stepper={step} />
-      {step[0].active && (
-        <AddressInfoFormCard
-          next={() => {
-            next(1);
-          }}
-        />
-      )}
-      {step[1].active && (
-        <AddressInfoFormCard
-          next={() => {
-            next(2);
-          }}
-        />
-      )}
-      {step[2].active && (
-        <ChooseVehicleCard
-          next={() => {
-            next(3);
-          }}
-        />
-      )}
-      {step[3].active && (
-        <OrderInfoCard
-          next={() => {
-            next(2);
-          }}
-        />
-      )}
+      <div className="flex flex-col pt-7">
+        <Stepper stepper={step} />
+        {step[0].active && (
+          <AddressInfoFormCard
+            next={() => {
+              next(1);
+            }}
+          />
+        )}
+        {step[1].active && (
+          <AddressInfoFormCard
+            next={() => {
+              next(2);
+            }}
+          />
+        )}
+        {step[2].active && (
+          <ChooseVehicleCard
+            next={() => {
+              next(3);
+            }}
+          />
+        )}
+        {step[3].active && (
+          <OrderInfoCard
+            next={() => {
+              next(2);
+            }}
+          />
+        )}
+      </div>
     </CardLayout>
   );
 };

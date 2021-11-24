@@ -25,7 +25,7 @@ const SteppedAddresses: React.FC<IProps> = (props: IProps & any) => {
   } = props;
   return (
     <div className="flex flex-row h-full">
-      <div className="w-2 h-32 mt-4">
+      <div className="w-2 h-3/4 mt-4">
         <DeliveryProgressStepItem type={deliveryStatus} />
       </div>
       <div className="relative ml-6 h-full w-full">

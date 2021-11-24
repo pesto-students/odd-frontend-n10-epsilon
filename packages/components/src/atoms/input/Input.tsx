@@ -28,7 +28,6 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
     leading,
     labelClassName,
     trailing,
-    // secure = false,
     style,
     className,
     required,
@@ -41,7 +40,7 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
   const set_blur = () => setFocus(false);
 
   const standard = (
-    <div className={` block gap-2  ${className}`} style={style}>
+    <div className={`block gap-2 ${className}`} style={style}>
       {label && (
         <Label
           className={labelClassName}
@@ -50,13 +49,18 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
           required={required}
           title={label}
           medium
+          style={{
+            fontSize: 11,
+          }}
         />
       )}
       <div
-        className={`flex border  rounded w-full  py-2  
-        ${focused ? "border-primary" : "border-gray"}
-       
-           `}
+        className={`flex border rounded w-full py-2 mt-2 max-h-9 ${
+          focused ? "border-primary" : "border-gray"
+        }`}
+        style={{
+          color: `${focused ? "#00DEDE" : "A7A7A7"}`,
+        }}
       >
         {leading && <div className="flex mx-2 my-auto">{leading}</div>}
         <input

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@odd/base": "1.0.0",
+    "@odd/base": "0.1.0",
     "@odd/components": "0.1.0",
     "@odd/eslint-config-javascript": "1.0.0",
     "@odd/eslint-config-typescript": "1.0.0",

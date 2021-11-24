@@ -21,6 +21,7 @@ import {
   BsStarFill,
   BsFillTelephoneFill,
   BsBoxSeam,
+  BsFillQuestionCircleFill,
 } from "react-icons/bs";
 import {
   MdCall,
@@ -163,6 +164,9 @@ const Icon: React.FC<IProps> = ({
 
     case "icn-round":
       return <FaCircle {...restProps} />;
+
+    case "icn-info-question":
+      return <BsFillQuestionCircleFill {...restProps} />;
 
     case "icn-order-history":
       return (
