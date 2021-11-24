@@ -1,36 +1,34 @@
-import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
 import { Button, SteppedAddresses, OTPItem } from "../..";
 import { DriverTile, FareTile } from "../../molecules";
-
 
 export enum CardType {
   Info,
   DriverTile,
 }
 
- interface IProps {
-   deliveryStatus?: IDeliveryStatus;
-   pickAddressTitle?: string;
-   dropAddressTitle?: string;
-   pickAddressFull?: string;
-   dropAddressFull?: string;
-   next?(): void;
-   card?: CardType;
-   tile?: {
-     name: string;
-     vehicleName: string;
-     vehicleNumber: string;
-     contactNumber: string;
-     image: any;
-   };
-   info?: {
-     name: string;
-     fare: string;
-     image: any;
-   };
-   otp?: string | number;
- }
+interface IProps {
+  deliveryStatus?: IDeliveryStatus;
+  pickAddressTitle?: string;
+  dropAddressTitle?: string;
+  pickAddressFull?: string;
+  dropAddressFull?: string;
+  next?(): void;
+  card?: CardType;
+  tile?: {
+    name: string;
+    vehicleName: string;
+    vehicleNumber: string;
+    contactNumber: string;
+    image: any;
+  };
+  info?: {
+    name: string;
+    fare: string;
+    image: any;
+  };
+  otp?: string | number;
+}
 const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
   const {
     tile,
@@ -41,7 +39,7 @@ const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
     pickAddressFull,
     dropAddressFull,
     next,
-    otp
+    otp,
   } = props;
   return (
     <div className="grid grid-flow-col grid-cols-3 pt-4 justify-between">

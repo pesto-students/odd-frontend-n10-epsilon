@@ -1,4 +1,4 @@
-import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import { Icon } from "../..";
 interface IProps {
   name?: string;
   fare?: string;
@@ -11,7 +11,7 @@ const FareTile: React.FC<IProps> = ({ name, fare, image }) => {
       <div className="ml-4">
         <h2 className="text-xl font-semibold uppercase">{name}</h2>
         <div className="flex items-center mt-1">
-          <HiOutlineCurrencyRupee size="22" />
+          <Icon iconName="icn-rupee" size="22" />
           <span className="ml-1 text-primary font-medium text-xl">
             {fare} Rs.
           </span>

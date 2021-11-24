@@ -1,11 +1,4 @@
-import { Button, Input } from "@odd/components";
-import {
-  MdPlace,
-  MdOutlineHome,
-  MdOutlinePersonOutline,
-  MdCall,
-} from "react-icons/md";
-import { BiCurrentLocation } from "react-icons/bi";
+import { Button, Icon, Input } from "@odd/components";
 
 interface IProps {
   next?(): void;
@@ -16,10 +9,12 @@ const InfoForm: React.FC<IProps> = ({ next }) => (
       <div className="lg:col-span-2">
         <Input
           label="Search Location"
-          leading={<MdPlace size="20" className=" text-primary" />}
+          leading={
+            <Icon iconName="icn-pin" size="20" className=" text-primary" />
+          }
           trailing={
             <button type="button" onClick={next}>
-              <BiCurrentLocation size="20" className="ml-2 text-primary" />
+              <Icon iconName="gps" size="20" className="ml-2 text-primary" />
             </button>
           }
         />
@@ -28,27 +23,33 @@ const InfoForm: React.FC<IProps> = ({ next }) => (
         <Input
           label="House / Flat / Floor No."
           required
-          leading={<MdOutlineHome size="20" className="mr text-gray" />}
+          leading={
+            <Icon iconName="icn-house" size="20" className="mr text-gray" />
+          }
         />
       </div>
       <div className="">
         <Input
           label="Area / Colony / Society Name"
           required
-          leading={<MdOutlineHome size="20" className=" text-gray" />}
+          leading={
+            <Icon iconName="icn-house" size="20" className=" text-gray" />
+          }
         />
       </div>
       <div className="">
         <Input
           label="Contact Name"
-          leading={<MdOutlinePersonOutline size="20" className="text-gray" />}
+          leading={
+            <Icon iconName="icn-person" size="20" className="text-gray" />
+          }
           required
         />
       </div>
       <div className="">
         <Input
           label="Contact Number"
-          leading={<MdCall size="20" className="text-gray" />}
+          leading={<Icon iconName="icn-call" size="20" className="text-gray" />}
           required
         />
       </div>
@@ -67,5 +68,4 @@ const InfoForm: React.FC<IProps> = ({ next }) => (
   </form>
 );
 
-
-export default InfoForm
+export default InfoForm;

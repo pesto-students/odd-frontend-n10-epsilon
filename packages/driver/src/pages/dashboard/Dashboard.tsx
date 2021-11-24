@@ -1,5 +1,4 @@
-import { DashboardTemplate } from "@odd/components";
-import { MdPersonPin } from "react-icons/md";
+import { DashboardTemplate, Icon } from "@odd/components";
 
 const action = [
   { name: "Home", route: "/dashboard" },
@@ -7,7 +6,7 @@ const action = [
   {
     name: (
       <div className="flex">
-        <MdPersonPin size="24" className="mr-1" />
+        <Icon iconName="icn-person-pin" size="24" className="mr-1" />
         <span>Profile</span>
       </div>
     ),
