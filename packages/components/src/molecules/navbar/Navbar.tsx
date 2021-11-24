@@ -6,11 +6,13 @@ const logo = require("../../assets/logo.svg").default;
 interface IProps {
   action?: Action[];
 }
+
 const onActive: React.CSSProperties = {
   color: "#00DEDE",
   borderBottomColor: "#00DEDE",
   borderBottomWidth: 4,
 };
+
 const onInActive: React.CSSProperties = {
   color: "#000000",
 };
@@ -18,8 +20,8 @@ const onInActive: React.CSSProperties = {
 const Navbar: React.FC<IProps> = ({ action }) => {
   return (
     <div>
-      <nav className="bg-white shadow-lg">
-        <div className=" px-4">
+      <nav className="fixed w-full bg-white shadow-lg z-50 h-14">
+        <div className="px-4">
           <div className="flex justify-between">
             <div className="flex space-x-7">
               <div>
@@ -62,7 +64,6 @@ const Navbar: React.FC<IProps> = ({ action }) => {
             </div>
           </div>
         </div>
-
         <div className="hidden mobile-menu">
           <ul className="">
             {/* <li className="">

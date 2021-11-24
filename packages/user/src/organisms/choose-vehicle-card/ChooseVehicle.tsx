@@ -4,7 +4,8 @@ const IconRupee = require("./../../assets/vehicle.svg").default;
 interface IProps {
   next?(): void;
 }
-const  ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
+
+const ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
   return (
     <div className="grid lg:grid-cols-2 grid-cols-1 px-5 mt-5 gap-4">
       <div>
@@ -69,6 +70,6 @@ const  ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
       </div>
     </div>
   );
-}
+};
 
 export default ChooseVehicleCard;

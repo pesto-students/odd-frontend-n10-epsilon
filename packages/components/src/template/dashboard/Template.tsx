@@ -6,17 +6,16 @@ import { Action } from "../../interface/action";
 
 interface IProps {
   action?: Action[];
- 
 }
 
 const DashboardTemplate: React.FC<IProps> = ({ action }) => {
   return (
-    <React.Fragment>
+    <div className="flex flex-col">
       <Navbar action={action} />
       <BackgroundLayout>
         <Outlet />
       </BackgroundLayout>
-    </React.Fragment>
+    </div>
   );
 };
 

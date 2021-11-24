@@ -1,11 +1,12 @@
-import * as React from "react";
-import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Dashboard } from "../pages/dashboard/Dashboard";
 import { Home } from "../pages/home";
+import { Layout } from "../pages/layout";
 import { AuthProvider, RequireAuth } from "../pages/login/AuthProvide";
-import { LoginPage } from "../pages/login/Login";
+import { LoginPage } from "../pages/login";
+import { OrderHistory } from "../pages/order-history";
 
-export default function AppRoutes() {
+function AppRoutes() {
   return (
     <AuthProvider>
       <Routes>
@@ -20,10 +21,9 @@ export default function AppRoutes() {
               </RequireAuth>
             }
           >
-            <Route index element={<Home />} />
-            <Route path="driver" element={<h1>Driver</h1>} />
-            <Route path="user" element={<h1>User</h1>} />
-            <Route path="order" element={<h1>Order</h1>} />
+            <Route index element={<Navigate to="/dashboard/home" />} />
+            <Route path="home" element={<Home />} />
+            <Route path="order-history" element={<OrderHistory />} />
           </Route>
         </Route>
       </Routes>
@@ -31,6 +31,4 @@ export default function AppRoutes() {
   );
 }
 
-function Layout() {
-  return <Outlet />;
-}
+export default AppRoutes;

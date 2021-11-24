@@ -4,6 +4,7 @@ import React from "react";
 interface IProps {
   stepper: { title: string; active: Boolean; completed: Boolean }[];
 }
+
 const Stepper: React.FC<IProps> = ({ stepper }) => {
   return (
     <div className="flex xs:text-sm sm:text-base  items-center text-gray">
