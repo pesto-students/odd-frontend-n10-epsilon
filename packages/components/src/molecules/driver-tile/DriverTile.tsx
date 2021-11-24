@@ -1,4 +1,4 @@
-import { Icon, Label } from "../..";
+import { Button, Icon, IconColorType, Label } from "../..";
 
 interface IProps {
   name?: string;
@@ -6,16 +6,21 @@ interface IProps {
   vehicleNumber?: string;
   contactNumber?: string;
   image?: string;
+  onClick?(): void;
+  completed?: boolean;
 }
+
 const DriverTile: React.FC<IProps> = ({
   name,
   vehicleName,
   image,
   vehicleNumber,
+  onClick,
+  completed = false,
 }) => {
   return (
     <>
-      <div className="m-1 mr-2 w-16 h-16 relative flex justify-center items-center rounded-full bg-gray-500 text-xl text-white">
+      <div className="m-1 mr-2 w-16 h-16 relative flex justify-center items-center rounded-full text-xl text-white">
         <img alt="img" src={image} className="rounded-full"></img>
       </div>
       <div className="leading-none ml-2">
@@ -23,9 +28,19 @@ const DriverTile: React.FC<IProps> = ({
         <Label className="text-sm m-0" light title={vehicleName || ""} /> <br />
         <Label className="text-sm m-0" light title={vehicleNumber || ""} />
       </div>
-      <button className="m-auto w-12 h-12 relative flex justify-center items-center rounded-full bg-gray-500 text-xl bg-primary">
-        <Icon iconName="icn-call" />
-      </button>
+      {!completed && (
+        <Button
+          className="m-auto w-12 h-12 flex justify-center items-center rounded-full text-xl bg-primary"
+          onClick={() => {
+            console.log("On Call Clicked");
+            if (onClick) {
+              onClick();
+            }
+          }}
+        >
+          <Icon iconName="icn-call" iconColorType={IconColorType.white} />
+        </Button>
+      )}
     </>
   );
 };
