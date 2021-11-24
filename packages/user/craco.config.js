@@ -4,7 +4,7 @@ const { getLoader, loaderByName } = require("@craco/craco");
 const packages = [];
 
 packages.push(path.join(__dirname, "../components"));
-packages.push(path.join(__dirname, "../prettier-config"));
+packages.push(path.join(__dirname, "../base"));
 
 module.exports = {
   webpack: {

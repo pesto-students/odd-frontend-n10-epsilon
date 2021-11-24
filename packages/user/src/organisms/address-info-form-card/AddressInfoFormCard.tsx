@@ -14,7 +14,12 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next }) => (
             <Icon iconName="icn-pin" size="20" className=" text-primary" />
           }
           trailing={
-            <button type="button" onClick={next}>
+            <button
+              type="button"
+              onClick={() => {
+                console.log("GPS Clicked");
+              }}
+            >
               <Icon iconName="gps" size="20" className="ml-2 text-primary" />
             </button>
           }

@@ -1,6 +1,6 @@
-import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
-import { Button, SteppedAddresses, OTPItem } from "../..";
+import { Button, SteppedAddresses } from "../..";
 import { DriverTile, FareTile } from "../../molecules";
+import { IDeliveryStatus } from "../../molecules/address/enum";
 
 export enum CardType {
   Info,
@@ -8,7 +8,6 @@ export enum CardType {
 }
 
 interface IProps {
-  deliveryStatus?: IDeliveryStatus;
   pickAddressTitle?: string;
   dropAddressTitle?: string;
   pickAddressFull?: string;
@@ -27,19 +26,17 @@ interface IProps {
     fare: string;
     image: any;
   };
-  otp?: string | number;
 }
+
 const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
   const {
     tile,
     info,
-    deliveryStatus,
     pickAddressTitle,
     dropAddressTitle,
     pickAddressFull,
     dropAddressFull,
     next,
-    otp,
   } = props;
   return (
     <div className="grid grid-flow-col grid-cols-3 pt-4 justify-between">
@@ -53,7 +50,7 @@ const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
         </div>
         <div className="flex-1 my-4">
           <SteppedAddresses
-            deliveryStatus={deliveryStatus}
+            deliveryStatus={IDeliveryStatus.Created}
             pickAddressTitle={pickAddressTitle}
             pickAddressFull={pickAddressFull}
             dropAddressTitle={dropAddressTitle}
@@ -62,14 +59,15 @@ const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
         </div>
       </div>
       <div className="col-span-1 gap-4 justify-center items-end flex flex-col pt-3">
-        {otp && <OTPItem otp={otp} />}
-        <div className="w-56  shadow-inner-2xl h-52">
-          <div>
+        <div className="bg-white">
+          <div className="w-80 rounded-xl overflow-hidden border-primary border-2 h-64">
             <iframe
+              id="Map2"
+              title="order-info-map"
               width="100%"
               frameBorder="0"
               scrolling="no"
-              className="h-52"
+              className="h-full"
               src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
             >
               <a href="https://www.gps.ie/">gps vehicle tracker</a>

@@ -35,7 +35,7 @@ const ChooseVehicle: React.FC<IProps> = (props: IProps & any) => {
   return (
     <div
       key={_id}
-      className={`group  h-auto rounded-3xl shadow-lg p-3 items-center ${
+      className={`group h-auto rounded-3xl shadow-lg p-3 items-center ${
         active && "ring-2 ring-primary"
       }`}
       onClick={() => {
@@ -56,7 +56,7 @@ const ChooseVehicle: React.FC<IProps> = (props: IProps & any) => {
             secondary
             regular
             block
-            className="text-xs opacity-60 mt-1"
+            className=" text-xs opacity-60 mt-1"
           />
           <div className={`${!showRates && "hidden"}`}>
             <div className="flex items-center mt-2">
