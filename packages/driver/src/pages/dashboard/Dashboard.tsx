@@ -14,6 +14,8 @@ const action = [
   },
 ];
 
-export function Dashboard() {
+function Dashboard() {
   return <DashboardTemplate action={action} />;
 }
+
+export default Dashboard;
