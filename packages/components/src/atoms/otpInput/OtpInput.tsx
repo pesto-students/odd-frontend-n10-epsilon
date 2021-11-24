@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import OtpInput from "react-otp-input";
 const style: React.CSSProperties = {
   padding: 0,
@@ -15,7 +15,7 @@ const Otp = (props: any) => {
   return (
     <OtpInput
       value={otp}
-      className="p-0 outline-none border-none  box-shadow-none ring-0"
+      className="p-0 outline-none border-none box-shadow-none ring-0 text-sm"
       inputStyle={style}
       focusStyle={{ borderBottomColor: "#00DEDE", outline: "none" }}
       onChange={(value: string) => {

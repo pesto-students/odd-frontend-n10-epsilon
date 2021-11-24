@@ -1,10 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Input ,Icon} from "@odd/components";
+import { Button, Input, Icon, IconColorType, OtpInput } from "@odd/components";
 
 import { useAuth } from "./AuthProvide";
 
-
-export function LoginPage() {
+function LoginPage() {
   let navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
@@ -21,55 +20,67 @@ export function LoginPage() {
       navigate(from, { replace: true });
     });
   }
+
   const login = (
-    <p className="mt-8">
-      By signing up, you accept our{" "}
-      <a href="#policy"  className="text-primary">
+    <p className="mt-8" style={{ fontSize: 12 }}>
+      By signing up, you accept our
+      <a href="#policy" className="text-primary">
+        {" "}
         Terms of use
-      </a>
+      </a>{" "}
       and
       <a href="#policy" className="text-primary">
+        {" "}
         Privacy Policy
       </a>
     </p>
   );
 
   return (
-    <div className="w-1/2 shadow-xl">
-      <button onClick={() => {}} className="float-right mb-3">
-        <Icon iconName="close" className="text-midGray" size="24" />
-      </button>
-      <div className="p-3">
-        <h2 className="text-center text-2xl p-3 ">Login / Signup</h2>
-        <form onSubmit={handleSubmit}>
-          <Input
-            labelClassName="mb-1 text-midGray"
-            label="Enter your phone number"
-            className="mt-3"
-            name="username"
-            placeholder="Enter your mobile number"
-            leading={<label className="whitespace-nowrap"> +91 |</label>}
+    <div className="flex h-screen items-center justify-center">
+      <div className="w-1/2 h-auto max-w-xl mx-auto rounded-xl shadow-xl">
+        <Button
+          onClick={() => {}}
+          className="relative float-right mr-2.5 mt-2.5"
+        >
+          <Icon
+            iconName="close"
+            iconColorType={IconColorType.gray}
+            size="24"
+            className="absolute top-2 right-2"
           />
-
-          {/* <p className="mt-6 mb-3 text-midGray">
-            Enter the OTP sent to your Number
-          </p>
-          <Otp />
-          <p className="text-primary mt-2 ">
-            {" "}
-            <a>Resend Otp</a>
-          </p> */}
-          {login}
-
-          <Button
-            primary
-            className="block w-full py-2 mt-8 text-2xl"
-            onClick={() => {}}
-          >
-            Send OTP
-          </Button>
-        </form>
+        </Button>
+        <div className="p-3">
+          <h2 className="text-center text-xl p-3">Login / Signup</h2>
+          <form onSubmit={handleSubmit}>
+            <Input
+              labelClassName="mb-2 text-gray text-xs font-medium"
+              label="Enter your phone number"
+              className="mt-3 text-xs font-medium"
+              name="username"
+              placeholder="Enter your mobile number"
+              leading={<label className="whitespace-nowrap"> +91 |</label>}
+            />
+            <p className="mt-6 mb-3 text-gray font-medium text-xs">
+              Enter the OTP sent to your Number
+            </p>
+            <OtpInput />
+            <p className="text-primary mt-2 text-xs font-medium">
+              <a href="/#">Resend OTP</a>
+            </p>
+            {login}
+            <Button
+              primary
+              className="block w-full py-2 mt-8 text-base font-semibold mx-auto rounded-lg"
+              onClick={() => {}}
+            >
+              Send OTP
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );
 }
+
+export default LoginPage;

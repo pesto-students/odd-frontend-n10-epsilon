@@ -3,7 +3,8 @@ import { Button, Icon, Input } from "@odd/components";
 interface IProps {
   next?(): void;
 }
-const InfoForm: React.FC<IProps> = ({ next }) => (
+
+const AddressInfoFormCard: React.FC<IProps> = ({ next }) => (
   <form className="mt-4">
     <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
       <div className="lg:col-span-2">
@@ -68,4 +69,4 @@ const InfoForm: React.FC<IProps> = ({ next }) => (
   </form>
 );
 
-export default InfoForm;
+export default AddressInfoFormCard;

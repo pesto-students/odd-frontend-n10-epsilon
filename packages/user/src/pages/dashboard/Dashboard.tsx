@@ -1,8 +1,8 @@
 import { DashboardTemplate, Icon } from "@odd/components";
 
 const action = [
-  { name: "Home", route: "/dashboard" },
-  { name: "Order History", route: "/order-history" },
+  { name: "Home", route: "/dashboard/home" },
+  { name: "Order History", route: "/dashboard/order-history" },
   {
     name: (
       <div className="flex">

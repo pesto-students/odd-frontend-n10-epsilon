@@ -1,6 +1,7 @@
 import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
-import { OrderInfoCard, CardType } from "@odd/components";
+import { OrderInfoCard as InfoCard, CardType } from "@odd/components";
 const IconRupee: string = require("./../../assets/vehicle.svg").default;
+
 export interface IProps {
   deliveryStatus?: IDeliveryStatus;
   pickAddressTitle?: string;
@@ -23,9 +24,10 @@ export interface IProps {
   };
   otp?: string | number;
 }
-const OrderInfo: React.FC<IProps> = ({ next }) => {
+
+const OrderInfoCard: React.FC<IProps> = ({ next }) => {
   return (
-    <OrderInfoCard
+    <InfoCard
       card={CardType.Info}
       info={{ name: "Two Wheeler", fare: "250", image: IconRupee }}
       next={() => {}}
@@ -46,4 +48,4 @@ const OrderInfo: React.FC<IProps> = ({ next }) => {
   );
 };
 
-export default OrderInfo;
+export default OrderInfoCard;

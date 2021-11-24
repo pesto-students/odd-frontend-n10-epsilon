@@ -1,17 +1,18 @@
 import React from "react";
 
-//react-icons
 import { GrLocation } from "react-icons/gr";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { IconBaseProps } from "react-icons/lib";
+import { RiMapPin2Fill } from "react-icons/ri";
 import {
   FaChevronDown,
   FaTimes,
   FaUser,
   FaUserFriends,
   FaRegEdit,
+  FaCircle,
 } from "react-icons/fa";
 import {
   BsTruck,
@@ -22,15 +23,14 @@ import {
   BsBoxSeam,
 } from "react-icons/bs";
 import {
+  MdCall,
   MdDateRange,
-  MdPlace,
+  MdOutlineDoubleArrow,
   MdOutlineHome,
   MdOutlinePersonOutline,
-  MdCall,
   MdPersonPin,
-  MdOutlineDoubleArrow,
+  MdPlace,
 } from "react-icons/md";
-
 import {
   BiCurrentLocation,
   BiMenu,
@@ -90,7 +90,7 @@ const Icon: React.FC<IProps> = ({
     case "close":
       return <FaTimes {...restProps} />;
     case "pin":
-      return <GrLocation {...restProps} />;
+      return <RiMapPin2Fill {...restProps} />;
     case "gps":
       return <BiCurrentLocation {...restProps} />;
     case "user-menu":
@@ -160,6 +160,17 @@ const Icon: React.FC<IProps> = ({
 
     case "icn-step-arrow-right":
       return <MdOutlineDoubleArrow {...restProps} />;
+
+    case "icn-round":
+      return <FaCircle {...restProps} />;
+
+    case "icn-order-history":
+      return (
+        <img
+          alt="icon order history"
+          src={require("../../assets/svgs/icn-order-history.svg").default}
+        />
+      );
 
     default:
       return <FaTimes />;
