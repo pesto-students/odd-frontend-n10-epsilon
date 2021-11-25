@@ -23,7 +23,7 @@ const LabeledIcon: React.FC<IProps> = (props: IProps & any) => {
   return (
     <>
       <div
-        className={`flex gap-1 items-center place-items-center ${
+        className={`flex gap-2 items-center place-items-center ${
           reverse ? "flex-row-reverse " : "flex-row"
         } `}
       >

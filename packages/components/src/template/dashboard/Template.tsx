@@ -6,12 +6,13 @@ import { Action } from "../../interface/action";
 
 interface IProps {
   action?: Action[];
+  actionLeft?: React.ReactNode[];
 }
 
-const DashboardTemplate: React.FC<IProps> = ({ action }) => {
+const DashboardTemplate: React.FC<IProps> = ({ action, actionLeft }) => {
   return (
     <div className="flex flex-col">
-      <Navbar action={action} />
+      <Navbar action={action} actionLeft={actionLeft} />
       <BackgroundLayout>
         <Outlet />
       </BackgroundLayout>
