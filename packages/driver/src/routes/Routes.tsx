@@ -2,9 +2,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import {
   AuthProvider,
   Dashboard,
-  Home,
+  Home as HomeScreen,
   Layout,
   LoginPage,
+  Profile as ProfileScreen,
   RequireAuth,
 } from "../pages";
 
@@ -24,7 +25,8 @@ function AppRoutes() {
             }
           >
             <Route index element={<Navigate to="/dashboard/home" />} />
-            <Route path="home" element={<Home />} />
+            <Route path="home" element={<HomeScreen />} />
+            <Route path="profile" element={<ProfileScreen />} />
           </Route>
         </Route>
       </Routes>

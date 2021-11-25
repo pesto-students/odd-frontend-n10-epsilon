@@ -10,7 +10,7 @@ const action = [
         <span>Profile</span>
       </div>
     ),
-    route: "/profile",
+    route: "/dashboard/profile",
   },
 ];
 

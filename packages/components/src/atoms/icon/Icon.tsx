@@ -187,6 +187,30 @@ const Icon: React.FC<IProps> = ({
         />
       );
 
+    case "icn-state-time":
+      return (
+        <img
+          alt="icon order history"
+          src={require("../../assets/svgs/icn-state-time.svg").default}
+        />
+      );
+
+    case "icn-state-distance":
+      return (
+        <img
+          alt="icon order history"
+          src={require("../../assets/svgs/icn-state-distance.svg").default}
+        />
+      );
+
+    case "icn-state-trip":
+      return (
+        <img
+          alt="icon order history"
+          src={require("../../assets/svgs/icn-state-trip.svg").default}
+        />
+      );
+
     default:
       return <FaTimes />;
   }
