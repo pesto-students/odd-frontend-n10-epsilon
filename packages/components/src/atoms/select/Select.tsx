@@ -10,6 +10,7 @@ interface IProps {
   labelClassName?: string;
   style?: React.CSSProperties;
   required?: boolean;
+  outline?: boolean;
 }
 
 export interface IOption {
@@ -27,6 +28,7 @@ const Select: React.FC<IProps> = (props: IProps) => {
     labelClassName,
     style,
     required,
+    outline = true,
   } = props;
 
   const [options, setOptions] = useState<Array<IOption>>([]);
@@ -69,12 +71,13 @@ const Select: React.FC<IProps> = (props: IProps) => {
           }}
         />
       )}
-
       <select
-        className={`w-full max-h-9 mt-2 py-2 my-auto rounded h-full flex  items-center ring-0 hover:ring-0 focus:ring-0 ${
-          focused
-            ? "border-primary hover:border-primary focus:border-primary"
-            : "border-gray"
+        className={`w-full max-h-9 py-2 my-auto rounded h-full flex items-center ring-0 hover:ring-0 focus:ring-0 ${
+          outline
+            ? focused
+              ? "border-primary hover:border-primary focus:border-primary"
+              : "border-gray"
+            : "text-sm font-medium opacity-80 ring-0 hover:ring-0 focus:ring-0 outline-none hover:outline-none focus:outline-none border-0 hover:border-0 focus:border-0 text-midGray"
         }`}
         value={selectedValue}
         onChange={(event) => {

@@ -19,6 +19,7 @@ const ProfileCard: React.FC<IProps> = ({ next }) => (
       <Input label="City Pincode" required />
       <Select
         label="State"
+        labelClassName="mb-2"
         required
         defaultOptions={["Select", "Third", "Fourth"]}
         onSelectionChange={(value: string) => {
@@ -27,6 +28,7 @@ const ProfileCard: React.FC<IProps> = ({ next }) => (
       />
       <Select
         label="Language"
+        labelClassName="mb-2"
         required
         defaultOptions={["Select", "Third", "Fourth"]}
         onSelectionChange={(value: string) => {
