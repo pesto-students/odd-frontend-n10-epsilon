@@ -7,6 +7,7 @@ import {
   LoginPage,
   Profile as ProfileScreen,
   RequireAuth,
+  TripsAndPayments as TripsAndPaymentsScreen,
 } from "../pages";
 
 function AppRoutes() {
@@ -27,6 +28,10 @@ function AppRoutes() {
             <Route index element={<Navigate to="/dashboard/home" />} />
             <Route path="home" element={<HomeScreen />} />
             <Route path="profile" element={<ProfileScreen />} />
+            <Route
+              path="trips-and-payments"
+              element={<TripsAndPaymentsScreen />}
+            />
           </Route>
         </Route>
       </Routes>

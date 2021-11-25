@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Action } from "../../interface/action";
 const logo = require("../../assets/logo.svg").default;
 
 interface IProps {
   action?: Action[];
+  actionLeft?: React.ReactNode[];
 }
 
 const onActive: React.CSSProperties = {
@@ -17,18 +18,19 @@ const onInActive: React.CSSProperties = {
   color: "#000000",
 };
 
-const Navbar: React.FC<IProps> = ({ action }) => {
+const Navbar: React.FC<IProps> = ({ action, actionLeft }) => {
   return (
     <div>
       <nav className="fixed w-full bg-white shadow-lg z-50 h-14">
         <div className="px-4">
           <div className="flex justify-between">
-            <div className="flex space-x-7">
+            <div className="flex">
               <div>
                 <Link to="/" className="flex items-center py-4 ">
                   <img src={logo} alt="Logo" className=" mr-2" />
                 </Link>
               </div>
+              <div>{actionLeft}</div>
             </div>
 
             <div className="hidden md:flex items-center space-x-3  ">
