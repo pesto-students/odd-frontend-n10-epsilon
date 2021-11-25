@@ -211,6 +211,30 @@ const Icon: React.FC<IProps> = ({
         />
       );
 
+    case "icn-trip-state-earn":
+      return (
+        <img
+          alt="icon order history"
+          src={require("../../assets/svgs/icn-trip-state-earn.svg").default}
+        />
+      );
+
+    case "icn-trip-state-travel":
+      return (
+        <img
+          alt="icon order history"
+          src={require("../../assets/svgs/icn-trip-state-travel.svg").default}
+        />
+      );
+
+    case "icn-trip-state-trip":
+      return (
+        <img
+          alt="icon order history"
+          src={require("../../assets/svgs/icn-trip-state-trip.svg").default}
+        />
+      );
+
     default:
       return <FaTimes />;
   }
