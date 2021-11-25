@@ -55,12 +55,9 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
         />
       )}
       <div
-        className={`flex border rounded w-full py-2 mt-2 max-h-9 ${
+        className={`flex border rounded w-full py-2 mt-2 max-h-9 caret-primary ${
           focused ? "border-primary" : "border-gray"
         }`}
-        style={{
-          color: `${focused ? "#00DEDE" : "A7A7A7"}`,
-        }}
       >
         {leading && <div className="flex mx-2 my-auto">{leading}</div>}
         <input

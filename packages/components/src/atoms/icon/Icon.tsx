@@ -1,11 +1,10 @@
 import React from "react";
 
-import { GrLocation } from "react-icons/gr";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { IconBaseProps } from "react-icons/lib";
-import { RiMapPin2Fill } from "react-icons/ri";
+import { RiFileTextFill, RiMapPin2Fill } from "react-icons/ri";
 import {
   FaChevronDown,
   FaTimes,
@@ -13,6 +12,8 @@ import {
   FaUserFriends,
   FaRegEdit,
   FaCircle,
+  FaCheck,
+  FaAngleRight,
 } from "react-icons/fa";
 import {
   BsTruck,
@@ -22,6 +23,7 @@ import {
   BsFillTelephoneFill,
   BsBoxSeam,
   BsFillQuestionCircleFill,
+  BsChevronRight,
 } from "react-icons/bs";
 import {
   MdCall,
@@ -167,6 +169,15 @@ const Icon: React.FC<IProps> = ({
 
     case "icn-info-question":
       return <BsFillQuestionCircleFill {...restProps} />;
+
+    case "icn-doc":
+      return <RiFileTextFill {...restProps} />;
+
+    case "icn-check":
+      return <FaCheck {...restProps} />;
+
+    case "icn-chevron-right":
+      return <FaAngleRight {...restProps} />;
 
     case "icn-order-history":
       return (

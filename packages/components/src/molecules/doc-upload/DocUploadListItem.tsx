@@ -14,13 +14,15 @@ interface IProps {
 const DocUploadListItem: React.FC<IProps> = (props: IProps & any) => {
   const { title, completed = false } = props;
   return (
-    <div className="flex justify-between pr-1 items-center place-items-center">
-      <div className="flex gap-3">
-        <LabeledIcon title={title} iconName="file" reverse fontSize={18} />
-        {completed && <Icon iconName="check-mark" />}
+    <div className="flex justify-between pr-1 items-center place-items-center h-12">
+      <div className="flex gap-3 items-center">
+        <LabeledIcon title={title} iconName="icn-doc" reverse fontSize={18} />
+        {completed && (
+          <Icon iconName="icn-check" style={{ color: "#0CEB6C" }} />
+        )}
       </div>
       <div>
-        <Icon iconName="arrow" />
+        <Icon iconName="icn-chevron-right" />
       </div>
     </div>
   );
