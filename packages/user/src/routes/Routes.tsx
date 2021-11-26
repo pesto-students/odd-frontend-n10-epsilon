@@ -1,3 +1,4 @@
+import { LandingPage } from "@odd/components";
 import { Routes, Route, Navigate } from "react-router-dom";
 import {
   AuthProvider,
@@ -15,7 +16,8 @@ function AppRoutes() {
     <AuthProvider>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/" element={<LandingPage />} />
+          {/* <Route path="/" element={<Navigate to="/login" />} /> */}
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/dashboard"

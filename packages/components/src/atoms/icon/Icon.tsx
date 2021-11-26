@@ -235,6 +235,14 @@ const Icon: React.FC<IProps> = ({
         />
       );
 
+    case "icn-india":
+      return (
+        <img
+          alt="icon order history"
+          src={require("../../assets/svgs/icn-india.svg").default}
+        />
+      );
+
     default:
       return <FaTimes />;
   }
