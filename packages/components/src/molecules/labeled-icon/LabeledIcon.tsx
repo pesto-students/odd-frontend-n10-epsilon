@@ -22,11 +22,14 @@ const LabeledIcon: React.FC<IProps> = (props: IProps & any) => {
   } = props;
   return (
     <>
-      <div
-        className={`flex gap-2 items-center place-items-center ${
-          reverse ? "flex-row-reverse " : "flex-row"
-        } `}
-      >
+      <div className="flex gap-2 items-center place-items-center">
+        {reverse && (
+          <Icon
+            iconName={iconName}
+            iconColorType={iconColorType}
+            style={{ height: iconSize, width: iconSize }}
+          />
+        )}
         <Label
           title={title}
           secondary
@@ -34,11 +37,13 @@ const LabeledIcon: React.FC<IProps> = (props: IProps & any) => {
           className="text-2xl"
           style={{ fontSize: fontSize }}
         />
-        <Icon
-          iconName={iconName}
-          iconColorType={iconColorType}
-          style={{ height: iconSize, width: iconSize }}
-        />
+        {!reverse && (
+          <Icon
+            iconName={iconName}
+            iconColorType={iconColorType}
+            style={{ height: iconSize, width: iconSize }}
+          />
+        )}
       </div>
     </>
   );
