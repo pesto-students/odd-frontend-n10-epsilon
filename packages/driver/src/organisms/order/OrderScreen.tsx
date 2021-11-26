@@ -156,7 +156,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
             </div>
           </div>
           <div className="flex mt-4 space-x-3">
-            {orderData.status === "opened" && (
+            {/* {orderData.status === "opened" && (
               <Button
                 onClick={() => {
                   console.log("Button Clicked");
@@ -166,7 +166,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
                 children={"BYPASS"}
                 secondary
               />
-            )}
+            )} */}
 
             {orderData.status !== "completed" && (
               <Button
@@ -177,7 +177,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
                 className="float-right py-2 px-8 w-36"
                 children={
                   orderData.status === "opened"
-                    ? "ACCEPT"
+                    ? "Okay"
                     : orderData.status === "accepted"
                     ? "Pick-Up"
                     : orderData.status === "inprogress"
