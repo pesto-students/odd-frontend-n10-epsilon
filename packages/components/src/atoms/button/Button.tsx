@@ -2,7 +2,7 @@ import React from "react";
 
 import classNames from "classnames";
 
-interface IProps {
+interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?(): void;
   children: any;
   block?: boolean;

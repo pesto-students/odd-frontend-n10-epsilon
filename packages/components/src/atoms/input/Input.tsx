@@ -1,6 +1,6 @@
 import React, { InputHTMLAttributes } from "react";
 import { useState } from "react";
-
+import { ErrorMessage, useField } from "formik";
 //Components
 import { Label } from "..";
 
@@ -8,6 +8,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   textType?: string;
+
   error?: string;
   leading?: React.ReactNode;
   fieldStyle?: "standard" | "legacy";
@@ -15,6 +16,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   secure?: boolean;
   className?: string;
   labelClassName?: string;
+  inputRef?: any;
   style?: React.CSSProperties;
   onFocus?(): void;
 }
@@ -30,9 +32,11 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
     trailing,
     style,
     className,
+    inputRef,
     required,
     ...rest
   } = props;
+  const [field, meta] = useField(props);
 
   const [focused, setFocus] = useState(false);
 
@@ -61,20 +65,24 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
       >
         {leading && <div className="flex mx-2 my-auto">{leading}</div>}
         <input
+          autoComplete="off"
           placeholder={placeholder}
           className="w-full px-2 focus:border-0 focus:ring-0 active:border-0 active:ring-0 focus:outline-none"
           onFocus={set_focus}
-          required={required}
-          onBlur={set_blur}
+          ref={inputRef}
+          {...field}
           {...rest}
+          onBlur={set_blur}
         />
         {trailing && <div className="flex mx-2 my-auto">{trailing}</div>}
       </div>
-      {error && (
-        <p className="text-xs italic" style={{ color: "#FF0000" }}>
-          {error}
-        </p>
-      )}
+      <ErrorMessage name={field.name} className="text-xs italic">
+        {(msg) => (
+          <p className="text-xs italic ml-3 mt-2" style={{ color: "#FF0000" }}>
+            {msg}
+          </p>
+        )}
+      </ErrorMessage>
     </div>
   );
   const legacy = (
@@ -103,11 +111,13 @@ const Input: React.FC<IProps> = (props: IProps & any) => {
         />
         {trailing && <div className="mx-2">{trailing}</div>}
       </div>
-      {error && (
-        <p className="text-xs italic" style={{ color: "#FF0000" }}>
-          {error}
-        </p>
-      )}
+      <ErrorMessage name={field.name} className="text-xs italic">
+        {(msg) => (
+          <p className="text-xs italic" style={{ color: "#FF0000" }}>
+            {msg}
+          </p>
+        )}
+      </ErrorMessage>
     </div>
   );
   switch (fieldStyle) {

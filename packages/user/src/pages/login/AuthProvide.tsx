@@ -1,6 +1,5 @@
-import React from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { fakeAuthProvider } from "./auth";
+import React, { useEffect } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 
 interface AuthContextType {
   user: any;
@@ -13,20 +12,25 @@ let AuthContext = React.createContext<AuthContextType>(null!);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   let [user, setUser] = React.useState<any>(null);
 
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    console.log(data);
+
+    if (!data) return;
+    setUser("usbcheb");
+  }, []);
+
   let signin = (newUser: string, callback: VoidFunction) => {
-    return fakeAuthProvider.signin(() => {
-      setUser(newUser);
-      callback();
-    });
+    setUser(newUser);
+    localStorage.setItem("user", JSON.stringify(newUser));
+    callback();
   };
 
   let signout = (callback: VoidFunction) => {
-    return fakeAuthProvider.signout(() => {
-      setUser(null);
-      callback();
-    });
+    setUser(null);
+    localStorage.removeItem("user");
+    callback();
   };
-
   let value = { user, signin, signout };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -34,28 +38,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   return React.useContext(AuthContext);
-}
-
-export function AuthStatus() {
-  let auth = useAuth();
-  let navigate = useNavigate();
-
-  if (!auth.user) {
-    return <p>You are not logged in.</p>;
-  }
-
-  return (
-    <p>
-      Welcome {auth.user}!{" "}
-      <button
-        onClick={() => {
-          auth.signout(() => navigate("/"));
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  );
 }
 
 export function RequireAuth({ children }: { children: JSX.Element }) {

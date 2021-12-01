@@ -17,7 +17,7 @@ function AppRoutes() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<LandingPage />} />
-          {/* <Route path="/" element={<Navigate to="/login" />} /> */}
+          <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/dashboard"

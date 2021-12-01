@@ -3,23 +3,22 @@ import { useAuth } from "./AuthProvide";
 import { Button, Input } from "@odd/components";
 
 import "./style.css";
+import { Form, Formik } from "formik";
+
+interface MyFormValues {
+  email: string;
+  password: string;
+}
 
 function LoginPage() {
   let navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
-
+  const initialValues: MyFormValues = { email: "", password: "" };
   let from = location.state?.from?.pathname || "/dashboard";
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    let formData = new FormData(event.currentTarget);
-    let username = formData.get("username") as string;
-
-    console.log(username);
-
-    auth.signin(username, () => {
+  function handleSubmit(value: MyFormValues) {
+    auth.signin(value.email, () => {
       navigate(from, { replace: true });
     });
   }
@@ -38,18 +37,30 @@ function LoginPage() {
               <h2 className="text-center text-2xl font-semibold mb-10">
                 Login as Admin
               </h2>
-              <form onSubmit={handleSubmit}>
-                <Input fieldStyle="legacy" label="Email" name="username" />
-                <Input fieldStyle="legacy" label="Password" className="mt-6" />
-                <Button
-                  primary
-                  block
-                  className="rounded-xl mt-8"
-                  onClick={() => {}}
-                >
-                  Login
-                </Button>
-              </form>
+              <Formik
+                initialValues={initialValues}
+                onSubmit={(values) => {
+                  handleSubmit(values);
+                }}
+              >
+                <Form>
+                  <Input fieldStyle="legacy" label="Email" name="email" />
+                  <Input
+                    fieldStyle="legacy"
+                    label="Password"
+                    className="mt-6"
+                    name="password"
+                  />
+                  <Button
+                    primary
+                    block
+                    className="rounded-xl mt-8"
+                    onClick={() => {}}
+                  >
+                    Login
+                  </Button>
+                </Form>
+              </Formik>
             </div>
           </div>
           <div className="flex-none sm:flex-1 justify-items-center" />
