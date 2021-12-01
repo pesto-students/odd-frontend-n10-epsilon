@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@odd/components": "0.1.0",
     "@odd/base": "0.1.0",
+    "@odd/components": "0.1.0",
     "@odd/eslint-config-javascript": "1.0.0",
     "@odd/eslint-config-typescript": "1.0.0",
     "@odd/prettier-config": "1.0.0",
@@ -16,12 +16,14 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "classnames": "^2.3.1",
+    "formik": "^2.2.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "6",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "yarn run lint && craco start",

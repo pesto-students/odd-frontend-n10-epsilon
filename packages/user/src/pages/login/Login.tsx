@@ -5,7 +5,7 @@ import { useAuth } from "./AuthProvide";
 import { useState } from "react";
 import * as apiService from "../../api-call";
 import { API } from "../../constant/Endpoints";
-import { Formik, Form, FormikValues } from "formik";
+import { Formik, Form } from "formik";
 interface IProps {}
 interface MyFormValues {
   mobile_number: string;

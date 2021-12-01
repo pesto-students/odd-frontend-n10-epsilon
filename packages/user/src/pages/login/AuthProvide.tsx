@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { fakeAuthProvider } from "./auth";
+import { Navigate, useLocation } from "react-router-dom";
 
 interface AuthContextType {
   user: any;
@@ -41,36 +40,13 @@ export function useAuth() {
   return React.useContext(AuthContext);
 }
 
-export function AuthStatus() {
-  let auth = useAuth();
-  let navigate = useNavigate();
-
-  if (!auth.user) {
-    return <p>You are not logged in.</p>;
-  }
-
-  return (
-    <p>
-      Welcome {auth.user}!{" "}
-      <button
-        onClick={() => {
-          auth.signout(() => navigate("/"));
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  );
-}
-
 export function RequireAuth({ children }: { children: JSX.Element }) {
   let auth = useAuth();
   let location = useLocation();
 
-  // if (!auth.user) {
-  //   return <Navigate to="/login" state={{ from: location }} />;
-  // }
-  console.log(location.pathname);
+  if (!auth.user) {
+    return <Navigate to="/login" state={{ from: location }} />;
+  }
 
   return children;
 }
