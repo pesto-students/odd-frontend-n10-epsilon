@@ -2,15 +2,17 @@ import { Icon } from "@odd/components";
 import React from "react";
 
 interface IProps {
-  stepper: { title: string; active: Boolean; completed: Boolean }[];
+  stepper: { title: string; active: Boolean; completed: Boolean,setOn:number; }[];
+  setOn(step:number): void
 }
 
-const Stepper: React.FC<IProps> = ({ stepper }) => {
+const Stepper: React.FC<IProps> = ({ stepper, setOn }) => {
   return (
     <div className="flex xs:text-sm sm:text-base  items-center text-gray">
       {stepper.map((x, i) => (
         <React.Fragment key={i}>
           <button
+            onClick={()=>{x.completed && setOn(x.setOn);}}
             className={`${
               x.completed ? "text-primary font-semibold" : "font-medium"
             } `}

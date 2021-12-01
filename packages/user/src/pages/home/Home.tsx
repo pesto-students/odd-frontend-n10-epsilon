@@ -6,12 +6,18 @@ import {
   OrderInfoCard,
   Stepper,
 } from "../../organisms";
+import { Mode } from "../../organisms/address-info-form-card/AddressInfoFormCard";
 
 const stepper = [
-  { title: "Enter Pick-Up Location", active: true, completed: true },
-  { title: "Enter Drop-off Location", active: false, completed: false },
-  { title: "Choose Vehicle", active: false, completed: false },
-  { title: "Payment", active: false, completed: false },
+  { title: "Enter Pick-Up Location", active: true, completed: true, setOn: 0 },
+  {
+    title: "Enter Drop-off Location",
+    active: false,
+    completed: false,
+    setOn: 1,
+  },
+  { title: "Choose Vehicle", active: false, completed: false, setOn: 2 },
+  { title: "Payment", active: false, completed: false, setOn: 3 },
 ];
 
 const Home = () => {
@@ -37,9 +43,10 @@ const Home = () => {
       title="Send Parcel"
     >
       <div className="flex flex-col pt-7">
-        <Stepper stepper={step} />
+        <Stepper stepper={step} setOn={next} />
         {step[0].active && (
           <AddressInfoFormCard
+            mode={Mode.pickUP}
             next={() => {
               next(1);
             }}
@@ -47,6 +54,7 @@ const Home = () => {
         )}
         {step[1].active && (
           <AddressInfoFormCard
+            mode={Mode.dropOff}
             next={() => {
               next(2);
             }}

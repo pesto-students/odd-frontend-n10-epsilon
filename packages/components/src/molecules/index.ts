@@ -13,3 +13,4 @@ export { default as ViewItem } from "./statistics/ViewItem";
 export { default as TextItem } from "./statistics/TextItem";
 export { default as ActionItem } from "./statistics/ActionItem";
 export { default as Navbar } from "./navbar/Navbar";
+export { default as SearchLocationInput } from "./google-autocomplete/GoogleAutoComplete";
