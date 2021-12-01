@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { fakeAuthProvider } from "./auth";
 
 interface AuthContextType {
   user: any;
@@ -44,9 +45,10 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
   let auth = useAuth();
   let location = useLocation();
 
-  if (!auth.user) {
-    return <Navigate to="/login" state={{ from: location }} />;
-  }
+  // if (!auth.user) {
+  //   return <Navigate to="/login" state={{ from: location }} />;
+  // }
+  console.log(location.pathname);
 
   return children;
 }
