@@ -3,7 +3,9 @@ import { Formik, Form, FormikProps } from "formik";
 
 import React, { useEffect, useRef } from "react";
 import { usePlacesWidget } from "react-google-autocomplete";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
+import { addDropOffInfo, addPickupInfo } from "../../redux/slices/order";
 
 export enum Mode {
   pickUP,
@@ -22,8 +24,13 @@ export interface Values {
   contact_person_name: string;
   instruction: string;
   complete_address: string;
+  location: { coordinates: number[] };
 }
 const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state.order);
+  console.log(state);
+
   const formRef: React.MutableRefObject<FormikProps<Values>> = useRef<any>();
   const validate = Yup.object({
     add_1: Yup.string().required("This is required"),
@@ -34,7 +41,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
     contact_person_name: Yup.string().required("This is required"),
     "location.coordinates": Yup.array(),
     complete_address: Yup.string().when("location.coordinates", {
-      is: (val: any) => val.length !== 2, 
+      is: (val: any) => val.length !== 2,
       then: Yup.string().required("Select location from lookup"),
     }),
   });
@@ -95,22 +102,28 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
     formRef.current.setFieldValue("contact_person_number", value);
   };
 
-
-  
   function onSubmit(value: Values): void {
     console.log(formRef.current.values);
     if (mode === Mode.pickUP) {
-      formRef.current.resetForm();
+      //todo: Add data to redux
+      dispatch(addPickupInfo(value));
     }
     if (mode === Mode.dropOff) {
-      formRef.current.resetForm();
+      //todo
+      dispatch(addDropOffInfo(value));
     }
+    formRef.current.resetForm();
     next();
   }
 
   useEffect(() => {
-
-  }, [mode]);
+    if (mode === Mode.pickUP && Object.keys(state.pickup_info).length) {
+      formRef.current.setValues(state.pickup_info);
+    }
+    if (mode === Mode.dropOff && Object.keys(state.drop_off_info).length) {
+      formRef.current.setValues(state.drop_off_info);
+    }
+  });
 
   return (
     <Formik
@@ -125,7 +138,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
         location: { coordinates: [] },
       }}
       validationSchema={validate}
-      onSubmit={console.log}
+      onSubmit={onSubmit}
       validateOnChange
     >
       {(formik) => (

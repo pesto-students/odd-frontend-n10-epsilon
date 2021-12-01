@@ -12,7 +12,9 @@ interface IProps {
   dropAddressTitle?: string;
   pickAddressFull?: string;
   dropAddressFull?: string;
+  buttonDisabled?: boolean;
   next?(): void;
+  button?: string;
   card?: CardType;
   tile?: {
     name: string;
@@ -23,7 +25,7 @@ interface IProps {
   };
   info?: {
     name: string;
-    fare: string;
+    fare: number;
     image: any;
   };
 }
@@ -32,6 +34,8 @@ const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
   const {
     tile,
     info,
+    button,
+    buttonDisabled,
     pickAddressTitle,
     dropAddressTitle,
     pickAddressFull,
@@ -74,12 +78,15 @@ const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
             </iframe>
           </div>
         </div>
-        <Button
-          onClick={next}
-          className=" float-right mt-8 py-2 px-10 shadow-lg"
-          children="Next"
-          primary
-        />
+        {button && (
+          <Button
+            disabled={buttonDisabled}
+            onClick={next}
+            className=" float-right mt-8 py-2 px-10 shadow-lg"
+            children={button}
+            primary
+          />
+        )}
       </div>
     </div>
   );

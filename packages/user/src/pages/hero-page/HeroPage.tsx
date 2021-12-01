@@ -1,16 +1,8 @@
-import { LandingPage, AppModal } from "@odd/components";
-import { useState } from "react";
+import { LandingPage } from "@odd/components";
+;
 
 const HeroPage = () => {
-  let [isOpen, setIsOpen] = useState(true);
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+ 
   return (
     <div>
       <LandingPage />

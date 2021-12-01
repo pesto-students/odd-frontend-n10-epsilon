@@ -1,4 +1,4 @@
-import { BaseClient } from "@odd/base";
+import { AxiosError, AxiosResponse, BaseClient } from "@odd/base";
 
 const baseClient = new BaseClient();
 
@@ -9,11 +9,21 @@ export const getApi = (api: string) => {
  return baseClient.apiGet(api, config);
 };
 
-export const postApi = async (api: string, data: any) => {
+export const postApi = async (
+  api: string,
+  data: any
+): Promise<AxiosResponse<any, any>> => {
   const config = {
     headers: { Authorization: `Bearer ${token()}` },
   };
-  return baseClient.apiPost(api, data, config);
+  return new Promise((resolve, reject): any => {
+    baseClient
+      .apiPost(api, data, config)
+      .then(resolve)
+      .catch((err: AxiosError) => {
+       reject(err.response)
+      });
+  });
 };
 
 export const putApi = (api: string, data: any) => {

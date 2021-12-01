@@ -30,7 +30,13 @@ const Home = () => {
     setStep([...update]);
   };
 
-  const reset = () => step.map((data) => ({ ...data, active: false }));
+  const back =(on:number)=>{
+    let index = step.findIndex(x=>x.active)
+    if (index < on )return;
+    next(on);
+  }
+  const reset = () =>
+    step.map((data) => ({ ...data, active: false }));
   return (
     <CardLayout
       icon={
@@ -43,7 +49,7 @@ const Home = () => {
       title="Send Parcel"
     >
       <div className="flex flex-col pt-7">
-        <Stepper stepper={step} setOn={next} />
+        <Stepper stepper={step} setOn={back} />
         {step[0].active && (
           <AddressInfoFormCard
             mode={Mode.pickUP}
