@@ -15,7 +15,6 @@ const SelectVehicleCard: React.FC<IProps> = ({ onSubmit }) => {
           title="Two Wheeler"
           icon={IconVehicle}
           showRates={false}
-          defaultState={false}
           onSelect={() => {}}
         />
       </div>
@@ -26,7 +25,6 @@ const SelectVehicleCard: React.FC<IProps> = ({ onSubmit }) => {
           title="Two Wheeler"
           icon={IconVehicle}
           showRates={false}
-          defaultState={false}
           onSelect={() => {}}
         />
       </div>
@@ -39,7 +37,6 @@ const SelectVehicleCard: React.FC<IProps> = ({ onSubmit }) => {
           baseRate="23"
           extraRate="98"
           showRates={false}
-          defaultState={false}
           onSelect={() => {}}
         />
       </div>
@@ -50,7 +47,6 @@ const SelectVehicleCard: React.FC<IProps> = ({ onSubmit }) => {
           title="Two Wheeler"
           icon={IconVehicle}
           showRates={false}
-          defaultState={false}
           onSelect={() => {}}
         />
       </div>

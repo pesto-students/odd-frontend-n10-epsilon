@@ -25,7 +25,7 @@ interface IProps {
   };
   info?: {
     name: string;
-    fare: number;
+    fare: number|string;
     image: any;
   };
 }
