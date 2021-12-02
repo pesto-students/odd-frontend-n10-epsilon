@@ -9,8 +9,8 @@ interface IProps {
   title: string;
   desc: string;
   icon: any;
-  defaultState?: boolean;
-  onSelect(_id: string, selected: boolean): void;
+  defaultState?: null|string;
+  onSelect(_id: string): void;
   showRates?: boolean;
   price?: number | string;
   baseRate?: number | string;
@@ -24,25 +24,22 @@ const ChooseVehicle: React.FC<IProps> = (props: IProps & any) => {
     desc,
     icon,
     onSelect,
-    defaultState = false,
+    defaultState ,
     showRates = true,
     price = 0,
     baseRate = 0,
     extraRate = 0,
   } = props;
-  const [active, setActive] = useState(defaultState);
+  
+
 
   return (
     <div
       key={_id}
       className={`group h-auto rounded-3xl shadow-lg p-3 items-center ${
-        active && "ring-2 ring-primary"
+        defaultState === _id && "ring-2 ring-primary"
       }`}
-      onClick={() => {
-        const newState = !active;
-        setActive(newState);
-        onSelect(_id, newState);
-      }}
+      onClick={onSelect}
     >
       <div
         className={`px-4 py-2 grid-flow-row grid grid-cols-5 justify-center items-center place-items-center ${

@@ -2,7 +2,9 @@ import { NavLink } from "react-router-dom";
 import { BackgroundLayout, Button, Label, LabeledIcon } from "../..";
 import { Footer, Navbar } from "./components";
 
-interface IProps {}
+interface IProps {
+  signButton?(): void;
+}
 
 const cardsData = [
   {

@@ -10,6 +10,13 @@ class Endpoints {
 
     LOGOUT: this.joinPaths(this.USER_BASE, "logout"),
   };
+  ORDER_ENDPOINTS = {
+    GET_FARE: this.joinPaths(this.ORDER_BASE, "calculate_fare"),
+
+    CREATE_ORDER: this.joinPaths(this.ORDER_BASE, "create"),
+
+    LOGOUT: this.joinPaths(this.USER_BASE, "logout"),
+  };
 
   private joinPaths(...params: string[]) {
     const newUrl = params.join("/");

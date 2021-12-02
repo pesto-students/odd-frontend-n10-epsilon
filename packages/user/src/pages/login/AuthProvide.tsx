@@ -47,6 +47,7 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
   if (!auth.user) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
+  console.log(location.pathname);
 
   return children;
 }

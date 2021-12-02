@@ -1,4 +1,9 @@
 import { OrderInfoCard as InfoCard, CardType } from "@odd/components";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { postApi } from "../../api-call";
+import { API } from "../../constant/Endpoints";
+import { OrderAttributes } from "../../redux/slices/order";
 const IconRupee: string = require("./../../assets/vehicle.svg").default;
 
 export interface IProps {
@@ -23,15 +28,38 @@ export interface IProps {
 }
 
 const OrderInfoCard: React.FC<IProps> = ({ next }) => {
+  const state = useSelector((state: any) => state.order) as OrderAttributes;
+  const [loading, setLoading] = useState(false);
+
+  const createOrder = async () => {
+    const api = API.ORDER_ENDPOINTS.CREATE_ORDER;
+    setLoading(true);
+    try {
+      await postApi(api, {
+        drop_off_info: state.drop_off_info,
+        pickup_info: state.pickup_info,
+        vehicle_id: state.vehicle_id,
+      });
+      setLoading(false);
+    } catch (error: any) {
+       setLoading(false);
+    }
+  };
   return (
     <InfoCard
       card={CardType.Info}
-      info={{ name: "Two Wheeler", fare: "250", image: IconRupee }}
-      next={() => {}}
-      pickAddressTitle="B-11,Fasil Road (Delhi)"
-      pickAddressFull="3941,Naya Bazar Road, Khari Baoli, Old Delhi, New Delhi, 404041, India"
-      dropAddressTitle="3941,Naya Bazar Road (Delhi)"
-      dropAddressFull="3941,Naya Bazar Road, Khari Baoli, Old Delhi, New Delhi, 404041, India"
+      info={{
+        name: state.vehicle.name,
+        fare: +state.vehicle.estimate_fare.toFixed(0),
+        image: IconRupee,
+      }}
+      buttonDisabled={loading}
+      next={createOrder}
+      button="Create"
+      pickAddressTitle={`${state.pickup_info.add_1} ${state.pickup_info.add_2}`}
+      pickAddressFull={state.pickup_info.complete_address}
+      dropAddressTitle={`${state.drop_off_info.add_1} ${state.drop_off_info.add_2}`}
+      dropAddressFull={state.drop_off_info.complete_address}
     />
   );
 };
