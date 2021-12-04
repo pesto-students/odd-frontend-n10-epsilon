@@ -16,6 +16,10 @@ class Endpoints {
     CREATE_ORDER: this.joinPaths(this.ORDER_BASE, "create"),
 
     LOGOUT: this.joinPaths(this.USER_BASE, "logout"),
+
+    ORDERS_INFO: (orderId: string) => {
+      return this.joinPaths(this.ORDER_BASE, "getOrder", orderId)
+    },
   };
 
   private joinPaths(...params: string[]) {
