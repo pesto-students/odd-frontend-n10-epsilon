@@ -8,6 +8,7 @@ import { API } from "../../constant/Endpoints";
 import { Formik, Form } from "formik";
 import { CookieHelper } from "@odd/base";
 
+import { toast } from "react-toastify";
 interface IProps {}
 
 interface MyFormValues {
@@ -33,33 +34,41 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
 
   async function handleSubmit(value: MyFormValues) {
     if (currentState === IStates.enter_number) {
+      const id = toast.loading("Please wait...");
       try {
         console.log(value);
 
-        const api = API.USER_ENDPOINTS.LOGIN;
+        const api = API.DRIVER_ENDPOINTS.LOGIN;
         const data = await apiService.postApi(api, { mobile_number: number });
+        toast.dismiss(id);
         setUserId(data.data.data._id);
         setCurrentState(IStates.enter_otp);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        toast.dismiss(id);
+        toast.error(error?.error);
       }
       return;
     }
 
     if (otp && otp.length === 4) {
+       const id = toast.loading("Please wait...");
       try {
-        const api = API.USER_ENDPOINTS.VERIFY_OTP;
+        const api = API.DRIVER_ENDPOINTS.VERIFY_OTP;
         const data = await apiService.postApi(api, {
           otpVerify: otp,
           _id: userId,
         });
-        console.log(data);
         CookieHelper.SetCookie("token", data.data.token);
         auth.signin(number, () => {
           navigate(from, { replace: true });
+           toast.dismiss(id);
+           toast.success("Logged In")
         });
-      } catch (error) {
-        console.log(error);
+
+      } catch (error:any) {
+        console.log(error?.data?.error);
+         toast.dismiss(id);
+         toast.error(error?.data?.error);
       }
       console.log("compare OTP with backend");
     }

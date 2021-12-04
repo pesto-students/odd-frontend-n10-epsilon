@@ -1,6 +1,6 @@
 interface IProps {
-  placeHolderImage?: any;
-  previewImage?: any;
+  placeHolderImage: any;
+  previewImage: any;
 }
 
 const FilePreviewItem: React.FC<IProps> = ({

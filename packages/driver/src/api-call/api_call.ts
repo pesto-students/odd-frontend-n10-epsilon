@@ -21,7 +21,26 @@ export const postApi = async (
       .apiPost(api, data, config)
       .then(resolve)
       .catch((err: AxiosError) => {
-        reject(err.response)
+        reject(err.response);
+      });
+  });
+};
+export const uploadFilePostApi = async (
+  api: string,
+  data: any
+): Promise<AxiosResponse<any, any>> => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token()}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  return new Promise((resolve, reject): any => {
+    baseClient
+      .apiPost(api, data, config)
+      .then(resolve)
+      .catch((err: AxiosError) => {
+        reject(err.response);
       });
   });
 };

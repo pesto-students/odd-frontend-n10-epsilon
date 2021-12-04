@@ -39,7 +39,7 @@ const Select: React.FC<IProps> = (props: IProps) => {
   const set_blur = () => setFocus(false);
 
   useEffect(() => {
-    console.log(selectedValue);
+
     onSelectionChange(selectedValue);
   }, [selectedValue]);
 
@@ -72,7 +72,7 @@ const Select: React.FC<IProps> = (props: IProps) => {
         />
       )}
       <select
-        className={`w-full max-h-9 py-2 my-auto rounded h-full flex items-center ring-0 hover:ring-0 focus:ring-0 ${
+        className={`w-full max-h-9 py-1 my-auto rounded h-full flex items-center ring-0 hover:ring-0 focus:ring-0 ${
           outline
             ? focused
               ? "border-primary hover:border-primary focus:border-primary"
