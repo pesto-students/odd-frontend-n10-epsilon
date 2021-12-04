@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../login/AuthProvide";
 
 import { Button, Icon, IconColorType } from "@odd/components";
@@ -10,6 +10,7 @@ import { MenuItem, UserProfileMenuItem } from "../../molecules";
 const Layout: React.FC<any> = () => {
   const location = useLocation().pathname;
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState("");
 
@@ -18,19 +19,34 @@ const Layout: React.FC<any> = () => {
     setUser(auth.user.substring(0, 8));
   }, [auth.user]);
 
+  function onLogoutClick() {
+    console.log("onLogoutClick Clicked");
+    auth.signout(() => {
+      navigate("/", { replace: true });
+    });
+  }
+
   return (
     <div>
       <div className="visible md:hidden">
-        <MobileLayout location={location} user={user} />
+        <MobileLayout
+          location={location}
+          user={user}
+          onLogoutClick={onLogoutClick}
+        />
       </div>
       <div className="hidden md:flex">
-        <DesktopLayout location={location} user={user} />
+        <DesktopLayout
+          location={location}
+          user={user}
+          onLogoutClick={onLogoutClick}
+        />
       </div>
     </div>
   );
 };
 
-const MobileLayout = ({ location, user }: any) => {
+const MobileLayout = ({ location, user, onLogoutClick }: any) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -139,9 +155,7 @@ const MobileLayout = ({ location, user }: any) => {
             <UserProfileMenuItem
               src={DummyUserImage}
               name={user ?? "Admin"}
-              onClick={() => {
-                console.log("On User Profile Clicked");
-              }}
+              onClick={onLogoutClick}
             />
           </div>
         </div>
@@ -153,7 +167,7 @@ const MobileLayout = ({ location, user }: any) => {
   );
 };
 
-const DesktopLayout = ({ location, user }: any) => {
+const DesktopLayout = ({ location, user, onLogoutClick }: any) => {
   return (
     <div className="relative h-screen w-screen">
       {/* SCREEN BACKGROUND */}
@@ -221,9 +235,7 @@ const DesktopLayout = ({ location, user }: any) => {
             <UserProfileMenuItem
               src={DummyUserImage}
               name={user ?? "Admin"}
-              onClick={() => {
-                console.log("On User Profile Clicked");
-              }}
+              onClick={onLogoutClick}
             />
           </div>
         </div>

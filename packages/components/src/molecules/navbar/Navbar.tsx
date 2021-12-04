@@ -1,22 +1,11 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Action } from "../../interface/action";
+import { Link } from "react-router-dom";
 const logo = require("../../assets/logo.svg").default;
 
 interface IProps {
-  action?: Action[];
+  action?: React.ReactNode[];
   actionLeft?: React.ReactNode[];
 }
-
-const onActive: React.CSSProperties = {
-  color: "#00DEDE",
-  borderBottomColor: "#00DEDE",
-  borderBottomWidth: 4,
-};
-
-const onInActive: React.CSSProperties = {
-  color: "#000000",
-};
 
 const Navbar: React.FC<IProps> = ({ action, actionLeft }) => {
   return (
@@ -35,16 +24,7 @@ const Navbar: React.FC<IProps> = ({ action, actionLeft }) => {
 
             <div className="hidden md:flex items-center space-x-3  ">
               <div className="hidden md:flex items-center space-x-1 ">
-                {action?.map((routes, index) => (
-                  <NavLink
-                    key={index}
-                    style={({ isActive }) => (isActive ? onActive : onInActive)}
-                    to={routes.route}
-                    className="py-4 px-7   "
-                  >
-                    {routes.name}
-                  </NavLink>
-                ))}
+                {action}
               </div>
             </div>
 

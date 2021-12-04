@@ -16,3 +16,4 @@ export { default as Navbar } from "./navbar/Navbar";
 export { default as SearchLocationInput } from "./google-autocomplete/GoogleAutoComplete";
 export * from "./loader";
 export * from "./no-data";
+export * from "./log-out";

@@ -6,7 +6,10 @@ import { useState } from "react";
 import * as apiService from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { Formik, Form } from "formik";
+import { CookieHelper } from "@odd/base";
+
 interface IProps {}
+
 interface MyFormValues {
   mobile_number: string;
 }
@@ -51,6 +54,7 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
           _id: userId,
         });
         console.log(data);
+        CookieHelper.SetCookie("token", data.data.token);
         auth.signin(number, () => {
           navigate(from, { replace: true });
         });

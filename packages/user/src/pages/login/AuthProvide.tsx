@@ -29,6 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   let signout = (callback: VoidFunction) => {
     setUser(null);
     CookieHelper.DeleteCookie("user");
+    CookieHelper.DeleteCookie("token");
     callback();
   };
   let value = { user, signin, signout };

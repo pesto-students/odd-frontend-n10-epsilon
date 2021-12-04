@@ -7,6 +7,7 @@ import {
   LoginPage,
   Profile as ProfileScreen,
   RequireAuth,
+  OnAuth,
   TripsAndPayments as TripsAndPaymentsScreen,
 } from "../pages";
 
@@ -16,7 +17,14 @@ function AppRoutes() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/login"
+            element={
+              <OnAuth>
+                <LoginPage />
+              </OnAuth>
+            }
+          />
           <Route
             path="/dashboard"
             element={
