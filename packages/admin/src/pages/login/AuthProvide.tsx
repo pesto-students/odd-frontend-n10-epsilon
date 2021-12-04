@@ -11,23 +11,24 @@ interface AuthContextType {
 let AuthContext = React.createContext<AuthContextType>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  let [user, setUser] = React.useState<any>(CookieHelper.GetCookie("admin"));
+  let [user, setUser] = React.useState<any>(CookieHelper.GetCookie("user"));
 
   useEffect(() => {
-    const data = CookieHelper.GetCookie("admin");
+    const data = CookieHelper.GetCookie("user");
     if (!data) return;
     setUser(data);
   }, [user]);
 
   let signin = (newUser: string, callback: VoidFunction) => {
     setUser(newUser);
-    CookieHelper.SetCookie("admin", newUser);
+    CookieHelper.SetCookie("user", newUser);
     callback();
   };
 
   let signout = (callback: VoidFunction) => {
     setUser(null);
-    CookieHelper.DeleteCookie("admin");
+    CookieHelper.DeleteCookie("user");
+    CookieHelper.DeleteCookie("token");
     callback();
   };
 

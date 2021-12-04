@@ -2,10 +2,9 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../..";
 import { BackgroundLayout } from "../../layout";
-import { Action } from "../../interface/action";
 
 interface IProps {
-  action?: Action[];
+  action?: React.ReactNode[];
   actionLeft?: React.ReactNode[];
 }
 
