@@ -1,4 +1,3 @@
-import { LandingPage } from "@odd/components";
 import { Routes, Route, Navigate } from "react-router-dom";
 import {
   AuthProvider,
@@ -9,6 +8,7 @@ import {
   OrderHistory,
   OrderScreen,
   RequireAuth,
+  OnAuth,
 } from "../pages";
 
 function AppRoutes() {
@@ -16,9 +16,15 @@ function AppRoutes() {
     <AuthProvider>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/" element={<Navigate to="/dashboard" />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route
+            path="/login"
+            element={
+              <OnAuth>
+                <LoginPage />
+              </OnAuth>
+            }
+          />
           <Route
             path="/dashboard"
             element={

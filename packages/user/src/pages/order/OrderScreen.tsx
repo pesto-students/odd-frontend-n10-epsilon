@@ -11,10 +11,9 @@ import {
 } from "@odd/components";
 import { Skeleton } from ".";
 
-interface IProps {}
-
-const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
-  const { orderId } = useParams();
+const OrderScreen: React.FC<any> = () => {
+  let params = useParams();
+  const orderId = params.id;
   const [loading, setLoading] = useState(true);
   const [orderData, setOrderData] = useState<any>({});
 
@@ -24,7 +23,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
   }, [orderId]);
 
   const getStatusString = () => {
-    const status = orderData.status;
+    const status = orderData?.status;
 
     switch (status) {
       case "opened":
