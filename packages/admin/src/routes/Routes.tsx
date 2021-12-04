@@ -9,7 +9,7 @@ import {
   Vehicles,
   OrderDetail,
 } from "../pages";
-import { AuthProvider, RequireAuth } from "../pages/login/AuthProvide";
+import { AuthProvider, OnAuth, RequireAuth } from "../pages/login/AuthProvide";
 
 export default function AppRoutes() {
   return (
@@ -17,7 +17,14 @@ export default function AppRoutes() {
       <Routes>
         <Route>
           <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <OnAuth>
+                <Login />
+              </OnAuth>
+            }
+          />
           <Route
             path="/dashboard"
             element={

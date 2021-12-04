@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  ActionItem,
-  AvatarItem,
   DataTable,
-  StatusItem,
+  FullScreenLoader,
+  NoDataFoundView,
   TextItem,
 } from "@odd/components";
+import { API } from "../../constant/Endpoints";
+import * as apiService from "../../api-call";
 
 function Users() {
   const columns = React.useMemo(
@@ -16,17 +17,17 @@ function Users() {
         Cell: TextItem,
         imgAccessor: "index",
       },
-      {
-        Header: "Profile",
-        accessor: "profile",
-        Cell: AvatarItem,
-        imgAccessor: "profile",
-      },
-      {
-        Header: "NAME",
-        accessor: "name",
-        Cell: TextItem,
-      },
+      // {
+      //   Header: "Profile",
+      //   accessor: "profile",
+      //   Cell: AvatarItem,
+      //   imgAccessor: "profile",
+      // },
+      // {
+      //   Header: "NAME",
+      //   accessor: "name",
+      //   Cell: TextItem,
+      // },
       {
         Header: "PHONE NO.",
         accessor: "phone",
@@ -37,54 +38,78 @@ function Users() {
         accessor: "orders",
         Cell: TextItem,
       },
-      {
-        Header: "ACTION",
-        accessor: "action",
-        Cell: ActionItem,
-      },
-      {
-        Header: "STATUS",
-        accessor: "status",
-        Cell: StatusItem,
-      },
+      // {
+      //   Header: "ACTION",
+      //   accessor: "action",
+      //   Cell: ActionItem,
+      // },
+      // {
+      //   Header: "STATUS",
+      //   accessor: "status",
+      //   Cell: StatusItem,
+      // },
     ],
     []
   );
 
-  const getData = () => {
-    const data = [
-      {
-        name: "Jane Cooper",
-        profile:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        phone: "+91 1231231230",
-        orders: 50,
-        action: "action",
-        status: "active",
-      },
-      {
-        name: "Cody Fisher",
-        profile:
-          "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        phone: "+91 1231231230",
-        orders: 50,
-        action: "action",
-        status: "inactive",
-      },
-      {
-        name: "Esther Howard",
-        profile:
-          "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        phone: "+91 1231231230",
-        orders: 50,
-        action: "action",
-        status: "inactive",
-      },
-    ];
-    return [...data, ...data, ...data];
-  };
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Array<any>>([]);
 
-  const data = React.useMemo(() => getData(), []);
+  function mapData(inputData: Array<any>): Array<any> {
+    let result: Array<any> = [];
+    for (let index = 0; index < inputData.length; index++) {
+      const element = inputData[index];
+      result.push({
+        _id: element?._id,
+        name: element?.name ?? "NULL",
+        profile:
+          element?.profile ??
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+        phone: element?.mobile_number ?? "NULL",
+        orders: element?.total_order ?? 0,
+        action: element?.action ?? "",
+        status: element?.status ?? "",
+      });
+    }
+
+    // console.log(inputData);
+    // console.log(result);
+    // {
+    //   name: "Jane Cooper",
+    //   profile:
+    //     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    //   phone: "+91 1231231230",
+    //   orders: 50,
+    //   action: "action",
+    //   status: "active",
+    // }
+    return result;
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      const api = API.ADMIN_ENDPOINTS.USER_LIST;
+      try {
+        const result = await apiService.getApi(api);
+        const resultData = result.data;
+        console.log(resultData);
+        setData(mapData(resultData.data));
+      } catch (error) {
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <FullScreenLoader />;
+  }
+
+  if (data.length === 0) {
+    return <NoDataFoundView />;
+  }
 
   return (
     <>

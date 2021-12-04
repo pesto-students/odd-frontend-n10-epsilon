@@ -1,6 +1,6 @@
-import React from "react";
+import { CookieHelper } from "@odd/base";
+import React, { useEffect } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { fakeAuthProvider } from "./auth";
 
 interface AuthContextType {
   user: any;
@@ -11,20 +11,24 @@ interface AuthContextType {
 let AuthContext = React.createContext<AuthContextType>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  let [user, setUser] = React.useState<any>(null);
+  let [user, setUser] = React.useState<any>(CookieHelper.GetCookie("admin"));
+
+  useEffect(() => {
+    const data = CookieHelper.GetCookie("admin");
+    if (!data) return;
+    setUser(data);
+  }, [user]);
 
   let signin = (newUser: string, callback: VoidFunction) => {
-    return fakeAuthProvider.signin(() => {
-      setUser(newUser);
-      callback();
-    });
+    setUser(newUser);
+    CookieHelper.SetCookie("admin", newUser);
+    callback();
   };
 
   let signout = (callback: VoidFunction) => {
-    return fakeAuthProvider.signout(() => {
-      setUser(null);
-      callback();
-    });
+    setUser(null);
+    CookieHelper.DeleteCookie("admin");
+    callback();
   };
 
   let value = { user, signin, signout };
@@ -64,6 +68,17 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 
   if (!auth.user) {
     return <Navigate to="/login" state={{ from: location }} />;
+  }
+
+  return children;
+}
+
+export function OnAuth({ children }: { children: JSX.Element }) {
+  let auth = useAuth();
+  let location = useLocation();
+
+  if (auth.user) {
+    return <Navigate to="/dashboard" state={{ from: location }} />;
   }
 
   return children;

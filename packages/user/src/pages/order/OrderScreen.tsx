@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { OrderAPIs } from "@odd/base";
 
 import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
 import {
@@ -21,12 +20,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
 
   useEffect(() => {
     setLoading(true);
-
-    OrderAPIs.getOrderData(String(orderId)).then((resultData) => {
-      console.log(resultData);
-      setOrderData(JSON.parse(String(resultData)));
-      setLoading(false);
-    });
+    setOrderData({});
   }, [orderId]);
 
   const getStatusString = () => {

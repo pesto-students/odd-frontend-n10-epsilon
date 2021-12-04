@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  ActionItem,
   AvatarItem,
   DataTable,
+  FullScreenLoader,
+  NoDataFoundView,
   StatusItem,
   TextItem,
 } from "@odd/components";
+import { API } from "../../constant/Endpoints";
+import * as apiService from "../../api-call";
 
 function Users() {
   const columns = React.useMemo(
@@ -42,11 +45,11 @@ function Users() {
         accessor: "recommendation",
         Cell: TextItem,
       },
-      {
-        Header: "ACTIONS",
-        accessor: "action",
-        Cell: ActionItem,
-      },
+      // {
+      //   Header: "ACTIONS",
+      //   accessor: "action",
+      //   Cell: ActionItem,
+      // },
       {
         Header: "STATUS",
         accessor: "status",
@@ -56,40 +59,63 @@ function Users() {
     []
   );
 
-  const getData = () => {
-    const data = [
-      {
-        name: "Two Wheeler",
-        image: require("../../assets/dummy-vehicle.svg").default,
-        baseRate: "₹ 40",
-        kmRate: "₹ 10",
-        recommendation: "recommendation",
-        action: "action",
-        status: "active",
-      },
-      {
-        name: "Three Wheeler",
-        image: require("../../assets/dummy-vehicle.svg").default,
-        baseRate: "₹ 80",
-        kmRate: "₹ 40",
-        recommendation: "recommendation",
-        action: "action",
-        status: "inactive",
-      },
-      {
-        name: "Mini Truck",
-        image: require("../../assets/dummy-vehicle.svg").default,
-        baseRate: "₹ 100",
-        kmRate: "₹ 50",
-        recommendation: "recommendation",
-        action: "action",
-        status: "inactive",
-      },
-    ];
-    return [...data];
-  };
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Array<any>>([]);
 
-  const data = React.useMemo(() => getData(), []);
+  function mapData(inputData: Array<any>): Array<any> {
+    let result: Array<any> = [];
+    for (let index = 0; index < inputData.length; index++) {
+      const element = inputData[index];
+      result.push({
+        name: element?.name ?? "NULL",
+        image:
+          element?.image ?? require("../../assets/dummy-vehicle.svg").default,
+        baseRate: `₹ ${element?.base_fare ?? 0}`,
+        kmRate: `₹ ${element?.per_km ?? 50}`,
+        recommendation: element?.recommendation ?? "recommendation",
+        // action: element?.action ?? "action",
+        status: element?.status ?? "",
+      });
+    }
+
+    // console.log(inputData);
+    // console.log(result);
+    // {
+    //   name: "Mini Truck",
+    //   image: require("../../assets/dummy-vehicle.svg").default,
+    //   baseRate: "₹ 100",
+    //   kmRate: "₹ 50",
+    //   recommendation: "recommendation",
+    //   action: "action",
+    //   status: "inactive",
+    // }
+    return result;
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      const api = API.ADMIN_ENDPOINTS.VEHICLES_LIST;
+      try {
+        const result = await apiService.getApi(api);
+        const resultData = result.data;
+        console.log(resultData);
+        setData(mapData(resultData.data));
+      } catch (error) {
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <FullScreenLoader />;
+  }
+
+  if (data.length === 0) {
+    return <NoDataFoundView />;
+  }
 
   return (
     <>

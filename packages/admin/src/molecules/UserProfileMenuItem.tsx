@@ -9,12 +9,12 @@ interface IProps {
 }
 
 const UserProfileMenuItem: React.FC<IProps> = (props: IProps & any) => {
-  const { src, name, onClick } = props;
+  const { name, onClick } = props;
 
   return (
     <div className={`flex items-center h-16 px-3`}>
       <div className="flex items-center">
-        <img src={src} alt="profile" className="w-8 h-8" />
+        {/* <img src={src} alt="profile" className="w-8 h-8" /> */}
       </div>
       <div className="flex-1 ml-3 items-center">
         <Label title={name} secondary regular />
