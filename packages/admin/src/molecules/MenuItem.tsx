@@ -8,10 +8,11 @@ interface IProps {
   label: string;
   href: string;
   active?: boolean;
+  onClick?: () => void;
 }
 
 const MenuItem: React.FC<IProps> = (props: IProps & any) => {
-  const { icon, label, active = false, href } = props;
+  const { icon, label, href, active = false, onClick = undefined } = props;
 
   return (
     <Link
@@ -19,6 +20,11 @@ const MenuItem: React.FC<IProps> = (props: IProps & any) => {
       className={`flex items-center h-16 px-4 ${
         active && "border-r-2 border-primary bg-primary bg-opacity-20"
       }`}
+      onClick={() => {
+        if (onClick) {
+          onClick();
+        }
+      }}
     >
       <span>
         <Icon

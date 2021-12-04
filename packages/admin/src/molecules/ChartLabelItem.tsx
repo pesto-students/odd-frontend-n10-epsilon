@@ -17,8 +17,16 @@ const ChartLabelItem: React.FC<IProps> = (props: IProps & any) => {
         className="rounded w-3 h-3 flex mx-3"
         style={{ backgroundColor: color }}
       />
-      <Label className="text-3xl w-16" secondary title={`${value}%`} />
-      <Label className="ml-2 text-3xl" title={label} style={{ color: color }} />
+      <Label
+        className="text-base lg:text-2xl xl:text-3xl w-16"
+        secondary
+        title={`${value}%`}
+      />
+      <Label
+        className="ml-2 text-base lg:text-2xl xl:text-3xl"
+        title={label}
+        style={{ color: color }}
+      />
     </div>
   );
 };

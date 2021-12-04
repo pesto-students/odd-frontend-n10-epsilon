@@ -1,109 +1,144 @@
-import { Label } from "@odd/components";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FullScreenLoader, Label } from "@odd/components";
 import {
   BarChart,
   ChartLabelItem,
-  DateRangeSelectionItems,
   DoughnutChart,
   EarningItem,
   TotalItem,
 } from "../../molecules";
+import * as apiService from "../../api-call";
+import { API } from "../../constant/Endpoints";
 
-function Dashboard() {
+const Dashboard: React.FC<any> = () => {
+  const [loading, setLoading] = useState(true);
+  const [statistics, setStatistics] = useState<any>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      const api = API.ADMIN_ENDPOINTS.STATISTICS;
+      try {
+        const result = await apiService.getApi(api);
+        const data = result.data;
+        console.log(data);
+        setStatistics(data.data);
+      } catch (error) {
+        setStatistics(null);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <FullScreenLoader />;
+  }
+
   return (
     <div>
       <div className="flex justify-between px-6 h-16 bg-white items-center">
-        <div className=" text-2xl font-bold">Hello Michael</div>
-        <div className=" bg-primary rounded py-1 bg-opacity-20 px-6">
+        <div className="text-2xl font-bold">Hello</div>
+        {/* <div className="bg-primary rounded py-1 bg-opacity-20 px-6">
           <Label title="All Time" secondary />
-        </div>
+        </div> */}
       </div>
-      <div className="flex justify-between mx-6 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-3 xl:gap-0 justify-between items-center mx-3 xl:mx-6 mt-4 xl:mt-8">
         <TotalItem
           icon="icn-total-users"
           label={"Total Users"}
-          count={96}
-          sinceValue={1.88}
+          count={statistics?.user ?? 0}
+          sinceValue={0}
         />
         <TotalItem
           icon="icn-total-drivers"
           label={"Total Drivers"}
-          count={21}
-          sinceValue={2.01}
+          count={statistics?.driver ?? 0}
+          sinceValue={0}
         />
         <TotalItem
           icon="icn-total-orders"
           label={"Total Orders"}
-          count={176}
-          sinceValue={8.65}
+          count={statistics?.order ?? 0}
+          sinceValue={0}
         />
-        <DateRangeSelectionItems />
+        {/* <DateRangeSelectionItems /> */}
       </div>
-      <div className=" grid grid-flow-col grid-cols-10 justify-center mx-6 mt-8 h-96 bg-white shadow-lg  rounded">
-        <div className="col-span-3 p-7">
+      <div className="grid grid-flow-row lg:grid-flow-col grid-cols-1 lg:grid-cols-6 xl:grid-cols-10 justify-center mx-3 xl:mx-6 mt-4 xl:mt-8 h-auto xl:h-96 bg-white shadow-lg rounded">
+        <div className="flex col-span-1 flex-col xl:flex-row lg:col-span-3 xl:col-span-3 p-7">
           <Label
             title="Earnings"
-            style={{ fontSize: 16 }}
+            // style={{ fontSize: 16 }}
             medium
-            className="uppercase"
+            className="uppercase text-xs lg:text-base"
           />
-          <div className="flex-auto mt-20 px-4">
+          <div className="lg:flex-auto mt-4 xl:mt-20 px-4">
             <div className="flex">
-              <EarningItem count={68631} sinceValue={25.64} />
+              <EarningItem
+                count={statistics?.earning?.value ?? 0}
+                sinceValue={statistics?.earning?.change ?? 0}
+              />
             </div>
             <div className="flex items-center mt-9">
               <Link
                 to="/dashboard/order"
-                className="flex mx-auto items-center justify-center w-full h-12 ring-gray ring-2 rounded "
+                className="flex mx-auto items-center justify-center w-full h-9 xl:h-12 ring-gray ring-2 rounded "
               >
                 <Label title="Open Orders" className="text-gray" />
               </Link>
             </div>
           </div>
         </div>
-        <div className="flex col-span-7 justify-end my-auto">
-          <BarChart className="mr-12 h-4/5" />
+        <div className="flex col-span-1 lg:col-span-3 xl:col-span-7 justify-end my-auto">
+          <BarChart className="w-full xl:w-3/4 lg:mr-12 h-1/4 lg:h-4/5" />
         </div>
       </div>
-      <div className=" grid grid-flow-col grid-cols-10 justify-center mx-6 mt-8 h-96 bg-white shadow-lg rounded">
-        <div className="col-span-3 p-7">
+      <div className="grid grid-flow-row lg:grid-flow-col grid-cols-1 lg:grid-cols-6 xl:grid-cols-10 justify-center mx-3 xl:mx-6 mt-4 xl:mt-8 h-auto lg:h-96 bg-white shadow-lg rounded">
+        <div className="col-span-1 lg:col-span-3 xl:col-span-3 p-7">
           <Label
             title="Deliveries"
-            style={{ fontSize: 16 }}
+            // style={{ fontSize: 16 }}
             medium
-            className="uppercase"
+            className="uppercase text-xs lg:text-base"
           />
-          <div className="flex flex-col mt-8 justify-between gap-8">
+          <div className="flex flex-col mt-4 lg:mt-8 justify-between gap-2 lg:gap-4 xl:gap-8">
             <ChartLabelItem
               label="In progress"
-              value={35}
+              value={statistics?.inProgress?.value ?? 0}
               color="rgba(54, 162, 235, 1)"
             />
             <ChartLabelItem
               label="On Time"
-              value={16}
+              value={statistics?.onTime?.value ?? 0}
               color="rgba(75, 192, 192, 1)"
             />
 
             <ChartLabelItem
               label="Delayed"
-              value={45}
+              value={statistics?.delayed?.value ?? 0}
               color="rgba(255, 205, 86, 1)"
             />
 
             <ChartLabelItem
               label="Failed"
-              value={4}
+              value={statistics?.failed?.value ?? 0}
               color="rgba(255, 99, 132, 1)"
             />
           </div>
         </div>
-        <div className="flex col-span-7 justify-end my-auto">
-          <DoughnutChart className="mr-12 w-80" />
+        <div className="flex col-span-1 lg:col-span-3 xl:col-span-7 justify-center xl:justify-end my-auto">
+          <DoughnutChart
+            className="w-10/12 xl:w-80 lg:mr-12 h-1/4 lg:h-4/5 p-4"
+            inProgress={statistics?.inProgress?.value ?? 1}
+            onTime={statistics?.onTime?.value ?? 1}
+            delayed={statistics?.delayed?.value ?? 1}
+            failed={statistics?.failed?.value ?? 1}
+          />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;

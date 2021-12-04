@@ -16,12 +16,20 @@ const EarningItem: React.FC<IProps> = (props: IProps & any) => {
   return (
     <div className="flex-auto items-center">
       <div className="flex gap-2">
-        <Label className="text-4xl" primary title="INR" />
-        <Label className="text-4xl" secondary title={numberWithCommas(count)} />
+        <Label
+          className="text-lg lg:text-3xl xl:text-4xl"
+          primary
+          title="INR"
+        />
+        <Label
+          className="text-lg lg:text-3xl xl:text-4xl"
+          secondary
+          title={numberWithCommas(count)}
+        />
       </div>
       <div>
         <Label
-          title={`${sinceValue > 0 ? "+" : "-"}${sinceValue}`}
+          title={`${sinceValue >= 0 ? "+" : "-"}${sinceValue}`}
           className="ml-2 text-base text-green"
         />
         <Label

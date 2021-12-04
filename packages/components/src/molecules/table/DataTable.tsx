@@ -13,6 +13,11 @@ import { Input, Label } from "../..";
 import { SortIcon, SortUpIcon, SortDownIcon } from "./Icons";
 import Pagination from "./Pagination";
 
+import { Formik } from "formik";
+interface MyFormValues {
+  value: string;
+}
+
 // Define a default UI for filtering
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -20,23 +25,47 @@ function GlobalFilter({
   setGlobalFilter,
 }: any) {
   const count = preGlobalFilteredRows.length;
-  const [value, setValue] = React.useState(globalFilter);
   const onChange = useAsyncDebounce((value: any) => {
     setGlobalFilter(value || undefined);
   }, 200);
+  const initialValues: MyFormValues = { value: globalFilter };
+
+  //Hide Search View
+  if (true && 1) {
+    return null;
+  }
 
   return (
-    <label className="flex gap-x-2 items-baseline">
-      <Input
-        placeholder="Search.."
-        className="bg-white text-base text-gray rounded"
-        defaultValue={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-          onChange(newValue);
+    <div className="flex gap-x-2 items-baseline">
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values) => {
+          onChange(values.value);
         }}
-      />
-    </label>
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+        }: any) => {
+          return (
+            <Input
+              name="value"
+              placeholder="Search.."
+              className="bg-white text-base text-gray rounded"
+              defaultValue={values.value}
+              onChange={(newValue) => {
+                onChange(newValue);
+                handleChange(newValue);
+              }}
+            />
+          );
+        }}
+      </Formik>
+    </div>
   );
 }
 
@@ -131,7 +160,7 @@ const DataTable: React.FC<IProps> = (props: IProps & any) => {
                           // we can add them into the header props
                           <th
                             scope="col"
-                            className="group px-6 py-3 text-center text-base font-medium uppercase tracking-wider"
+                            className="group px-6 py-3 text-center text-base xs:text-xs sm:text-sm font-medium uppercase tracking-wider"
                             {...column.getHeaderProps(
                               column.getSortByToggleProps()
                             )}

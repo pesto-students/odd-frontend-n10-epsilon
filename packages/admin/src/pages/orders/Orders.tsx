@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AvatarItem,
   DataTable,
+  FullScreenLoader,
+  NoDataFoundView,
   StatusItem,
   TextItem,
   ViewItem,
 } from "@odd/components";
+import { API } from "../../constant/Endpoints";
+import * as apiService from "../../api-call";
 
 function Orders() {
   const columns = React.useMemo(
@@ -61,53 +65,66 @@ function Orders() {
     []
   );
 
-  const getData = () => {
-    const data = [
-      {
-        orderId: "#453-765-665",
-        image:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        userName: "Dharmendra",
-        driverName: "Akash",
-        charges: "₹ 350",
-        date: "21 - Jun - 2021",
-        status: "active",
-      },
-      {
-        orderId: "#202-765-222",
-        image:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        userName: "Dharmik",
-        driverName: "Akash",
-        charges: "₹ 100",
-        date: "22 - Jun - 2021",
-        status: "inactive",
-      },
-      {
-        orderId: "#151-222-665",
-        image:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        userName: "Dharmendra",
-        driverName: "Akash",
-        charges: "₹ 164",
-        date: "21 - Jun - 2021",
-        status: "yellow",
-      },
-      {
-        orderId: "#120-765-665",
-        image:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        userName: "Dharmendra",
-        driverName: "Akash",
-        charges: "₹ 350",
-        date: "21 - Jun - 2021",
-        status: "blue",
-      },
-    ];
-    return [...data];
-  };
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Array<any>>([]);
 
-  const data = React.useMemo(() => getData(), []);
+  function mapData(inputData: Array<any>): Array<any> {
+    let result: Array<any> = [];
+    for (let index = 0; index < inputData.length; index++) {
+      const element = inputData[index];
+      result.push({
+        orderId: element?.order_id ?? "NULL",
+        image:
+          element?.order_id ??
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+        userName: element?.user ?? "NULL",
+        driverName: element?.driver ?? "NULL",
+        charges: element?.rate ?? "₹ 0",
+        date: element?.date ?? "",
+        status: element?.status ?? "",
+      });
+    }
+
+    // console.log(inputData);
+    // console.log(result);
+
+    // {
+    //   orderId: "#120-765-665",
+    //   image:
+    //     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    //   userName: "Dharmendra",
+    //   driverName: "Akash",
+    //   charges: "₹ 350",
+    //   date: "21 - Jun - 2021",
+    //   status: "blue",
+    // }
+    return result;
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      const api = API.ADMIN_ENDPOINTS.ORDERS_LIST;
+      try {
+        const result = await apiService.getApi(api);
+        const resultData = result.data;
+        console.log(resultData);
+        setData(mapData(resultData.data));
+      } catch (error) {
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <FullScreenLoader />;
+  }
+
+  if (data.length === 0) {
+    return <NoDataFoundView />;
+  }
 
   return (
     <>
