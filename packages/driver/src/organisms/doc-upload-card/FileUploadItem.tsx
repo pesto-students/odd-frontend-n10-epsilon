@@ -1,6 +1,5 @@
 import { Button } from "@odd/components";
-import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+
 interface IProps {
   onSubmit(): void;
   getInputProps: any;

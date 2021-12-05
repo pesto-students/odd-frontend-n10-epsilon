@@ -12,7 +12,6 @@ const ChooseVehicle: React.FC<IProps> = () => {
       <SelectVehicleCard onSubmit={() => {}} />
     </CardLayout>
   );
-  // return <NoRequestScreen />;
 };
 
 export default ChooseVehicle;

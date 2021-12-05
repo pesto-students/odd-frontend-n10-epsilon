@@ -1,6 +1,11 @@
 import { CookieHelper } from "@odd/base";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getApi } from "../../api-call";
+import { API } from "../../constant/Endpoints";
+import { addInfo } from "../../redux/slices/driver";
 
 interface AuthContextType {
   user: any;
@@ -12,22 +17,39 @@ let AuthContext = React.createContext<AuthContextType>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   let [user, setUser] = React.useState<any>(CookieHelper.GetCookie("user"));
+  const dispatch = useDispatch();
+  const getMyDetails = useCallback(async () => {
+    const api = API.DRIVER_ENDPOINTS.MY_DETAILS;
+    const id = toast.loading("Please wait...");
+    try {
+      const result = await getApi(api);
+      toast.dismiss(id);
+
+      dispatch(addInfo(result.data.data));
+    } catch (error) {
+      toast.dismiss(id);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     const data = CookieHelper.GetCookie("user");
     console.log(data);
     if (!data) return;
     setUser(data);
-  }, []);
+    getMyDetails();
+  }, [getMyDetails]);
 
   let signin = (newUser: string, callback: VoidFunction) => {
     setUser(newUser);
+
     CookieHelper.SetCookie("user", newUser);
     callback();
   };
 
   let signout = (callback: VoidFunction) => {
     setUser(null);
+    const api = API.DRIVER_ENDPOINTS.LOGOUT;
+    getApi(api);
     CookieHelper.DeleteCookie("user");
     CookieHelper.DeleteCookie("token");
     callback();
@@ -55,9 +77,15 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 export function OnAuth({ children }: { children: JSX.Element }) {
   let auth = useAuth();
   let location = useLocation();
-
+  console.log(location.state?.from?.pathname);
+  
   if (auth.user) {
-    return <Navigate to="/dashboard" state={{ from: location }} />;
+    return (
+      <Navigate
+        to={location.state?.from?.pathname??'/dashboard'}
+        state={{ from: location.state?.from?.pathname }}
+      />
+    );
   }
 
   return children;

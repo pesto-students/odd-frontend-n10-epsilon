@@ -13,10 +13,12 @@ interface IProps {
 
 const DocumentListCard: React.FC<IProps> = ( ) => {
   const state = useSelector((state: any) => state.driver.doc);
+  const isFetch = useSelector((state: any) => state.driver.docFetch);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const getMyDetails = useCallback(async () => {
+    if (isFetch) return;
     const api = API.DRIVER_ENDPOINTS.MY_DETAILS;
     const id = toast.loading("Please wait...");
     try {
@@ -24,11 +26,10 @@ const DocumentListCard: React.FC<IProps> = ( ) => {
       toast.dismiss(id);
       dispatch(setValue(result.data.data));
       console.log(state);
-      
     } catch (error) {
       toast.dismiss(id);
     }
-  }, [dispatch]);
+  }, [dispatch, state, isFetch]);
 
   const handleSubmit = async () => {
     const api = API.DRIVER_ENDPOINTS.UPDATE_PROFILE;

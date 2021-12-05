@@ -1,7 +1,7 @@
 import { Button, Input, Label, Select } from "@odd/components";
 import { Formik, Form, FormikProps } from "formik";
-import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -20,16 +20,30 @@ interface Values {
   state: string;
 }
 const ProfileCard: React.FC<IProps> = ({ next }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const state = useSelector((state: any) => state.driver.state);
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  useEffect(() => {
+    formRef.current.setValues({
+      first_name: state?.first_name ?? "",
+      last_name: state?.last_name ?? "",
+      languages: state?.languages ?? "English",
+      city_postal_code: state.city_postal_code ?? "",
+      email: state.email ?? "",
+      state: state.state ?? "Madhya pradesh",
+    });
+  }, [state]);
+  console.log(state);
 
   const formRef: React.MutableRefObject<FormikProps<Values>> = useRef<any>();
   const validate = Yup.object({
     first_name: Yup.string().required("This is required"),
     last_name: Yup.string().required("This is required"),
     languages: Yup.string(),
-    city_postal_code: Yup.string().length(6,"Postal code should be of 6 number").required("This is required"),
+    city_postal_code: Yup.string()
+      .length(6, "Postal code should be of 6 number")
+      .required("This is required"),
     email: Yup.string().email("Invalid email address"),
     state: Yup.string(),
   });
@@ -40,30 +54,30 @@ const ProfileCard: React.FC<IProps> = ({ next }) => {
     formRef.current.setFieldValue("city_postal_code", value);
   };
   const handleSubmit = async (value: Values) => {
-     const id = toast.loading("Please wait...");
+    const id = toast.loading("Please wait...");
     try {
       const api = API.DRIVER_ENDPOINTS.UPDATE_PROFILE;
-     if (!value.email) delete value.email;
+      if (!value.email) delete value.email;
       await postApi(api, value);
       dispatch(addInfo(value));
       toast.dismiss(id);
-       navigate("doc", { replace: true });
+      navigate("doc", { replace: true });
       toast.success("Profile updated successfully");
-    } catch (error:any) {
-       toast.dismiss(id)
-       toast.error(error.data.error);
+    } catch (error: any) {
+      toast.dismiss(id);
+      toast.error(error.data.error);
     }
   };
 
   return (
     <Formik
       initialValues={{
-        first_name: "",
-        last_name: "",
-        languages: "English",
-        city_postal_code: "",
-        email: "",
-        state: "Madhya pradesh",
+        first_name: state?.first_name ?? "",
+        last_name: state?.last_name ?? "",
+        languages: state?.languages ?? "English",
+        city_postal_code: state.city_postal_code ?? "",
+        email: state.email ?? "",
+        state: state.state ?? "Madhya pradesh",
       }}
       onSubmit={handleSubmit}
       innerRef={formRef}

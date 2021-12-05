@@ -103,9 +103,12 @@ const Reducer = createSlice({
     state: {} as Driver,
     doc: DOC,
     vehicle: [],
+    docFetch:false
   },
   reducers: {
     addInfo: (state, actions) => {
+      
+      
       state.state = actions.payload;
     },
     updateDoc: (state, actions) => {
@@ -127,7 +130,6 @@ const Reducer = createSlice({
       state.vehicle = actions.payload;
     },
     setValue: (state, action) => {
-      console.log(state, action.payload);
       
       if (action.payload.vehicle_id) {
         state.doc.vehicle_type.completed = true;
@@ -151,9 +153,10 @@ const Reducer = createSlice({
         state.doc[type].completed = true;
         state.doc[type].url = path;
 
-        console.log(type);
+
         
       });
+      state.docFetch = true;
     },
   },
 });

@@ -51,7 +51,7 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
     }
 
     if (otp && otp.length === 4) {
-       const id = toast.loading("Please wait...");
+      const id = toast.loading("Please wait...");
       try {
         const api = API.DRIVER_ENDPOINTS.VERIFY_OTP;
         const data = await apiService.postApi(api, {
@@ -59,16 +59,26 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
           _id: userId,
         });
         CookieHelper.SetCookie("token", data.data.token);
-        auth.signin(number, () => {
-          navigate(from, { replace: true });
-           toast.dismiss(id);
-           toast.success("Logged In")
-        });
+        console.log(data.data.data.profile_completed);
 
-      } catch (error:any) {
+        if (!data.data.data.profile_completed) {
+          from = "/dashboard/completeProfile";
+        }
+        if (
+          data.data.data.profile_completed &&
+          !data.data.data.document_submitted
+        ) {
+          from = "/dashboard/completeProfile/doc";
+        }
+        navigate(from, { replace: true });
+        auth.signin(number, () => {
+          toast.dismiss(id);
+          toast.success("Logged In");
+        });
+      } catch (error: any) {
         console.log(error?.data?.error);
-         toast.dismiss(id);
-         toast.error(error?.data?.error);
+        toast.dismiss(id);
+        toast.error(error?.data?.error);
       }
       console.log("compare OTP with backend");
     }
