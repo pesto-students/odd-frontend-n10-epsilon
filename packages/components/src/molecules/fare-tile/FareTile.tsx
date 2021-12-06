@@ -2,7 +2,7 @@ import { Icon } from "../..";
 interface IProps {
   name?: string;
   fare?: number| string;
-  image?: string;
+  image?: string | undefined;
 }
 const FareTile: React.FC<IProps> = ({ name, fare, image }) => {
   return (

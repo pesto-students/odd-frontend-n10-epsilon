@@ -2,11 +2,18 @@ import { Button } from "@odd/components";
 
 interface IProps {
   onSubmit(): void;
+  getInputProps: any;
+  getRootProps: any;
 }
 
-const FileUploadItem: React.FC<IProps> = ({ onSubmit }) => {
+const FileUploadItem: React.FC<IProps> = ({
+  onSubmit,
+  getInputProps,
+  getRootProps,
+}) => {
   return (
     <div
+      {...getRootProps()}
       className="flex flex-col max-w-xs items-center rounded-xl pt-7 px-6 pb-6"
       style={{
         color: "#E1FFFF",
@@ -47,6 +54,7 @@ const FileUploadItem: React.FC<IProps> = ({ onSubmit }) => {
           primary
           shadow
         />
+        <input {...getInputProps()} />
       </div>
     </div>
   );
