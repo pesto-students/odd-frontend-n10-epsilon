@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Values } from "../../organisms/address-info-form-card/AddressInfoFormCard";
 
+
 export interface OrderAttributes {
   pickup_info: Values;
   drop_off_info: Values;
