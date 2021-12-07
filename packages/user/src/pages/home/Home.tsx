@@ -30,13 +30,12 @@ const Home = () => {
     setStep([...update]);
   };
 
-  const back =(on:number)=>{
-    let index = step.findIndex(x=>x.active)
-    if (index < on )return;
+  const back = (on: number) => {
+    let index = step.findIndex((x) => x.active);
+    if (index < on) return;
     next(on);
-  }
-  const reset = () =>
-    step.map((data) => ({ ...data, active: false }));
+  };
+  const reset = () => step.map((data) => ({ ...data, active: false }));
   return (
     <CardLayout
       icon={

@@ -4,8 +4,8 @@ import { useAuth } from "../login/AuthProvide";
 
 const onActive: React.CSSProperties = {
   color: "#00DEDE",
-  borderBottomColor: "#00DEDE",
-  borderBottomWidth: 4,
+  //borderBottomColor: "#00DEDE",
+  //borderBottomWidth: 4,
 };
 
 const onInActive: React.CSSProperties = {
@@ -30,6 +30,9 @@ function Dashboard() {
     >
       {"Order History"}
     </NavLink>,
+  ];
+
+  const profile = (
     <LogoutMenu
       onSignOut={() => {
         console.log("onSignOut Clicked");
@@ -38,10 +41,10 @@ function Dashboard() {
         });
       }}
       label="Profile"
-    />,
-  ];
+    />
+  );
 
-  return <DashboardTemplate action={action} />;
+  return <DashboardTemplate action={action} profile={profile} />;
 }
 
 export default Dashboard;

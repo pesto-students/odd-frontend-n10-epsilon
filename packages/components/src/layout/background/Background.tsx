@@ -6,7 +6,7 @@ const BackgroundLayout = (props: any) => {
         alt="background"
         className="fixed bottom-0 right-0 left-0 object-contain bg-no-repeat items-center justify-center content-center mx-auto z-0"
       />
-      <div className="flex my-auto h-full">{props.children}</div>
+      <div className="flex my-auto h-full pt-16">{props.children}</div>
     </div>
   );
 };

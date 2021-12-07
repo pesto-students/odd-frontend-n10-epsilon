@@ -5,6 +5,7 @@
   "main": "./src/index.ts",
   "dependencies": {
     "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
     "@odd/eslint-config-javascript": "1.0.0",
     "@odd/eslint-config-typescript": "1.0.0",
     "@odd/prettier-config": "1.0.0",

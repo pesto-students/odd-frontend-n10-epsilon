@@ -3,30 +3,54 @@ import { useParams } from "react-router-dom";
 
 import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
 import {
-  Button,
+  // Button,
   CardLayout,
   DriverTile,
+  FullScreenLoader,
   OTPItem,
   SteppedAddresses,
 } from "@odd/components";
 import { Skeleton } from ".";
+import { API } from "../../constant/Endpoints";
+import * as apiService from "../../api-call";
 
 const OrderScreen: React.FC<any> = () => {
   let params = useParams();
   const orderId = params.id;
   const [loading, setLoading] = useState(true);
   const [orderData, setOrderData] = useState<any>({});
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    setLoading(true);
-    setOrderData({});
-  }, [orderId]);
+    async function loadData() {
+      setLoading(true);
+      try {
+        const api = API.ORDER_ENDPOINTS.ORDERS_INFO(String(orderId));
+        const result = await apiService.getApi(api);
+        const data = result.data;
+        if (data && data.success) {
+          console.log(data);
+          setError("");
+          setOrderData(data.data);
+        } else {
+          console.log(data.error);
+          setError(data.error);
+        }
+      } catch (error) {
+        console.log(error);
+        setError("Error while fetching order data.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [orderId, error]);
 
   const getStatusString = () => {
     const status = orderData?.status;
 
     switch (status) {
-      case "opened":
+      case "open":
         return "Finding Driver near you.....";
 
       case "accepted":
@@ -35,8 +59,11 @@ const OrderScreen: React.FC<any> = () => {
       case "inprogress":
         return "Package Is Picked-Up Driver is On The Way Of Drop-Off";
 
-      case "completed":
+      case "delivered":
         return "Order Completed";
+
+      case "cancel":
+        return "Order Canceled";
 
       default:
         return "Error";
@@ -48,10 +75,10 @@ const OrderScreen: React.FC<any> = () => {
 
     switch (status) {
       case "accepted":
-        return orderData.pick_otp;
+        return orderData.pickup_otp;
 
       case "inprogress":
-        return orderData.drop_otp;
+        return orderData.drop_off_otp;
 
       default:
         return undefined;
@@ -65,7 +92,7 @@ const OrderScreen: React.FC<any> = () => {
       case "inprogress":
         return IDeliveryStatus.PickedUp;
 
-      case "completed":
+      case "delivered":
         return IDeliveryStatus.DroppedOff;
 
       default:
@@ -77,19 +104,19 @@ const OrderScreen: React.FC<any> = () => {
     const status = orderData.status;
 
     switch (status) {
-      case "opened":
+      case "open":
         return <Skeleton />;
 
       case "accepted":
       case "inprogress":
-      case "completed":
+      case "delivered":
         return (
           <DriverTile
-            image={require("../../assets/driver.svg").default}
-            name={"Pushpendra Rajput"}
-            vehicleName={"Tata PickUp"}
-            vehicleNumber={"(MP 05 MG 2786)"}
-            completed={status === "completed"}
+            image={orderData.driver_id?.image}
+            name={`${orderData.driver_id?.first_name} ${orderData.driver_id?.last_name}`}
+            vehicleNumber={orderData.driver_id?.vehicle_number ?? "-"}
+            vehicleName={orderData.vehicle_id?.name ?? "-"}
+            completed={status === "delivered"}
           />
         );
 
@@ -99,37 +126,56 @@ const OrderScreen: React.FC<any> = () => {
   };
 
   const title = getStatusString();
-  const otp = getOtpString();
-  const deliveryStatus = getDeliveryStatus();
   const titleView = getTitleView();
+  const deliveryStatus = getDeliveryStatus();
+  const otp = getOtpString();
 
   if (loading) {
-    return null;
+    return <FullScreenLoader />;
+  }
+
+  if (error) {
+    return (
+      <div
+        className="flex w-full justify-center items-center text-center py-2 text-md"
+        style={{ color: "#FF0000" }}
+      >
+        {error}
+      </div>
+    );
   }
 
   return (
     <CardLayout title={title}>
-      <div className="grid grid-flow-col grid-cols-5 justify-between h-full max-h-96">
-        <div className="col-span-4 gap-4 flex flex-col pt-10">
+      <div className="grid grid-flow-row md:grid-flow-col grid-cols-1 lg:grid-cols-5 justify-between h-full lg:max-h-96">
+        <div className="col-span-1 lg:col-span-3 gap-4 flex flex-col pt-2 lg:pt-10">
           <div className="flex">{titleView}</div>
-          <div className="flex flex-col my-8 h-48">
+          <div className="flex flex-col my-3 lg:my-8 h-48">
             <SteppedAddresses
               deliveryStatus={deliveryStatus}
-              pickAddressTitle={orderData?.pick_info?.add_1 ?? "NULL"}
-              pickAddressFull={orderData?.pick_info?.add_2 ?? "NULL"}
-              dropAddressTitle={orderData?.drop_info?.add_1 ?? "NULL"}
-              dropAddressFull={orderData?.drop_info?.add_2 ?? "NULL"}
+              pickAddressTitle={
+                `${orderData?.pickup_info?.add_1} ${orderData?.pickup_info?.add_2}` ??
+                "-"
+              }
+              pickAddressFull={orderData?.pickup_info?.complete_address ?? "-"}
+              dropAddressTitle={
+                `${orderData?.drop_off_info?.add_1} ${orderData?.pickup_info?.add_2}` ??
+                "-"
+              }
+              dropAddressFull={
+                orderData?.drop_off_info?.complete_address ?? "-"
+              }
             />
           </div>
         </div>
-        <div className="col-span-2 gap-4 items-end flex flex-col pt-3">
-          <div className="h-10">
+        <div className="col-span-1 lg:col-span-2 gap-2 items-end justify-center flex flex-col pt-2 lg:pt-3">
+          <div className="h-auto">
             {otp && (
               <OTPItem otp={otp} info="Provide OTP when driver arrives" />
             )}
           </div>
-          <div className="bg-white">
-            <div className="w-80 rounded-xl overflow-hidden border-primary border-2 h-64">
+          <div className="flex w-full bg-white">
+            <div className="flex w-full rounded-xl overflow-hidden border-primary border-2 h-64">
               <iframe
                 id="Map"
                 title="order-map"
@@ -143,7 +189,7 @@ const OrderScreen: React.FC<any> = () => {
               </iframe>
             </div>
           </div>
-          <div className="mt-4">
+          {/* <div className="mt-2 lg:mt-4">
             {deliveryStatus === IDeliveryStatus.Created && (
               <Button
                 onClick={() => {
@@ -155,7 +201,7 @@ const OrderScreen: React.FC<any> = () => {
                 primary
               />
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </CardLayout>

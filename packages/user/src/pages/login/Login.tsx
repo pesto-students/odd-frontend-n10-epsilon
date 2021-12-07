@@ -11,7 +11,7 @@ import { CookieHelper } from "@odd/base";
 interface IProps {}
 
 interface MyFormValues {
-  mobile_number: string;
+  phone_number: string;
 }
 
 enum IStates {
@@ -24,24 +24,32 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
   const [userId, setUserId] = useState(null);
   const [number, setNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const initialValues: MyFormValues = { mobile_number: "" };
+  const [error, setError] = useState("");
+  const initialValues: MyFormValues = { phone_number: "" };
   let navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
 
   let from = location.state?.from?.pathname || "/dashboard";
 
-  async function handleSubmit(value: MyFormValues) {
+  async function handleSubmit(values: MyFormValues) {
     if (currentState === IStates.enter_number) {
       try {
-        console.log(value);
-
+        console.log(values);
         const api = API.USER_ENDPOINTS.LOGIN;
-        const data = await apiService.postApi(api, { mobile_number: number });
-        setUserId(data.data.data._id);
-        setCurrentState(IStates.enter_otp);
+        const result = await apiService.postApi(api, { mobile_number: number });
+        const data = result.data;
+        if (data && data.success) {
+          setError("");
+          setUserId(data.data._id);
+          setCurrentState(IStates.enter_otp);
+        } else {
+          console.log(error);
+          setError(data.error);
+        }
       } catch (error) {
         console.log(error);
+        setError("Entered phone number is not valid.");
       }
       return;
     }
@@ -49,21 +57,28 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
     if (otp && otp.length === 4) {
       try {
         const api = API.USER_ENDPOINTS.VERIFY_OTP;
-        const data = await apiService.postApi(api, {
+        const result = await apiService.postApi(api, {
           otpVerify: otp,
           _id: userId,
         });
+        const data = result.data;
         console.log(data);
-        CookieHelper.SetCookie("token", data.data.token);
-        auth.signin(number, () => {
-          navigate(from, { replace: true });
-        });
+        if (data && data.success) {
+          CookieHelper.SetCookie("token", data.token);
+          auth.signin(number, () => {
+            navigate(from, { replace: true });
+          });
+        } else {
+          console.log(error);
+          setError(data.error);
+        }
       } catch (error) {
         console.log(error);
+        setError("Entered OTP is not valid.");
       }
-      console.log("compare OTP with backend");
     }
   }
+
   const handleNumberChange = (value: string) => {
     if (value.match(/[^0-9]/g)) return;
     // if value contains . / * - any other character it will return true
@@ -73,7 +88,7 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
   return (
     <div className="flex h-screen items-center justify-center">
       <div
-        className="w-1/2 h-auto mx-auto rounded-xl shadow-2xl"
+        className="mx-4 w-full md:mx-auto md:w-1/2 h-auto rounded-xl shadow-2xl"
         style={{ maxWidth: 388, maxHeight: 335 }}
       >
         <Button
@@ -87,8 +102,13 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
             className="absolute top-2 right-2"
           />
         </Button>
-        <div className="px-6">
+        <div className="px-4 md:px-6">
           <h2 className="text-center text-xl p-3">Login / Signup</h2>
+          {error && (
+            <div className="py-2 text-xs" style={{ color: "#FF0000" }}>
+              {error}
+            </div>
+          )}
           <Formik
             initialValues={initialValues}
             onSubmit={(values) => {
@@ -100,22 +120,22 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
                 labelClassName="mb-2 text-gray text-xs font-medium"
                 label="Enter your phone number"
                 className="mt-3 text-xs font-medium"
-                name="mobile_number"
+                name="phone_number"
                 maxLength={10}
                 minLength={10}
                 value={number}
                 onChange={(e) => handleNumberChange(e.target.value)}
-                placeholder="Enter your mobile number"
+                placeholder="Enter your phone number"
                 leading={<label className="whitespace-nowrap"> +91 |</label>}
+                disabled={currentState !== IStates.enter_number}
               />
               {currentState === IStates.enter_otp && (
                 <div>
-                  <p className="mt-6 mb-3 text-gray font-medium text-xs">
+                  <p className="mt-6 text-gray font-medium text-xs">
                     Enter the OTP sent to your Number
                   </p>
                   <OtpInput
                     onChange={(value) => {
-                      console.log(`OTP Change to ${value}`);
                       setOtp(value);
                     }}
                   />
@@ -126,7 +146,7 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
               )}
               {currentState === IStates.enter_number && (
                 <div>
-                  <p className="my-8" style={{ fontSize: 8 }}>
+                  <p className="mt-8 text-xs">
                     By signing up, you accept our
                     <a href="#policy" className="text-primary">
                       {" "}
@@ -143,8 +163,10 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
 
               <Button
                 primary
-                className="block w-full py-2 mb-8 text-base font-semibold mx-auto rounded-lg"
-                onClick={() => {}}
+                className="block w-full py-2 my-8 text-base font-semibold mx-auto rounded-lg"
+                onClick={() => {
+                  setError("");
+                }}
                 disabled={
                   (currentState === IStates.enter_number &&
                     number.length !== 10) ||

@@ -7,8 +7,8 @@ import { useAuth } from "../login/AuthProvide";
 
 const onActive: React.CSSProperties = {
   color: "#00DEDE",
-  borderBottomColor: "#00DEDE",
-  borderBottomWidth: 4,
+  //borderBottomColor: "#00DEDE",
+  //borderBottomWidth: 4,
 };
 
 const onInActive: React.CSSProperties = {
@@ -36,6 +36,9 @@ function Dashboard() {
     >
       {"Trips & Payment"}
     </NavLink>,
+  ];
+
+  const profile = (
     <LogoutMenu
       key={"3"}
       onSignOut={() => {
@@ -45,8 +48,8 @@ function Dashboard() {
         });
       }}
       label="Profile"
-    />,
-  ];
+    />
+  );
 
   const driver = useSelector((state: any) => state.driver.isOnline);
   const dispatch = useDispatch();
@@ -62,7 +65,13 @@ function Dashboard() {
     </div>,
   ];
 
-  return <DashboardTemplate action={action} actionLeft={actionsLeft} />;
+  return (
+    <DashboardTemplate
+      action={action}
+      actionLeft={actionsLeft}
+      profile={profile}
+    />
+  );
 }
 
 export default Dashboard;

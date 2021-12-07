@@ -7,7 +7,7 @@ function FullScreenLoader() {
         <Label
           title="Loading..."
           secondary
-          className="text-4xl font-semibold"
+          className="text-base md:text-3xl font-semibold"
         />
       </div>
     </div>

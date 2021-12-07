@@ -12,11 +12,10 @@ class Endpoints {
   };
   ORDER_ENDPOINTS = {
     GET_FARE: this.joinPaths(this.ORDER_BASE, "calculate_fare"),
-
     CREATE_ORDER: this.joinPaths(this.ORDER_BASE, "create"),
-
-    LOGOUT: this.joinPaths(this.USER_BASE, "logout"),
-
+    ORDER_HISTORY: (type: string) => {
+      return this.joinPaths(this.ORDER_BASE, `order_list?status=${type}`)
+    },
     ORDERS_INFO: (orderId: string) => {
       return this.joinPaths(this.ORDER_BASE, "getOrder", orderId)
     },
