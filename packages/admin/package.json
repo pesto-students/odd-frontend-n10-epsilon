@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@heroicons/react": "^1.0.5",
     "@odd/base": "0.1.0",
     "@odd/components": "0.1.0",
     "@odd/eslint-config-javascript": "1.0.0",

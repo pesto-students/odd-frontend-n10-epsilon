@@ -9,7 +9,7 @@ interface IProps {
   title: string;
   desc: string;
   icon: any;
-  defaultState?: null|string;
+  defaultState?: null | string;
   onSelect(_id: string): void;
   showRates?: boolean;
   price?: number | string;
@@ -24,25 +24,23 @@ const ChooseVehicle: React.FC<IProps> = (props: IProps & any) => {
     desc,
     icon,
     onSelect,
-    defaultState ,
+    defaultState,
     showRates = true,
     price = 0,
     baseRate = 0,
     extraRate = 0,
   } = props;
-  
-
 
   return (
     <div
       key={_id}
-      className={`group h-auto rounded-3xl shadow-lg p-3 items-center ${
+      className={`group h-auto rounded md:rounded-3xl shadow md:shadow-lg p-2 md:p-3 items-center ${
         defaultState === _id && "ring-2 ring-primary"
       }`}
       onClick={onSelect}
     >
       <div
-        className={`px-4 py-2 grid-flow-row grid grid-cols-5 justify-center items-center place-items-center ${
+        className={`px-4 py-2 grid-flow-row grid grid-cols-5 justify-center ${
           !showRates && "h-28"
         }`}
       >
@@ -86,7 +84,7 @@ const ChooseVehicle: React.FC<IProps> = (props: IProps & any) => {
             </div>
           </div>
         </div>
-        <div className="col-span-1  h-20 w-20">
+        <div className="col-span-1 h-20 w-20 items-center justify-center content-center mx-auto my-auto">
           <img src={icon} alt="img" className="m-3" />
         </div>
       </div>

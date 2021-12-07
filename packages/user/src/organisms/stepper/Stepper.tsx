@@ -3,12 +3,12 @@ import React from "react";
 
 interface IProps {
   stepper: { title: string; active: Boolean; completed: Boolean }[];
-  setOn(step:number): void
+  setOn(step: number): void;
 }
 
 const Stepper: React.FC<IProps> = ({ stepper, setOn }) => {
   return (
-    <div className="flex xs:text-sm sm:text-base  items-center text-gray">
+    <div className="flex text-xs md:text-base items-center text-gray">
       {stepper.map((x, i) => (
         <React.Fragment key={i}>
           <button
@@ -20,7 +20,6 @@ const Stepper: React.FC<IProps> = ({ stepper, setOn }) => {
             } `}
           >
             {x.title}
-            
           </button>
           {stepper.length - 1 !== i && (
             <Icon

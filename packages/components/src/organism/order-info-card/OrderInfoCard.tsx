@@ -25,7 +25,7 @@ interface IProps {
   };
   info?: {
     name: string;
-    fare: number|string;
+    fare: number | string;
     image: any;
   };
 }
@@ -43,16 +43,16 @@ const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
     next,
   } = props;
   return (
-    <div className="grid grid-flow-col grid-cols-3 pt-4 justify-between">
-      <div className="col-span-2 gap-4 flex flex-col mt-8">
-        <div className="flex">
+    <div className="grid grid-flow-row md:grid-flow-col grid-cols-1 md:grid-cols-5 pt-4 justify-between">
+      <div className="md:col-span-3 gap-4 flex flex-col mt-4 lg:mt-8">
+        <div className="flex w-full">
           {props.card === CardType.DriverTile ? (
             <DriverTile {...tile} />
           ) : (
             <FareTile {...info} />
           )}
         </div>
-        <div className="flex-1 my-4">
+        <div className="lg:flex-1 my-4 h-52 lg:h-auto">
           <SteppedAddresses
             deliveryStatus={IDeliveryStatus.Created}
             pickAddressTitle={pickAddressTitle}
@@ -62,9 +62,9 @@ const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
           />
         </div>
       </div>
-      <div className="col-span-1 gap-4 justify-center items-end flex flex-col pt-3">
-        <div className="bg-white">
-          <div className="w-80 rounded-xl overflow-hidden border-primary border-2 h-64">
+      <div className="md:col-span-2 gap-4 justify-center items-end flex flex-col pt-3">
+        <div className="flex w-full bg-white">
+          <div className="flex w-full rounded-xl overflow-hidden border-primary border-2 h-64">
             <iframe
               id="Map2"
               title="order-info-map"
@@ -72,7 +72,7 @@ const OrderInfoCard: React.FC<IProps> = (props: IProps) => {
               frameBorder="0"
               scrolling="no"
               className="h-full"
-              src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+              src="https://maps.google.com/maps?width=100%25&amp;hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
             >
               <a href="https://www.gps.ie/">gps vehicle tracker</a>
             </iframe>

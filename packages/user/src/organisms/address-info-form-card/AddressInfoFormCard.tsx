@@ -143,7 +143,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
     >
       {(formik) => (
         <Form className="mt-4">
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="lg:col-span-2">
               <Input
                 name="complete_address"
@@ -172,7 +172,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
                 }
               />
             </div>
-            <div className="">
+            <div>
               <Input
                 label="House / Flat / Floor No."
                 required
@@ -186,7 +186,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
                 }
               />
             </div>
-            <div className="">
+            <div>
               <Input
                 label="Area / Colony / Society Name"
                 required
@@ -196,7 +196,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
                 }
               />
             </div>
-            <div className="">
+            <div>
               <Input
                 name="contact_person_name"
                 label="Contact Name"
@@ -206,7 +206,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
                 required
               />
             </div>
-            <div className="">
+            <div>
               <Input
                 name="contact_person_number"
                 onChange={(e) => handleNumberChange(e.target.value)}

@@ -26,17 +26,29 @@ const ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
   const state = useSelector((state: any) => state.order) as OrderAttributes;
   const [vehicles, setVehicles] = useState(state.fare);
   const [selectedVehicles, setSelectedVehicles] = useState({} as Vehicle);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
 
   const getVehicle = useCallback(async () => {
-    const latLong = {
-      pickup: state.pickup_info.location.coordinates,
-      dropoff: state.drop_off_info.location.coordinates,
-    };
-    const api = API.ORDER_ENDPOINTS.GET_FARE;
-    const result = await postApi(api, { latLong });
-    setVehicles(result.data.data);
-    dispatch(addFare(result.data.data));
+    try {
+      const api = API.ORDER_ENDPOINTS.GET_FARE;
+      const result = await postApi(api, {
+        latLong: {
+          pickup: [...state.pickup_info.location.coordinates],
+          dropoff: [...state.drop_off_info.location.coordinates],
+        },
+      });
+      const data = result.data;
+      if (data && data.success) {
+        setVehicles(result.data.data);
+        dispatch(addFare(result.data.data));
+      } else {
+        setError(data.error);
+      }
+    } catch (error) {
+      console.log(error);
+      setError("No suitable vehicle found for you.");
+    }
   }, [
     state.drop_off_info.location.coordinates,
     state.pickup_info.location.coordinates,
@@ -54,7 +66,8 @@ const ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
     }
   }, [getVehicle, state.vehicle_id, state.vehicle]);
   return (
-    <div className="grid lg:grid-cols-2 grid-cols-1 px-5 mt-5 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 px-0 lg:px-5 mt-5 gap-2 lg:gap-4">
+      {error ?? <div>{error}</div>}
       {vehicles?.map((vehicle: Vehicle) => (
         <div key={vehicle._id}>
           <ChooseVehicle

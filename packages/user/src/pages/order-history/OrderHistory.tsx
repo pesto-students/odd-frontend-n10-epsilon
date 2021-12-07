@@ -1,8 +1,16 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { IconColorType, Label, LabeledIcon } from "@odd/components";
+import * as apiService from "../../api-call";
+import { API } from "../../constant/Endpoints";
 
+import {
+  FullScreenLoader,
+  IconColorType,
+  Label,
+  LabeledIcon,
+} from "@odd/components";
 import { LiveOrderItem, OrderItem } from "../../molecules/order-items";
+import { round } from "lodash";
 
 interface IProps {}
 
@@ -18,639 +26,48 @@ const getStatusType = (status: string) => {
   return ITabType.live;
 };
 
-interface IOrder {
-  orderId: string;
-  pickUpAddress: string;
-  dropOffAddress: string;
-  driverName: string;
-  driverPhone: string;
-  pickDate: string;
-  pickTime: string;
-  amount: string;
-  status: string;
-  vehicleName: string;
-  vehicleImage: string;
-}
-
-const defaultOrders: Array<IOrder> = [
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    vehicleImage: "",
-    vehicleName: "Bike",
-    status: "live",
-  },
-  {
-    orderId: "123-46-456",
-    pickUpAddress: "Mahatma Gandhi Road, New Palasia....",
-    dropOffAddress: "Mahatma Gandhi Road, New Palasia....",
-    driverName: "Nairitya Chourey",
-    driverPhone: "9988776655",
-    pickDate: "10/02/2020",
-    pickTime: "09:30 AM",
-    amount: "140",
-    status: "completed",
-    vehicleImage: "",
-    vehicleName: "Bike",
-  },
-];
-
 const OrderHistory: React.FC<IProps> = () => {
   const [tab, setTab] = useState(ITabType.live);
-  // const [orders, setOrders] = useState([...defaultOrders]);
-  const orders = [...defaultOrders];
+  const [orders, setOrders] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("tab changed");
-  }, [tab]);
+    async function loadData() {
+      setLoading(true);
+      try {
+        const api = API.ORDER_ENDPOINTS.ORDER_HISTORY(
+          tab === ITabType.completed ? "past" : "live"
+        );
+        const result = await apiService.getApi(api);
+        const data = result.data;
+        if (data && data.success) {
+          console.log(data);
+          setError("");
+          setOrders(data.data);
+        } else {
+          console.log(error);
+          setError(data.error);
+        }
+      } catch (error) {
+        console.log(error);
+        setError("Error while fetching orders.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [tab, error]);
 
   return (
     <div className="h-full py-5 items-center justify-center">
-      <div className="flex flex-col mt-16 space-y-4 ml-11">
+      <div className="flex flex-col space-y-4 mx-3 md:ml-11">
         <LabeledIcon
           title="Order History"
           iconName="icn-order-history"
           iconColorType={IconColorType.primary}
         />
-        <div className="flex space-x-3 text-center my-auto h-8 ">
+        <div className="flex space-x-1 md:space-x-3 text-center my-auto h-8">
           <Tab
             isActive={tab === ITabType.live}
             label="Live Orders"
@@ -667,49 +84,74 @@ const OrderHistory: React.FC<IProps> = () => {
           />
         </div>
       </div>
-      <div className="flex flex-wrap items-center py-6 w-full justify-items-stretch gap-2 md:gap-4 content-center pl-11">
-        {orders && orders.length <= 0 ? (
-          <div className="mx-auto w-full flex">
-            <Label title="No order History" />
-          </div>
-        ) : (
-          orders
-            .filter((x: IOrder) => getStatusType(x.status) === tab)
-            .map((order: IOrder) => {
-              return (
-                <Link
-                  to={`/dashboard/order/${order.orderId}`}
-                  className="flex items-center py-4 "
-                >
-                  {tab === ITabType.live ? (
-                    <LiveOrderItem
-                      orderId={order.orderId}
-                      pickUpAddress={order.pickUpAddress}
-                      dropOffAddress={order.dropOffAddress}
-                      pickTime={`${order.pickDate} at ${order.pickTime}`}
-                      driverName={order.driverName}
-                      driverPhone={order.driverPhone}
-                      vehicleImage={""}
-                      vehicleName={order.vehicleName}
-                      amount={order.amount}
-                    />
-                  ) : (
-                    <OrderItem
-                      orderId={order.orderId}
-                      pickUpAddress={order.pickUpAddress}
-                      dropOffAddress={order.dropOffAddress}
-                      pickTime={order.pickTime}
-                      pickDate={order.pickDate}
-                      driverName={order.driverName}
-                      driverPhone={order.driverPhone}
-                      amount={order.amount}
-                    />
-                  )}
-                </Link>
-              );
-            })
-        )}
-      </div>
+      {loading ? (
+        <FullScreenLoader />
+      ) : (
+        <div className="grid grid-cols-1 2xl:flex 2xl:flex-wrap md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-none items-center py-6 w-full justify-items-stretch gap-2 md:gap-4 content-center px-3 md:pl-11">
+          {orders && orders.length <= 0 ? (
+            <div className="mx-auto w-full flex">
+              {error ? (
+                <div className="py-2 text-md" style={{ color: "#FF0000" }}>
+                  {error}
+                </div>
+              ) : (
+                <Label title="No order History" />
+              )}
+            </div>
+          ) : (
+            orders
+              .filter((x: any) => getStatusType(x.status) === tab)
+              .map((order: any, index: number) => {
+                return (
+                  <Link
+                    key={order.orderId + index}
+                    to={`/dashboard/order/${order.orderId}`}
+                    className="flex items-center py-4 col-span-1"
+                  >
+                    {tab === ITabType.live ? (
+                      <LiveOrderItem
+                        orderId={order.orderId}
+                        pickUpAddress={order.pickup_info?.complete_address.substring(
+                          0,
+                          50
+                        )}
+                        dropOffAddress={order.drop_off_info?.complete_address.substring(
+                          0,
+                          50
+                        )}
+                        pickTime={`${order.pickDate ?? "-"} at ${
+                          order.pickTime ?? "-"
+                        }`}
+                        driverName={order.driverName ?? "-"}
+                        driverPhone={order.driverPhone ?? "-"}
+                        vehicleImage={""}
+                        vehicleName={order.vehicle_id?.name}
+                        amount={String(round(order.fare))}
+                      />
+                    ) : (
+                      <OrderItem
+                        orderId={order.orderId}
+                        pickUpAddress={order.pickup_info?.complete_address.substring(
+                          0,
+                          50
+                        )}
+                        dropOffAddress={order.drop_off_info?.complete_address.substring(
+                          0,
+                          50
+                        )}
+                        driverName={order.driverName ?? "-"}
+                        driverPhone={order.driverPhone ?? "-"}
+                        pickTime={order.pickTime ?? "-"}
+                        pickDate={order.pickDate ?? "-"}
+                        amount={String(round(order.fare))}
+                      />
+                    )}
+                  </Link>
+                );
+              })
+          )}
+        </div>
+      )}
     </div>
   );
 };
