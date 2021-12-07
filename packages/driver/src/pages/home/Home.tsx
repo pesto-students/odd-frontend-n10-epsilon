@@ -1,39 +1,22 @@
-// import { LabeledIcon, Label } from "@odd/components";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NoRequestScreen } from "../../organisms";
 import { OrderScreen } from "../../organisms/order";
+import { fetchCurrentOrder } from "../../redux/slices/order";
 
 interface IProps {}
 
 const Home: React.FC<IProps> = () => {
-  return <OrderScreen />;
-  // return <NoRequestScreen />;
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state.order);
+
+  useEffect(() => {
+    dispatch(fetchCurrentOrder());
+  }, [dispatch]);
+
+  console.log(state);
+
+  return state.haveCurrent ? <OrderScreen /> : <NoRequestScreen />;
 };
-
-// const NoRequestScreen = () => {
-//   return (
-//     <div className="relative flex-1 mt-16 mx-48">
-//       <div className="absolute mt-12 flex">
-//         <LabeledIcon
-//           title="No Incoming Trip Request"
-//           iconName="icn-order-history"
-//         />
-//       </div>
-
-//       <div className="flex w-full h-full">
-//         <div className="flex flex-col w-full justify-center items-center gap-3 z-10">
-//           <img
-//             src={require("../../assets/icn-no-requests.svg").default}
-//             alt="no-requests"
-//           />
-//           <Label
-//             title="No requests found"
-//             secondary
-//             medium
-//             className="text-4xl"
-//           />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default Home;

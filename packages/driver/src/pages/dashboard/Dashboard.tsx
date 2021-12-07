@@ -1,6 +1,8 @@
 import { DashboardTemplate, LogoutMenu, Switch } from "@odd/components";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import { toggleMode } from "../../redux/slices/driver";
 import { useAuth } from "../login/AuthProvide";
 
 const onActive: React.CSSProperties = {
@@ -22,6 +24,7 @@ function Dashboard() {
       style={({ isActive }) => (isActive ? onActive : onInActive)}
       to="/dashboard/home"
       className="py-4 px-7"
+      key={"1"}
     >
       {"Home"}
     </NavLink>,
@@ -29,10 +32,12 @@ function Dashboard() {
       style={({ isActive }) => (isActive ? onActive : onInActive)}
       to="/dashboard/trips-and-payments"
       className="py-4 px-7"
+      key={"2"}
     >
       {"Trips & Payment"}
     </NavLink>,
     <LogoutMenu
+      key={"3"}
       onSignOut={() => {
         console.log("onSignOut Clicked");
         auth.signout(() => {
@@ -43,11 +48,15 @@ function Dashboard() {
     />,
   ];
 
+  const driver = useSelector((state: any) => state.driver.isOnline);
+  const dispatch = useDispatch();
+
   const actionsLeft = [
-    <div className="flex h-full justify-center">
+    <div className="flex h-full justify-center" key={"4"}>
       <Switch
+        defaultState={driver}
         onChange={(value: boolean) => {
-          console.log(`Status Changed ${value}`);
+          dispatch(toggleMode());
         }}
       />
     </div>,

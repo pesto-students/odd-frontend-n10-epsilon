@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Action } from "../../../interface/action";
+import { Link } from "react-router-dom";
 const logo = require("../../../assets/logo.svg").default;
 
 interface IProps {

@@ -11,16 +11,20 @@ import { useState } from "react";
 interface IProps {
   title: string;
   description: string;
-  onSubmit?(): void;
+  onSubmit?(otp:string): void;
+  open: boolean;
+  setOpen(state:boolean):void;
 }
 
 const OtpConfirmDialog: React.FC<IProps> = ({
   title,
   description,
+  setOpen,
+  open,
   onSubmit,
 }: IProps) => {
   const [otp, setOtp] = useState("");
-  const [open, setOpen] = useState(true);
+  
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -28,7 +32,7 @@ const OtpConfirmDialog: React.FC<IProps> = ({
     // let formData = new FormData(event.currentTarget);
 
     if (onSubmit) {
-      onSubmit();
+      onSubmit(otp);
     }
 
     //close dialog if verify successfully

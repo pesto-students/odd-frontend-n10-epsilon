@@ -1,10 +1,20 @@
-import { AxiosError, AxiosResponse, BaseClient, CookieHelper } from "@odd/base";
+import {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  BaseClient,
+  CookieHelper,
+} from "@odd/base";
 const baseClient = new BaseClient();
 
-export const getApi = (api: string): Promise<AxiosResponse<any, any>> => {
-   const config = {
-     headers: { Authorization: `Bearer ${token()}` },
-   };
+export const getApi = (
+  api: string,
+  other?: AxiosRequestConfig<any>
+): Promise<AxiosResponse<any, any>> => {
+  const config = {
+    ...other,
+    headers: { Authorization: `Bearer ${token()}` },
+  };
   return new Promise((resolve, reject): any => {
     baseClient
       .apiGet(api, config)

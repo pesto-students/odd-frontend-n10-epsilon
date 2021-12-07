@@ -1,4 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import { getApi } from "../../api-call";
+import { API } from "../../constant/Endpoints";
 
 export interface Location {
   type: string;
@@ -97,19 +100,30 @@ const DOC = {
   },
 };
 
+export const toggleMode = createAsyncThunk(
+  "driver/toggle_mode",
+  async () => {
+    const api = API.DRIVER_ENDPOINTS.TOGGLE_MODEL;
+    const id = toast.loading("Please wait...");
+    const result = await getApi(api);
+    toast.dismiss(id);
+    return result.data.data;
+  }
+);
+
 const Reducer = createSlice({
   name: "driver",
   initialState: {
     state: {} as Driver,
     doc: DOC,
     vehicle: [],
-    docFetch:false
+    docFetch: false,
+    isOnline: false,
   },
   reducers: {
     addInfo: (state, actions) => {
-      
-      
       state.state = actions.payload;
+       state.isOnline = actions.payload.isOnline;
     },
     updateDoc: (state, actions) => {
       const type = actions.payload.type as
@@ -130,7 +144,6 @@ const Reducer = createSlice({
       state.vehicle = actions.payload;
     },
     setValue: (state, action) => {
-      
       if (action.payload.vehicle_id) {
         state.doc.vehicle_type.completed = true;
         state.doc.vehicle_type._id = action.payload.vehicle_id;
@@ -139,7 +152,7 @@ const Reducer = createSlice({
         state.doc.profile_photo.completed = true;
         state.doc.profile_photo.url = action.payload.image;
       }
-      action.payload.doc.forEach((doc: any) => {      
+      action.payload.doc.forEach((doc: any) => {
         const { type, path } = doc as {
           type:
             | "aadhar_card"
@@ -152,12 +165,22 @@ const Reducer = createSlice({
         };
         state.doc[type].completed = true;
         state.doc[type].url = path;
-
-
-        
       });
       state.docFetch = true;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(toggleMode.fulfilled, (state, { payload }) => {
+      state.isOnline = payload.isOnline;
+    });
+    builder.addCase(toggleMode.rejected, (state, action) => {
+      if (action.payload) {
+        // Since we passed in `MyKnownError` to `rejectValue` in `updateUser`, the type information will be available here.
+        // state.error = action.payload.errorMessage;
+      } else {
+        // state.error = action.error;
+      }
+    });
   },
 });
 
