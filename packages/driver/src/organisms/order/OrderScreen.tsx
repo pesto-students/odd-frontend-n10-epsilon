@@ -25,8 +25,8 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
   const state = useSelector((state: any) => state.order);
   const [loading, setLoading] = useState(false);
   const [orderData, setOrderData] = useState<OrderAttributes>(state);
-  const [open, setOpen] = useState(false);
-   const dispatch = useDispatch();
+  const [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
   useEffect(() => {}, [orderId]);
 
   useEffect(() => {
@@ -53,6 +53,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
       );
     });
   };
+
   const updateOrderStatus = async (otp: string) => {
     const api = API.DRIVER_ENDPOINTS.UPDATE_ORDER_STATUS;
     const id = toast.loading("Please wait...");
@@ -65,19 +66,20 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
         _id: orderData._id,
         coordinates: [coords.latitude, coords.longitude],
       };
-       const result = await postApi(api, data);
-       dispatch(currentOrder(result.data.data));
+      const result = await postApi(api, data);
+      dispatch(currentOrder(result.data.data));
       toast.dismiss(id);
     } catch (error: any) {
       toast.dismiss(id);
-      toast.error(error.data.error);
+      toast.error(error);
     }
-     setLoading(false);
-
+    setLoading(false);
   };
 
   const getStatusString = () => {
-    return orderData.status !== "delivered" ? "Incoming Trip Request":"Order Details";
+    return orderData.status !== "delivered"
+      ? "Incoming Trip Request"
+      : "Order Details";
   };
 
   const getDeliveryStatus = () => {
@@ -98,23 +100,25 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
   const getTitleView = () => {
     return (
       <FareTile
-        name={orderData?.pickup_info?.contact_person_name}
+        name={orderData?.pickup_info?.contact_person_name ?? "-"}
         image={require("../../assets/driver.svg").default}
-        fare={orderData.fare}
+        fare={orderData?.fare ?? "0"}
       />
     );
   };
+
   const modalTitle = () => {
     if (orderData.status === "inprogress") return "Drop-Off";
     if (orderData.status === "accepted") return "Pick-Up";
-    return "";
+    return "-";
   };
+
   const modalDescription = () => {
     if (orderData.status === "inprogress")
       return "Enter the OTP to Drop-off package";
     if (orderData.status === "accepted")
       return "Enter the OTP to Pick-up package";
-    return "";
+    return "-";
   };
 
   const buttonClick = () => {
@@ -129,47 +133,43 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
 
   return (
     <CardLayout title={title} icon={<Icon iconName="icn-order-history" />}>
-      <div className="grid grid-flow-col grid-cols-5 justify-between h-full max-h-96">
-        <div className="col-span-3 gap-4 flex flex-col pt-10">
+      <div className="grid grid-flow-row md:grid-flow-col grid-cols-1 md:grid-cols-5 justify-between h-full md:max-h-96">
+        <div className="md:col-span-3 gap-4 flex flex-col pt-10">
           <div className="flex">{titleView}</div>
           <div className="grid grid-cols-6">
             <div
-              className={`flex flex-col my-8 h-48 ${
+              className={`flex flex-col my-4 md:my-8 h-64 md:h-48 ${
                 orderData.status === "open" ? "col-span-6" : "col-span-4"
               } `}
             >
               <SteppedAddresses
                 deliveryStatus={deliveryStatus}
-                pickAddressTitle={
-                  orderData?.pickup_info?.add_1 +
-                    " " +
-                    orderData?.pickup_info?.add_2 ?? "NULL"
-                }
-                pickAddressFull={
-                  orderData?.pickup_info?.complete_address ?? "NULL"
-                }
-                dropAddressTitle={
-                  orderData?.drop_off_info?.add_1 +
-                    " " +
-                    orderData?.drop_off_info?.add_2 ?? "NULL"
-                }
-                dropAddressFull={
-                  orderData?.drop_off_info?.complete_address ?? "NULL"
-                }
+                pickAddressTitle={`${orderData?.pickup_info?.add_1 ?? "-"} ${
+                  orderData?.pickup_info?.add_2 ?? "-"
+                }`}
+                pickAddressFull={`${
+                  orderData?.pickup_info?.complete_address ?? "-"
+                }`}
+                dropAddressTitle={`${orderData?.drop_off_info?.add_1 ?? "-"} ${
+                  orderData?.drop_off_info?.add_2 ?? "-"
+                }`}
+                dropAddressFull={`${
+                  orderData?.drop_off_info?.complete_address ?? "-"
+                }`}
               />
             </div>
             {orderData.status !== "open" && (
               <div className="col-span-2 flex flex-col my-8 justify-start">
                 <div className="flex-1 flex-col h-full">
                   <LabeledIcon
-                    title={orderData?.pickup_info?.contact_person_name}
+                    title={orderData?.pickup_info?.contact_person_name ?? "-"}
                     fontSize={14}
                     iconName="icn-person"
                     iconColorType={IconColorType.primary}
                     reverse
                   />
                   <LabeledIcon
-                    title={orderData?.pickup_info?.contact_person_number}
+                    title={orderData?.pickup_info?.contact_person_number ?? "-"}
                     fontSize={14}
                     iconName="icn-call"
                     iconColorType={IconColorType.primary}
@@ -178,14 +178,16 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
                 </div>
                 <div className="flex-1 flex-col h-full">
                   <LabeledIcon
-                    title={orderData?.drop_off_info?.contact_person_name}
+                    title={orderData?.drop_off_info?.contact_person_name ?? "-"}
                     fontSize={14}
                     iconName="icn-person"
                     iconColorType={IconColorType.primary}
                     reverse
                   />
                   <LabeledIcon
-                    title={orderData?.drop_off_info?.contact_person_number}
+                    title={
+                      orderData?.drop_off_info?.contact_person_number ?? "-"
+                    }
                     fontSize={14}
                     iconName="icn-call"
                     iconColorType={IconColorType.primary}
@@ -196,9 +198,9 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
             )}
           </div>
         </div>
-        <div className="col-span-2 gap-4 items-end flex flex-col pt-3">
-          <div className="bg-white mt-10">
-            <div className="w-64 rounded-xl overflow-hidden border-primary border-2 h-64">
+        <div className="md:col-span-2 gap-4 items-end flex flex-col pt-1 md:pt-3">
+          <div className="bg-white md:mt-10">
+            <div className="w-full lg:w-64 rounded-xl overflow-hidden border-primary border-2 h-64">
               <iframe
                 id="Map"
                 title="order-map"
@@ -212,7 +214,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
               </iframe>
             </div>
           </div>
-          <div className="flex mt-4 space-x-3">
+          <div className="flex mt-1 md:mt-4 space-x-3">
             {orderData.status !== "delivered" && (
               <Button
                 onClick={buttonClick}

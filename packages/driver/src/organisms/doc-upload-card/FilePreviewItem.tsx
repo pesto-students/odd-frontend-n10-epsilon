@@ -9,7 +9,7 @@ const FilePreviewItem: React.FC<IProps> = ({
 }) => {
   return (
     <div
-      className="flex max-w-sm items-center mt-10 h-full"
+      className="flex max-w-sm items-center mt-4 md:mt-10 h-full"
       style={{ color: "#E1FFFF", maxHeight: 210 }}
     >
       <img

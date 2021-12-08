@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 const logo = require("../../assets/logo.svg").default;
 
 interface IProps {
@@ -12,14 +12,14 @@ interface IProps {
 const Navbar: React.FC<IProps> = ({ action, actionLeft, profile }) => {
   return (
     <div className="flex w-full">
-      <div className="hidden md:flex">
+      <div className="hidden lg:flex">
         <DesktopLayout
           action={action}
           actionLeft={actionLeft}
           profile={profile}
         />
       </div>
-      <div className="flex md:hidden">
+      <div className="flex lg:hidden">
         <MobileLayout
           action={action}
           actionLeft={actionLeft}
@@ -32,10 +32,16 @@ const Navbar: React.FC<IProps> = ({ action, actionLeft, profile }) => {
 
 function MobileLayout({ action, actionLeft, profile }: IProps) {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location]);
+
   return (
     <nav className="fixed w-full bg-white shadow-md md:shadow-lg z-50 h-14 space-y-3">
-      <div className="md:px-4">
-        <div className=" flex justify-between px-2 items-center space-x-1">
+      <div className="flex h-full w-full md:px-4">
+        <div className="flex h-full w-full justify-between px-2 items-center space-x-1">
           <div className="flex">
             <Link to="/" className="flex items-start">
               <img
@@ -46,14 +52,18 @@ function MobileLayout({ action, actionLeft, profile }: IProps) {
             </Link>
             <div>{actionLeft}</div>
           </div>
-          <div className="flex items-center">{profile}</div>
-          <div
-            onClick={() => {
-              setOpen(!open);
-            }}
-          >
-            {open && <XIcon className="block h-6 w-6" aria-hidden="true" />}
-            {!open && <MenuIcon className="block h-6 w-6" aria-hidden="true" />}
+          <div className="flex items-center justify-center">
+            {profile}
+            <div
+              onClick={() => {
+                setOpen(!open);
+              }}
+            >
+              {open && <XIcon className="block h-6 w-6" aria-hidden="true" />}
+              {!open && (
+                <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+              )}
+            </div>
           </div>
         </div>
       </div>

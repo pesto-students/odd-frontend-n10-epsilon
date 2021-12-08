@@ -78,11 +78,11 @@ export function OnAuth({ children }: { children: JSX.Element }) {
   let auth = useAuth();
   let location = useLocation();
   console.log(location.state?.from?.pathname);
-  
+
   if (auth.user) {
     return (
       <Navigate
-        to={location.state?.from?.pathname??'/dashboard'}
+        to={location.state?.from?.pathname ?? "/dashboard/home"}
         state={{ from: location.state?.from?.pathname }}
       />
     );

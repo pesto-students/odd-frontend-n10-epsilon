@@ -2,7 +2,7 @@ import { Label } from "../..";
 
 function FullScreenLoader() {
   return (
-    <div className="flex h-96 max-h-screen w-full">
+    <div className="flex max-h-screen w-full z-10">
       <div className="flex justify-center items-center h-full w-full">
         <Label
           title="Loading..."

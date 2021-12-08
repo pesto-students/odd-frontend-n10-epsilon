@@ -1,20 +1,78 @@
-import { Label, Icon, IconColorType, Select } from "@odd/components";
+import { useEffect, useState } from "react";
+import {
+  Label,
+  Icon,
+  IconColorType,
+  Select,
+  FullScreenLoader,
+} from "@odd/components";
 import StatisticsItem from "./StatisticsItem";
+import { useSelector } from "react-redux";
+
+import { API } from "../../constant/Endpoints";
+import * as apiService from "../../api-call";
 
 interface IProps {}
 
 const Profile: React.FC<IProps> = (props: IProps & any) => {
-  return (
-    <div className="relative m-auto md:w-7/12 xs:w-11/12 max-w-4xl">
-      <div className="flex flex-row text-2xl font-semibold space-x-2">
-        ⭐ Great! You are Online
+  const isOnline = useSelector((state: any) => state.driver.isOnline);
+  const driverData = useSelector((state: any) => state.driver.state);
+
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>({});
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      try {
+        const api = API.DRIVER_ENDPOINTS.PROFILE;
+        const result = await apiService.getApi(api);
+        const data = result.data;
+        if (data && data.success) {
+          console.log(data);
+          setError("");
+          setData(data.data);
+        } else {
+          console.log(data.error);
+          setError(data.error);
+        }
+      } catch (error) {
+        console.log(error);
+        setError("Error while fetching order data.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <FullScreenLoader />;
+  }
+
+  if (error) {
+    return (
+      <div
+        className="flex w-full h-full justify-center text-center items-center py-2 text-base z-10"
+        style={{ color: "#FF0000" }}
+      >
+        {error}
       </div>
-      <div className="rounded-2xl bg-white shadow-2xl py-16 px-20 mt-6">
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row space-x-6 items-center">
+    );
+  }
+
+  return (
+    <div className="relative m-auto lg:w-7/12 xs:w-11/12 lg:max-w-4xl">
+      <div className="flex flex-row text-2xl font-semibold space-x-2">
+        {isOnline ? "⭐ Great! You are Online" : "You are offline"}
+      </div>
+      <div className="rounded-2xl bg-white shadow-lg md:shadow-2xl py-2 md:py-6 px-2 md:px-8 mt-2 md:mt-6 space-y-6 md:space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 justify-center md:justify-between gap-2">
+          <div className="col-span-1 md:col-span-2 flex flex-row space-x-6 items-center">
             <div className="flex flex-row">
               <img
-                src={require("../../assets/driver.svg").default}
+                src={driverData?.image ?? null}
                 alt="profile"
                 className="w-20 h-20 rounded-full"
               />
@@ -23,7 +81,9 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
               <Label
                 className="flex text-lg"
                 medium
-                title="Dharmendra Jagodana"
+                title={`${driverData?.first_name ?? ""} ${
+                  driverData?.last_name ?? ""
+                }`}
               />
               <div className="flex flex-row items-center space-x-2">
                 <Icon
@@ -31,7 +91,11 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
                   className="w-3 h-3"
                   iconColorType={IconColorType.primary}
                 />
-                <Label className="text-sm" medium title="Level 1" />
+                <Label
+                  className="text-sm"
+                  medium
+                  title={driverData?.level ?? "-"}
+                />
               </div>
               <div className="flex flex-row items-center space-x-2 ">
                 <Icon
@@ -39,19 +103,22 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
                   className="w-3 h-3"
                   iconColorType={IconColorType.primary}
                 />
-                <Label className="text-sm" medium title="4.99" />
+                <Label
+                  className="text-sm"
+                  medium
+                  title={driverData?.rating ?? "-"}
+                />
               </div>
             </div>
           </div>
-
-          <div className="flex-1 h-full my-auto">
-            <div className="flex flex-col justify-end items-end">
+          <div className="col-span-1 flex-1 h-full my-auto">
+            <div className="flex flex-col justify-start items-start md:justify-end md:items-end">
               <div className="flex gap-1 items-center place-items-center flex-row-reverse">
                 <Label
-                  title={"2600 Rs."}
+                  title={`${driverData?.total_earns ?? 0} Rs.`}
                   primary
                   medium
-                  className="text-2xl font-medium"
+                  className="text-xl lg:text-2xl font-medium"
                 />
                 <Icon
                   iconName="icn-rupee"
@@ -69,7 +136,7 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
             primary
             className="flex align-text-bottom h-full text-base font-semibold"
           />
-          <div className="w-32">
+          <div className="w-32 hidden">
             <Select
               outline={false}
               defaultOptions={["Last 7 Days", "Last Month", "All Time"]}
@@ -79,21 +146,21 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
             />
           </div>
         </div>
-        <div className="flex flex-row place-content-between mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 justify-center items-center place-content-between mt-6 gap-2 md:gap-8">
           <StatisticsItem
             iconName="icn-state-time"
             label="Hours Online"
-            value="10"
+            value={data?.hours ?? "-"}
           />
           <StatisticsItem
             iconName="icn-state-distance"
             label="Total Distance"
-            value="25"
+            value={data?.distance ?? "-"}
           />
           <StatisticsItem
             iconName="icn-state-trip"
             label="Total Trips"
-            value="15"
+            value={data?.trips ?? "-"}
           />
         </div>
       </div>

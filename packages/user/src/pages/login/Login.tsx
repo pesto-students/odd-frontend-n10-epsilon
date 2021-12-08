@@ -69,7 +69,7 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
             navigate(from, { replace: true });
           });
         } else {
-          console.log(error);
+          console.log(data.error);
           setError(data.error);
         }
       } catch (error) {

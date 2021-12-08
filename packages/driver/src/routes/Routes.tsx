@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import {
   AuthProvider,
   Dashboard,
-  Home ,
+  Home,
   Layout,
   LoginPage,
   Profile as ProfileScreen,
@@ -11,9 +11,7 @@ import {
   RequireAuth,
   OnAuth,
   TripsAndPayments as TripsAndPaymentsScreen,
-
   ChooseVehicle,
-  
 } from "../pages";
 import DocumentUpload from "../pages/compete-profile/DocUpload";
 import CompleteDocument from "../pages/compete-profile/UploadDoc";
@@ -40,6 +38,14 @@ function AppRoutes() {
               </RequireAuth>
             }
           >
+            {/* <Route index element={<Navigate to="/dashboard/home" />} /> */}
+            <Route path="home" element={<Home />} />
+            <Route path="profile" element={<ProfileScreen />} />
+            <Route
+              path="trips-and-payments"
+              element={<TripsAndPaymentsScreen />}
+            />
+
             <Route path="completeProfile" element={<CompleteProfile />} />
             <Route path="completeProfile/doc" element={<CompleteDocument />} />
             <Route
@@ -51,13 +57,6 @@ function AppRoutes() {
               element={<DocumentUpload />}
             />
 
-            <Route path="home" element={<Home />} />
-
-            <Route path="profile" element={<ProfileScreen />} />
-            <Route
-              path="trips-and-payments"
-              element={<TripsAndPaymentsScreen />}
-            />
             {/* <Route index element={<Navigate to="/dashboard/home" />} /> */}
           </Route>
         </Route>
