@@ -12,6 +12,7 @@ import {
 import { LiveOrderItem, OrderItem } from "../../molecules/order-items";
 import { round } from "lodash";
 import { OrderHistoryReaders } from "../../helpers";
+import moment from "moment";
 
 interface IProps {}
 
@@ -59,6 +60,16 @@ const OrderHistory: React.FC<IProps> = () => {
     }
     loadData();
   }, [tab, error]);
+
+
+  const getDateFormat = (order: string) =>
+   {
+    
+     
+     return `${moment(
+       new Date(OrderHistoryReaders.OrderPickDate(order))
+     ).calendar()} `;
+   }
 
   return (
     <div className="h-full py-5 items-center justify-center">
@@ -120,10 +131,8 @@ const OrderHistory: React.FC<IProps> = () => {
                         dropOffAddress={OrderHistoryReaders.OrderDropAddressFull(
                           order
                         )}
-                        pickTime={`${OrderHistoryReaders.OrderPickDate(
-                          order
-                        )} at ${OrderHistoryReaders.OrderPickTime(order)}`}
-                        driverName={OrderHistoryReaders.DriverName(order)}
+                        pickTime={getDateFormat(order)}
+                        driverName={OrderHistoryReaders.DriverName(order)?? 'Not assign'}
                         driverPhone={OrderHistoryReaders.DriverPhone(order)}
                         vehicleImage={OrderHistoryReaders.VehicleImage(order)}
                         vehicleName={OrderHistoryReaders.VehicleName(order)}

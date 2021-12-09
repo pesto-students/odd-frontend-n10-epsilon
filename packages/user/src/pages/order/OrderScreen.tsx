@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
@@ -14,6 +14,7 @@ import { Skeleton } from ".";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { OrderInfoReaders } from "../../helpers";
+import { toast } from "react-toastify";
 
 const OrderScreen: React.FC<any> = () => {
   let params = useParams();
@@ -22,30 +23,65 @@ const OrderScreen: React.FC<any> = () => {
   const [orderData, setOrderData] = useState<any>({});
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function loadData() {
-      setLoading(true);
-      try {
-        const api = API.ORDER_ENDPOINTS.ORDERS_INFO(String(orderId));
-        const result = await apiService.getApi(api);
-        const data = result.data;
-        if (data && data.success) {
-          console.log(data);
-          setError("");
-          setOrderData(data.data);
-        } else {
-          console.log(data.error);
-          setError(data.error);
-        }
-      } catch (error) {
-        console.log(error);
-        setError("Error while fetching order data.");
-      } finally {
-        setLoading(false);
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const api = API.ORDER_ENDPOINTS.ORDERS_INFO(String(orderId));
+      const result = await apiService.getApi(api);
+      const data = result.data;
+      if (data && data.success) {
+        console.log(data);
+        setError("");
+        setOrderData(data.data);
+      } else {
+        console.log(data.error);
+        setError(data.error);
       }
+    } catch (error) {
+      console.log(error);
+      setError("Error while fetching order data.");
+    } finally {
+      setLoading(false);
     }
+  }, [orderId]);
+
+  useEffect(() => {
     loadData();
-  }, [orderId, error]);
+  }, [loadData]);
+
+  useEffect(() => {
+    console.log('====================================');
+    console.log(OrderInfoReaders.DriverImage(orderData));
+    console.log('====================================');
+    if (OrderInfoReaders.OrderStatus(orderData) !== "open") return;
+    let interval: any;
+    let timeout: any;
+    clearInterval(interval);
+    clearTimeout(timeout);
+    const api = API.ORDER_ENDPOINTS.FIND_NEARBY_DRIVER(
+      OrderInfoReaders.ID(orderData)
+    );
+    const id = toast.loading("Finding driver..");
+    interval = setInterval(async function () {
+      const driver = await apiService.getApi(api);
+      if (driver.data.data) {
+        clearInterval(interval);
+        clearTimeout(timeout);
+        toast.success("Congrats your trip is assign to driver");
+        loadData();
+      }
+    }, 1000);
+
+    setTimeout(function () {
+      clearInterval(interval);
+      toast.dismiss(id);
+      toast.error("No driver available please try later");
+    }, 2000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [loadData, orderData]);
 
   const getStatusString = () => {
     const status = OrderInfoReaders.OrderStatus(orderData);

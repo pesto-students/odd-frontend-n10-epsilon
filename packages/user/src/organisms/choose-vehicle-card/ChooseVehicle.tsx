@@ -3,10 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
-import { ChooseVehicleReaders, OrderInfoReaders } from "../../helpers";
+import { ChooseVehicleReaders } from "../../helpers";
 import { addFare, addVehicle, OrderAttributes } from "../../redux/slices/order";
-
-const IconRupee = require("./../../assets/vehicle.svg").default;
 
 export interface Vehicle {
   _id: string;
@@ -24,51 +22,39 @@ interface IProps {
 }
 
 const ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
-  const orderData = useSelector((state: any) => state.order) as OrderAttributes;
-  const [vehicles, setVehicles] = useState(
-    OrderInfoReaders.OrderFare(orderData)
-  );
-  const [selectedVehicles, setSelectedVehicles] = useState({} as Vehicle);
-  const [error, setError] = useState("");
-  const dispatch = useDispatch();
+   const state = useSelector((state: any) => state.order) as OrderAttributes;
+   const [vehicles, setVehicles] = useState(state.fare);
+   const [selectedVehicles, setSelectedVehicles] = useState({} as Vehicle);
+   const dispatch = useDispatch();
 
-  const getVehicle = useCallback(async () => {
-    try {
+
+    const getVehicle = useCallback(async () => {
+      const latLong = {
+        pickup: state.pickup_info.location.coordinates,
+        dropoff: state.drop_off_info.location.coordinates,
+      };
       const api = API.ORDER_ENDPOINTS.GET_FARE;
-      const result = await postApi(api, {
-        latLong: {
-          pickup: [...OrderInfoReaders.PickUpCoordinates(orderData)],
-          dropoff: [...OrderInfoReaders.DropOffCoordinates(orderData)],
-        },
-      });
-      const data = result.data;
-      if (data && data.success) {
-        setVehicles(data.data);
-        dispatch(addFare(data.data));
-      } else {
-        setError(data.error);
+      const result = await postApi(api, { latLong });
+      setVehicles(result.data.data);
+      dispatch(addFare(result.data.data));
+    }, [
+      state.drop_off_info.location.coordinates,
+      state.pickup_info.location.coordinates,
+      dispatch,
+    ]);
+
+    const addVehicleToRedux = () => {
+      dispatch(addVehicle(selectedVehicles));
+      next();
+    };
+    useEffect(() => {
+      getVehicle();
+      if (state.vehicle_id) {
+        setSelectedVehicles(state.vehicle);
       }
-    } catch (error) {
-      console.log(error);
-      setError("No suitable vehicle found for you.");
-    }
-  }, [dispatch, orderData]);
-
-  const addVehicleToRedux = () => {
-    dispatch(addVehicle(selectedVehicles));
-    next();
-  };
-
-  useEffect(() => {
-    getVehicle();
-    if (OrderInfoReaders.VehicleId(orderData)) {
-      setSelectedVehicles(OrderInfoReaders.VehicleData(orderData));
-    }
-  }, [getVehicle, orderData]);
-
+    }, [getVehicle, state.vehicle_id, state.vehicle]);
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 px-0 lg:px-5 mt-5 gap-2 lg:gap-4">
-      {error ?? <div>{error}</div>}
       {vehicles &&
         vehicles?.map((_vehicle: Vehicle) => (
           <div key={ChooseVehicleReaders.VehicleId(_vehicle)}>
@@ -76,7 +62,7 @@ const ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
               _id={ChooseVehicleReaders.VehicleId(_vehicle)}
               desc={ChooseVehicleReaders.Description(_vehicle)}
               title={ChooseVehicleReaders.VehicleName(_vehicle)}
-              icon={IconRupee}
+              icon={ChooseVehicleReaders.VehicleImage(_vehicle)}
               baseRate={ChooseVehicleReaders.VehicleBaseRate(_vehicle)}
               extraRate={ChooseVehicleReaders.VehiclePerKmRate(_vehicle)}
               showRates={true}

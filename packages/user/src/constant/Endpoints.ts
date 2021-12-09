@@ -1,4 +1,4 @@
-const environment = { baseUrl: "http://pestooddbackend.ap-south-1.elasticbeanstalk.com" };
+const environment = { baseUrl: "http://localhost" };
 class Endpoints {
   baseUrl: string = environment.baseUrl;
   USER_BASE = this.baseUrl;
@@ -13,11 +13,13 @@ class Endpoints {
   ORDER_ENDPOINTS = {
     GET_FARE: this.joinPaths(this.ORDER_BASE, "calculate_fare"),
     CREATE_ORDER: this.joinPaths(this.ORDER_BASE, "create"),
+    FIND_NEARBY_DRIVER: (ID: string) =>
+      this.joinPaths(this.ORDER_BASE, "find_driver",ID),
     ORDER_HISTORY: (type: string) => {
-      return this.joinPaths(this.ORDER_BASE, `order_list?status=${type}`)
+      return this.joinPaths(this.ORDER_BASE, `order_list?status=${type}`);
     },
     ORDERS_INFO: (orderId: string) => {
-      return this.joinPaths(this.ORDER_BASE, "getOrder", orderId)
+      return this.joinPaths(this.ORDER_BASE, "getOrder", orderId);
     },
   };
 
