@@ -1,6 +1,7 @@
 import { OrderInfoCard as InfoCard, CardType } from "@odd/components";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { OrderInfoReaders } from "../../helpers";
@@ -31,16 +32,24 @@ export interface IProps {
 const OrderInfoCard: React.FC<IProps> = ({ next }) => {
   const orderData = useSelector((state: any) => state.order) as OrderAttributes;
   const [loading, setLoading] = useState(false);
+  let navigate = useNavigate();
 
   const createOrder = async () => {
     setLoading(true);
     try {
       const api = API.ORDER_ENDPOINTS.CREATE_ORDER;
-      await postApi(api, {
+      const result = await postApi(api, {
         drop_off_info: OrderInfoReaders.DropOffInfo(orderData),
         pickup_info: OrderInfoReaders.PickUpInfo(orderData),
         vehicle_id: OrderInfoReaders.VehicleId(orderData),
       });
+      console.log(result);
+      const data = result.data;
+      if (data && data.success) {
+        navigate(`/dashboard/order/${data.data._id}`, { replace: true });
+      } else {
+        console.log(data.error);
+      }
     } catch (error: any) {
       console.log(error);
     } finally {
