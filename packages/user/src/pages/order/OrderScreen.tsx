@@ -13,6 +13,7 @@ import {
 import { Skeleton } from ".";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
+import { OrderInfoReaders } from "../../helpers";
 
 const OrderScreen: React.FC<any> = () => {
   let params = useParams();
@@ -47,7 +48,7 @@ const OrderScreen: React.FC<any> = () => {
   }, [orderId, error]);
 
   const getStatusString = () => {
-    const status = orderData?.status;
+    const status = OrderInfoReaders.OrderStatus(orderData);
 
     switch (status) {
       case "open":
@@ -71,14 +72,14 @@ const OrderScreen: React.FC<any> = () => {
   };
 
   const getOtpString = () => {
-    const status = orderData.status;
+    const status = OrderInfoReaders.OrderStatus(orderData);
 
     switch (status) {
       case "accepted":
-        return orderData.pickup_otp;
+        return OrderInfoReaders.PickUpOtp(orderData);
 
       case "inprogress":
-        return orderData.drop_off_otp;
+        return OrderInfoReaders.DropOffOtp(orderData);
 
       default:
         return undefined;
@@ -86,7 +87,7 @@ const OrderScreen: React.FC<any> = () => {
   };
 
   const getDeliveryStatus = () => {
-    const status = orderData.status;
+    const status = OrderInfoReaders.OrderStatus(orderData);
 
     switch (status) {
       case "inprogress":
@@ -101,7 +102,7 @@ const OrderScreen: React.FC<any> = () => {
   };
 
   const getTitleView = () => {
-    const status = orderData.status;
+    const status = OrderInfoReaders.OrderStatus(orderData);
 
     switch (status) {
       case "open":
@@ -112,10 +113,10 @@ const OrderScreen: React.FC<any> = () => {
       case "delivered":
         return (
           <DriverTile
-            image={orderData.driver_id?.image}
-            name={`${orderData.driver_id?.first_name} ${orderData.driver_id?.last_name}`}
-            vehicleNumber={orderData.driver_id?.vehicle_number ?? "-"}
-            vehicleName={orderData.vehicle_id?.name ?? "-"}
+            image={OrderInfoReaders.DriverImage(orderData)}
+            name={OrderInfoReaders.DriverFullName(orderData)}
+            vehicleNumber={OrderInfoReaders.DriverVehicleNumber(orderData)}
+            vehicleName={OrderInfoReaders.DriverVehicleName(orderData)}
             completed={status === "delivered"}
           />
         );
@@ -153,18 +154,10 @@ const OrderScreen: React.FC<any> = () => {
           <div className="flex flex-col my-3 lg:my-8 h-48">
             <SteppedAddresses
               deliveryStatus={deliveryStatus}
-              pickAddressTitle={
-                `${orderData?.pickup_info?.add_1} ${orderData?.pickup_info?.add_2}` ??
-                "-"
-              }
-              pickAddressFull={orderData?.pickup_info?.complete_address ?? "-"}
-              dropAddressTitle={
-                `${orderData?.drop_off_info?.add_1} ${orderData?.pickup_info?.add_2}` ??
-                "-"
-              }
-              dropAddressFull={
-                orderData?.drop_off_info?.complete_address ?? "-"
-              }
+              pickAddressTitle={OrderInfoReaders.PickUpTitleAddress(orderData)}
+              pickAddressFull={OrderInfoReaders.PickUpFullAddress(orderData)}
+              dropAddressTitle={OrderInfoReaders.DropOffTitleAddress(orderData)}
+              dropAddressFull={OrderInfoReaders.DropOffFullAddress(orderData)}
             />
           </div>
         </div>

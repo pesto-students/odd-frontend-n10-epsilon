@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
+import { OrderInfoReaders } from "../../helpers";
 import { OrderAttributes } from "../../redux/slices/order";
 const IconRupee: string = require("./../../assets/vehicle.svg").default;
 
@@ -28,38 +29,40 @@ export interface IProps {
 }
 
 const OrderInfoCard: React.FC<IProps> = ({ next }) => {
-  const state = useSelector((state: any) => state.order) as OrderAttributes;
+  const orderData = useSelector((state: any) => state.order) as OrderAttributes;
   const [loading, setLoading] = useState(false);
 
   const createOrder = async () => {
-    const api = API.ORDER_ENDPOINTS.CREATE_ORDER;
     setLoading(true);
     try {
+      const api = API.ORDER_ENDPOINTS.CREATE_ORDER;
       await postApi(api, {
-        drop_off_info: state.drop_off_info,
-        pickup_info: state.pickup_info,
-        vehicle_id: state.vehicle_id,
+        drop_off_info: OrderInfoReaders.DropOffInfo(orderData),
+        pickup_info: OrderInfoReaders.PickUpInfo(orderData),
+        vehicle_id: OrderInfoReaders.VehicleId(orderData),
       });
-      setLoading(false);
     } catch (error: any) {
-       setLoading(false);
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <InfoCard
       card={CardType.Info}
       info={{
-        name: state.vehicle.name,
-        fare: +state.vehicle.estimate_fare.toFixed(0),
+        name: OrderInfoReaders.VehicleName(orderData),
+        fare: +OrderInfoReaders.VehicleEstimateFare(orderData).toFixed(0),
         image: IconRupee,
       }}
       buttonDisabled={loading}
       next={createOrder}
       button="Create"
-      pickAddressTitle={`${state.pickup_info.add_1} ${state.pickup_info.add_2}`}
-      pickAddressFull={state.pickup_info.complete_address}
-      dropAddressTitle={`${state.drop_off_info.add_1} ${state.drop_off_info.add_2}`}
-      dropAddressFull={state.drop_off_info.complete_address}
+      pickAddressTitle={OrderInfoReaders.PickUpTitleAddress(orderData)}
+      pickAddressFull={OrderInfoReaders.PickUpFullAddress(orderData)}
+      dropAddressTitle={OrderInfoReaders.DropOffTitleAddress(orderData)}
+      dropAddressFull={OrderInfoReaders.DropOffFullAddress(orderData)}
     />
   );
 };

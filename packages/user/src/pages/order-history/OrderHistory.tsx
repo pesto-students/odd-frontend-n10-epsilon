@@ -11,6 +11,7 @@ import {
 } from "@odd/components";
 import { LiveOrderItem, OrderItem } from "../../molecules/order-items";
 import { round } from "lodash";
+import { OrderHistoryReaders } from "../../helpers";
 
 interface IProps {}
 
@@ -104,46 +105,48 @@ const OrderHistory: React.FC<IProps> = () => {
               .map((order: any, index: number) => {
                 return (
                   <Link
-                    key={order.orderId + index}
-                    to={`/dashboard/order/${order.orderId}`}
+                    key={OrderHistoryReaders.OrderId(order) + index}
+                    to={`/dashboard/order/${OrderHistoryReaders.OrderId(
+                      order
+                    )}`}
                     className="flex items-center py-4 col-span-1"
                   >
                     {tab === ITabType.live ? (
                       <LiveOrderItem
-                        orderId={order.orderId}
-                        pickUpAddress={order.pickup_info?.complete_address.substring(
-                          0,
-                          50
+                        orderId={OrderHistoryReaders.OrderId(order)}
+                        pickUpAddress={OrderHistoryReaders.OrderPickAddressFull(
+                          order
                         )}
-                        dropOffAddress={order.drop_off_info?.complete_address.substring(
-                          0,
-                          50
+                        dropOffAddress={OrderHistoryReaders.OrderDropAddressFull(
+                          order
                         )}
-                        pickTime={`${order.pickDate ?? "-"} at ${
-                          order.pickTime ?? "-"
-                        }`}
-                        driverName={order.driverName ?? "-"}
-                        driverPhone={order.driverPhone ?? "-"}
-                        vehicleImage={""}
-                        vehicleName={order.vehicle_id?.name}
-                        amount={String(round(order.fare))}
+                        pickTime={`${OrderHistoryReaders.OrderPickDate(
+                          order
+                        )} at ${OrderHistoryReaders.OrderPickTime(order)}`}
+                        driverName={OrderHistoryReaders.DriverName(order)}
+                        driverPhone={OrderHistoryReaders.DriverPhone(order)}
+                        vehicleImage={OrderHistoryReaders.VehicleImage(order)}
+                        vehicleName={OrderHistoryReaders.VehicleName(order)}
+                        amount={String(
+                          round(OrderHistoryReaders.OrderFare(order))
+                        )}
                       />
                     ) : (
                       <OrderItem
-                        orderId={order.orderId}
-                        pickUpAddress={order.pickup_info?.complete_address.substring(
-                          0,
-                          50
+                        orderId={OrderHistoryReaders.OrderId(order)}
+                        pickUpAddress={OrderHistoryReaders.OrderPickAddressFull(
+                          order
                         )}
-                        dropOffAddress={order.drop_off_info?.complete_address.substring(
-                          0,
-                          50
+                        dropOffAddress={OrderHistoryReaders.OrderDropAddressFull(
+                          order
                         )}
-                        driverName={order.driverName ?? "-"}
-                        driverPhone={order.driverPhone ?? "-"}
-                        pickTime={order.pickTime ?? "-"}
-                        pickDate={order.pickDate ?? "-"}
-                        amount={String(round(order.fare))}
+                        driverName={OrderHistoryReaders.DriverName(order)}
+                        driverPhone={OrderHistoryReaders.DriverPhone(order)}
+                        pickTime={OrderHistoryReaders.OrderPickTime(order)}
+                        pickDate={OrderHistoryReaders.OrderPickDate(order)}
+                        amount={String(
+                          round(OrderHistoryReaders.OrderFare(order))
+                        )}
                       />
                     )}
                   </Link>
