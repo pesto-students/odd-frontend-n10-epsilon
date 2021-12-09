@@ -16,6 +16,8 @@ const onInActive: React.CSSProperties = {
 };
 
 function Dashboard() {
+  const isOnline = useSelector((state: any) => state.driver.isOnline);
+  const dispatch = useDispatch();
   let auth = useAuth();
   let navigate = useNavigate();
 
@@ -36,11 +38,19 @@ function Dashboard() {
     >
       {"Trips & Payment"}
     </NavLink>,
+    <NavLink
+      style={({ isActive }) => (isActive ? onActive : onInActive)}
+      to="/dashboard/profile"
+      className="py-4 px-7"
+      key={"3"}
+    >
+      {"Statistics"}
+    </NavLink>,
   ];
 
   const profile = (
     <LogoutMenu
-      key={"3"}
+      key={"4"}
       onSignOut={() => {
         console.log("onSignOut Clicked");
         auth.signout(() => {
@@ -51,15 +61,12 @@ function Dashboard() {
     />
   );
 
-  const driver = useSelector((state: any) => state.driver.isOnline);
-  const dispatch = useDispatch();
-
   const actionsLeft = [
     <div className="flex h-full justify-center" key={"4"}>
       <Switch
-        defaultState={driver}
+        defaultState={isOnline}
         onChange={(value: boolean) => {
-          dispatch(toggleMode());
+          dispatch(toggleMode(isOnline));
         }}
       />
     </div>,

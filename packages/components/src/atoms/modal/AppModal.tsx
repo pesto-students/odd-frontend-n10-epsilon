@@ -17,7 +17,7 @@ const AppModal: React.FC<IProps> = (props: IProps) => {
         initialFocus={cancelButtonRef}
         onClose={() => {}}
       >
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="flex w-full items-center md:items-end justify-center min-h-screen p-0 md:pt-4 md:px-4 md:pb-20 text-center sm:block">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

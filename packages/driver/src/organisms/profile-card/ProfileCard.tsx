@@ -8,9 +8,11 @@ import * as Yup from "yup";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { addInfo } from "../../redux/slices/driver";
+
 interface IProps {
   next?(): void;
 }
+
 interface Values {
   first_name: string;
   last_name: string;
@@ -19,12 +21,14 @@ interface Values {
   email?: string;
   state: string;
 }
+
 const ProfileCard: React.FC<IProps> = ({ next }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const state = useSelector((state: any) => state.driver.state);
 
   useEffect(() => {
+    console.log(state);
     formRef.current.setValues({
       first_name: state?.first_name ?? "",
       last_name: state?.last_name ?? "",
@@ -34,7 +38,6 @@ const ProfileCard: React.FC<IProps> = ({ next }) => {
       state: state.state ?? "Madhya pradesh",
     });
   }, [state]);
-  console.log(state);
 
   const formRef: React.MutableRefObject<FormikProps<Values>> = useRef<any>();
   const validate = Yup.object({
@@ -47,12 +50,14 @@ const ProfileCard: React.FC<IProps> = ({ next }) => {
     email: Yup.string().email("Invalid email address"),
     state: Yup.string(),
   });
+
   const handleNumberChange = (value: string) => {
     if (value.match(/[^0-9]/g)) return;
     if (value.length > 6) return;
     // if value contains . / * - any other character it will return true
     formRef.current.setFieldValue("city_postal_code", value);
   };
+
   const handleSubmit = async (value: Values) => {
     const id = toast.loading("Please wait...");
     try {
@@ -134,4 +139,5 @@ const ProfileCard: React.FC<IProps> = ({ next }) => {
     </Formik>
   );
 };
+
 export default ProfileCard;

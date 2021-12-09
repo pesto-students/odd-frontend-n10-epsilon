@@ -12,8 +12,8 @@ export interface IProps {
 const OrderItem: React.FC<IProps> = (props: IProps) => {
   return (
     <div className="flex flex-row bg-white rounded-xl shadow py-3 justify-center items-center border-t-2 border-primary border-opacity-5">
-      <div className="grid grid-flow-col pl-3 grid-cols-6 gap-4">
-        <div className="flex flex-col col-span-4 h-3/5">
+      <div className="w-full grid grid-flow-col pl-3 pr-1 grid-cols-6 gap-1">
+        <div className="col-span-4 flex flex-col justify-start items-start h-3/5">
           <OrderProgressItem
             pickAddress={props.pickUpAddress}
             dropAddress={props.dropOffAddress}
@@ -34,7 +34,7 @@ const OrderItem: React.FC<IProps> = (props: IProps) => {
                 title={`${props.amount} Rs.`}
                 primary
                 medium
-                className="text-base"
+                className="text-sm md:text-base"
               />
             </div>
           </div>

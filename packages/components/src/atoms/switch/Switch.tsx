@@ -1,11 +1,8 @@
-import { useState } from "react";
 //components
 import { Switch as HeroSwitch } from "@headlessui/react";
 //svg-icons
-const IconOff  = require( "../../assets/svgs/icn-switch-off.svg").default;
-const IconOn    = require("../../assets/svgs/icn-switch-on.svg").default;
-
-
+const IconOff = require("../../assets/svgs/icn-switch-off.svg").default;
+const IconOn = require("../../assets/svgs/icn-switch-on.svg").default;
 
 interface IProps {
   onChange(value: boolean): void;
@@ -20,13 +17,10 @@ const Switch: React.FC<IProps> = ({
   labelOff = "Offline",
   defaultState = true,
 }) => {
- 
-
   return (
     <HeroSwitch
       checked={defaultState}
       onChange={(value) => {
-      
         onChange(value);
       }}
     >
@@ -41,7 +35,7 @@ const Switch: React.FC<IProps> = ({
           } absolute top-1.5 left-0 w-6 h-6 transform bg-white rounded-full self-auto items-center circleShadow`}
         >
           <img
-          alt="img"
+            alt="switch"
             className="mx-auto object-center w-5 h-5 mt-0.5"
             src={defaultState ? IconOn : IconOff}
           />
