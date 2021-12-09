@@ -69,26 +69,27 @@ const ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 px-0 lg:px-5 mt-5 gap-2 lg:gap-4">
       {error ?? <div>{error}</div>}
-      {vehicles?.map((_vehicle: Vehicle) => (
-        <div key={ChooseVehicleReaders.VehicleId(_vehicle)}>
-          <ChooseVehicle
-            _id={ChooseVehicleReaders.VehicleId(_vehicle)}
-            desc={ChooseVehicleReaders.Description(_vehicle)}
-            title={ChooseVehicleReaders.VehicleName(_vehicle)}
-            icon={IconRupee}
-            baseRate={ChooseVehicleReaders.VehicleBaseRate(_vehicle)}
-            extraRate={ChooseVehicleReaders.VehiclePerKmRate(_vehicle)}
-            showRates={true}
-            defaultState={selectedVehicles._id}
-            price={ChooseVehicleReaders.VehicleEstimateFare(_vehicle).toFixed(
-              0
-            )}
-            onSelect={(_id) => {
-              setSelectedVehicles(_vehicle);
-            }}
-          />
-        </div>
-      ))}
+      {vehicles &&
+        vehicles?.map((_vehicle: Vehicle) => (
+          <div key={ChooseVehicleReaders.VehicleId(_vehicle)}>
+            <ChooseVehicle
+              _id={ChooseVehicleReaders.VehicleId(_vehicle)}
+              desc={ChooseVehicleReaders.Description(_vehicle)}
+              title={ChooseVehicleReaders.VehicleName(_vehicle)}
+              icon={IconRupee}
+              baseRate={ChooseVehicleReaders.VehicleBaseRate(_vehicle)}
+              extraRate={ChooseVehicleReaders.VehiclePerKmRate(_vehicle)}
+              showRates={true}
+              defaultState={selectedVehicles._id}
+              price={ChooseVehicleReaders.VehicleEstimateFare(_vehicle).toFixed(
+                0
+              )}
+              onSelect={(_id) => {
+                setSelectedVehicles(_vehicle);
+              }}
+            />
+          </div>
+        ))}
 
       <div className="lg:col-span-2">
         <Button
