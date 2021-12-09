@@ -14,6 +14,7 @@ import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 
 import DummyMap from "../../assets/dummymap.svg";
+import { OrderDetailsReaders } from "../../helpers";
 
 const OrderDetail: React.FC<any> = () => {
   const [loading, setLoading] = useState(true);
@@ -30,8 +31,12 @@ const OrderDetail: React.FC<any> = () => {
       try {
         const result = await apiService.getApi(api);
         const data = result.data;
-        console.log(data);
-        setData(data.data);
+        if (data && data.success) {
+          console.log(data);
+          setData(data.data);
+        } else {
+          setData({});
+        }
       } catch (error) {
         setData({});
       } finally {
@@ -54,7 +59,7 @@ const OrderDetail: React.FC<any> = () => {
         {/* Title Panel */}
         <div className="flex justify-between items-center">
           <Label
-            title={`Order Id: #${data?.order_id ?? "000-000-000"}`}
+            title={`Order Id: #${OrderDetailsReaders.OrderId(data)}`}
             primary
             regular
             className="text-base"
@@ -92,7 +97,9 @@ const OrderDetail: React.FC<any> = () => {
                   <div className="flex flex-row space-x-3 items-center">
                     <div className="flex h-11 w-11 mx-auto ">
                       <img
-                        src={data?.user?.profile ?? DummyMap}
+                        src={
+                          OrderDetailsReaders.UserProfileImage(data) ?? DummyMap
+                        }
                         alt="user profile"
                         className="rounded-full"
                       />
@@ -101,7 +108,7 @@ const OrderDetail: React.FC<any> = () => {
                       <Label
                         className="flex text-base md:text-lg"
                         medium
-                        title={data?.user?.phone ?? "Phone Number"}
+                        title={OrderDetailsReaders.UserPhoneNumber(data)}
                       />
                       <div className="flex flex-row items-center space-x-2">
                         <Icon
@@ -112,7 +119,7 @@ const OrderDetail: React.FC<any> = () => {
                         <Label
                           className="text-base md:text-2xl"
                           medium
-                          title={`${data?.rate ?? 0} Rs.`}
+                          title={`${OrderDetailsReaders.OrderPrice(data)} Rs.`}
                           primary
                         />
                       </div>
@@ -125,7 +132,10 @@ const OrderDetail: React.FC<any> = () => {
                   <div className="flex flex-row space-x-3 items-center">
                     <div className="flex h-11 w-11 mx-auto ">
                       <img
-                        src={data?.driver?.profile ?? DummyMap}
+                        src={
+                          OrderDetailsReaders.DriverProfileImage(data) ??
+                          DummyMap
+                        }
                         alt="driver profile"
                         className="rounded-full"
                       />
@@ -134,7 +144,7 @@ const OrderDetail: React.FC<any> = () => {
                       <Label
                         className="flex text-base md:text-lg"
                         medium
-                        title={data?.driver?.name ?? "Driver Name"}
+                        title={OrderDetailsReaders.DriverName(data)}
                       />
                       {/* <div className="flex flex-row items-center space-x-2">
                     <Icon
@@ -159,15 +169,18 @@ const OrderDetail: React.FC<any> = () => {
                 <div className="order-1 md:order-2 col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1 space-y-4 justify-start items-start xl:justify-center xl:items-center xl:text-center flex-1">
                   <TitleLabel title="Vehicle" />
                   <div className="h-11 w-11 flex-1 xl:mx-auto">
-                    <img src={data?.vehicle ?? DummyMap} alt="vehicle" />
+                    <img
+                      src={OrderDetailsReaders.VehicleImage(data) ?? DummyMap}
+                      alt="vehicle"
+                    />
                   </div>
                 </div>
                 {/* Date and Time */}
                 <div className="order-3 md:order-3 col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-2 space-y-4 justify-start items-start xl:justify-center xl:items-center xl:text-center">
                   <TitleLabel title="Date &amp; Time" />
                   <div className="flex flex-col">
-                    <Label title={data?.date ?? "Date"} medium />
-                    <Label title={data?.time ?? "Time"} medium />
+                    <Label title={OrderDetailsReaders.OrderDate(data)} medium />
+                    <Label title={OrderDetailsReaders.OrderTime(data)} medium />
                   </div>
                 </div>
                 {/* Pick And Drop */}
@@ -175,22 +188,18 @@ const OrderDetail: React.FC<any> = () => {
                   <div className="grid grid-flow-col h-full w-full">
                     <div className="col-span-3 md:col-span-6 xl:col-span-4 row-span-4 mx-2">
                       <SteppedAddresses
-                        pickAddressTitle={
-                          data?.pickup_info?.contact_person_name ??
-                          "Pick Address Title"
-                        }
-                        pickAddressFull={
-                          data?.pickup_info?.contact_person_name ??
-                          "Pick Address Full"
-                        }
-                        dropAddressTitle={
-                          data?.pickup_info?.contact_person_name ??
-                          "Drop Address Title"
-                        }
-                        dropAddressFull={
-                          data?.pickup_info?.contact_person_name ??
-                          "Drop Address Full"
-                        }
+                        pickAddressTitle={OrderDetailsReaders.OrderPickupAddress(
+                          data
+                        )}
+                        pickAddressFull={OrderDetailsReaders.OrderPickupAddressFull(
+                          data
+                        )}
+                        dropAddressTitle={OrderDetailsReaders.OrderDropOffAddress(
+                          data
+                        )}
+                        dropAddressFull={OrderDetailsReaders.OrderDropOffAddressFull(
+                          data
+                        )}
                       />
                     </div>
                     {/* Person Phone and Name */}
@@ -199,10 +208,9 @@ const OrderDetail: React.FC<any> = () => {
                         <LabeledIcon
                           iconName="icn-User"
                           iconColorType={IconColorType.primary}
-                          title={
-                            data?.pickup_info?.contact_person_name ??
-                            "User Name"
-                          }
+                          title={OrderDetailsReaders.OrderPickupContactName(
+                            data
+                          )}
                           reverse
                           fontSize={14}
                           iconSize={12}
@@ -210,10 +218,9 @@ const OrderDetail: React.FC<any> = () => {
                         <LabeledIcon
                           iconName="icn-phone"
                           iconColorType={IconColorType.primary}
-                          title={
-                            data?.pickup_info?.contact_person_number ??
-                            "1234567890"
-                          }
+                          title={OrderDetailsReaders.OrderPickupContactNumber(
+                            data
+                          )}
                           reverse
                           fontSize={14}
                           iconSize={12}
@@ -223,10 +230,9 @@ const OrderDetail: React.FC<any> = () => {
                         <LabeledIcon
                           iconName="icn-User"
                           iconColorType={IconColorType.primary}
-                          title={
-                            data?.drop_off_info?.contact_person_name ??
-                            "User Name"
-                          }
+                          title={OrderDetailsReaders.OrderDropOffContactName(
+                            data
+                          )}
                           reverse
                           fontSize={14}
                           iconSize={12}
@@ -234,10 +240,9 @@ const OrderDetail: React.FC<any> = () => {
                         <LabeledIcon
                           iconName="icn-phone"
                           iconColorType={IconColorType.primary}
-                          title={
-                            data?.drop_off_info?.contact_person_number ??
-                            "1234567890"
-                          }
+                          title={OrderDetailsReaders.OrderDropOffContactNumber(
+                            data
+                          )}
                           reverse
                           fontSize={14}
                           iconSize={12}
@@ -249,20 +254,23 @@ const OrderDetail: React.FC<any> = () => {
               </div>
             </div>
             {/* Route */}
-            <div className="col-span-1 lg:col-span-1 xl:col-span-3 h-full">
-              <div className="col-span-3 row-span-1 space-y-4 justify-between flex-1 h-full">
+            <div className="flex w-full col-span-1 lg:col-span-1 xl:col-span-3 h-full">
+              <div className="flex flex-col w-full space-y-4 h-full">
                 <TitleLabel title="Route" />
-                <div className="w-full h-40 md:h-80 lg:w-52 lg:h-52 xl:w-80 xl:h-80 shadow-xl rounded-2xl">
-                  <iframe
-                    id="Map"
-                    title="order-map"
-                    frameBorder="0"
-                    scrolling="no"
-                    className="h-full w-full object-cover rounded-2xl"
-                    src="https://maps.google.com/maps?hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                  >
-                    <a href="https://www.gps.ie/">gps vehicle tracker</a>
-                  </iframe>
+                <div className="flex w-full bg-white">
+                  <div className="flex w-full rounded-xl overflow-hidden border-gray border-2 h-64">
+                    <iframe
+                      id="Map2"
+                      title="order-info-map"
+                      width="100%"
+                      frameBorder="0"
+                      scrolling="no"
+                      className="h-full"
+                      src="https://maps.google.com/maps?width=100%25&amp;hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                    >
+                      <a href="https://www.gps.ie/">gps vehicle tracker</a>
+                    </iframe>
+                  </div>
                 </div>
                 <div className="flex items-center space-x-3 justify-center my-2">
                   {/* <StatusItem value="active" /> */}

@@ -9,6 +9,7 @@ import {
 } from "@odd/components";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
+import { VehiclesReaders } from "../../helpers";
 
 function Users() {
   const columns = React.useMemo(
@@ -67,28 +68,18 @@ function Users() {
     for (let index = 0; index < inputData.length; index++) {
       const element = inputData[index];
       result.push({
-        name: element?.name ?? "NULL",
+        name: VehiclesReaders.VehicleName(element),
         image:
-          element?.image ?? require("../../assets/dummy-vehicle.svg").default,
-        baseRate: `₹ ${element?.base_fare ?? 0}`,
-        kmRate: `₹ ${element?.per_km ?? 50}`,
-        recommendation: element?.recommendation ?? "recommendation",
-        // action: element?.action ?? "action",
-        status: element?.status ?? "",
+          VehiclesReaders.VehicleImage(element) ??
+          require("../../assets/dummy-vehicle.svg").default,
+        baseRate: `₹ ${VehiclesReaders.VehicleBaseFare(element)}`,
+        kmRate: `₹ ${VehiclesReaders.VehiclePerKmRate(element)}`,
+        recommendation: VehiclesReaders.VehicleRecommendation(element),
+        // action: VehiclesReaders.VehicleAction(element),
+        status: VehiclesReaders.VehicleStatus(element),
       });
     }
 
-    // console.log(inputData);
-    // console.log(result);
-    // {
-    //   name: "Mini Truck",
-    //   image: require("../../assets/dummy-vehicle.svg").default,
-    //   baseRate: "₹ 100",
-    //   kmRate: "₹ 50",
-    //   recommendation: "recommendation",
-    //   action: "action",
-    //   status: "inactive",
-    // }
     return result;
   }
 
@@ -97,9 +88,13 @@ function Users() {
       const api = API.ADMIN_ENDPOINTS.VEHICLES_LIST;
       try {
         const result = await apiService.getApi(api);
-        const resultData = result.data;
-        console.log(resultData);
-        setData(mapData(resultData.data));
+        const data = result.data;
+        if (data && data.success) {
+          console.log(data);
+          setData(mapData(data.data));
+        } else {
+          setData([]);
+        }
       } catch (error) {
         setData([]);
       } finally {
