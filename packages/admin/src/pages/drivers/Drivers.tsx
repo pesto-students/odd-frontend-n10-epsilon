@@ -10,6 +10,7 @@ import {
 } from "@odd/components";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
+import { DriversReaders } from "../../helpers";
 
 function Users() {
   const columns = React.useMemo(
@@ -68,31 +69,15 @@ function Users() {
     for (let index = 0; index < inputData.length; index++) {
       const element = inputData[index];
       result.push({
-        name: element?.name ?? "NULL",
-        profile:
-          element?.image && element?.image?.length > 0
-            ? element?.image
-            : "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        phone: element?.mobile_number ?? "NULL",
-        trips: element?.total_order ?? 0,
-        verified: element?.driver_status ?? "",
-        action: element?.action ?? "",
-        status: element?.isOnline ? "active" : "inactive",
+        name: DriversReaders.UserName(element),
+        profile: DriversReaders.UserImage(element),
+        phone: DriversReaders.UserPhoneNumber(element),
+        trips: DriversReaders.UserTotalOrders(element),
+        verified: DriversReaders.UserVerified(element),
+        action: DriversReaders.UserAction(element),
+        status: DriversReaders.UserOnline(element) ? "active" : "inactive",
       });
     }
-    
-    // console.log(inputData);
-    // console.log(result);
-    // {
-    //   name: "Dharmendra Jagodana",
-    //   profile:
-    //     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    //   phone: "+91 9879988888",
-    //   trips: 48,
-    //   verified: "inprogress",
-    //   action: "action",
-    //   status: "active",
-    // }
     return result;
   }
 
@@ -101,9 +86,13 @@ function Users() {
       const api = API.ADMIN_ENDPOINTS.DRIVERS_LIST;
       try {
         const result = await apiService.getApi(api);
-        const resultData = result.data;
-        console.log(resultData);
-        setData(mapData(resultData.data));
+        const data = result.data;
+        if (data && data.success) {
+          console.log(data);
+          setData(mapData(data.data));
+        } else {
+          setData([]);
+        }
       } catch (error) {
         setData([]);
       } finally {

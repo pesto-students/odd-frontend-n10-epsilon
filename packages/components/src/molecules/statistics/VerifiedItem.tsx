@@ -25,14 +25,14 @@ const VerifiedItem: React.FC<IProps> = (props: IProps & any) => {
 
 const getStatusIcon = (status: string) => {
   switch (status) {
-    case "verified":
-      return IconActive;
+    case "pending":
+      return IconInactive;
 
     case "inprogress":
       return IconEmpty;
 
     default:
-      return IconInactive;
+      return IconActive;
   }
 };
 

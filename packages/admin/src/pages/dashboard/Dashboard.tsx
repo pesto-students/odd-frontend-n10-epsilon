@@ -10,6 +10,7 @@ import {
 } from "../../molecules";
 import * as apiService from "../../api-call";
 import { API } from "../../constant/Endpoints";
+import { StatisticsReader } from "../../helpers";
 
 const Dashboard: React.FC<any> = () => {
   const [loading, setLoading] = useState(true);
@@ -48,19 +49,19 @@ const Dashboard: React.FC<any> = () => {
         <TotalItem
           icon="icn-total-users"
           label={"Total Users"}
-          count={statistics?.user ?? 0}
+          count={StatisticsReader.TotalUsers(statistics)}
           sinceValue={0}
         />
         <TotalItem
           icon="icn-total-drivers"
           label={"Total Drivers"}
-          count={statistics?.driver ?? 0}
+          count={StatisticsReader.TotalDrivers(statistics)}
           sinceValue={0}
         />
         <TotalItem
           icon="icn-total-orders"
           label={"Total Orders"}
-          count={statistics?.order ?? 0}
+          count={StatisticsReader.TotalOrders(statistics)}
           sinceValue={0}
         />
         {/* <DateRangeSelectionItems /> */}
@@ -76,8 +77,8 @@ const Dashboard: React.FC<any> = () => {
           <div className="lg:flex-auto mt-4 xl:mt-20 px-4">
             <div className="flex">
               <EarningItem
-                count={statistics?.earning?.value ?? 0}
-                sinceValue={statistics?.earning?.change ?? 0}
+                count={StatisticsReader.TotalEarningsValue(statistics)}
+                sinceValue={StatisticsReader.TotalEarningsChange(statistics)}
               />
             </div>
             <div className="flex items-center mt-9">
@@ -105,24 +106,24 @@ const Dashboard: React.FC<any> = () => {
           <div className="flex flex-col mt-4 lg:mt-8 justify-between gap-2 lg:gap-4 xl:gap-8">
             <ChartLabelItem
               label="In progress"
-              value={statistics?.inProgress?.value ?? 0}
+              value={StatisticsReader.GetChartValue(statistics, "inProgress")}
               color="rgba(54, 162, 235, 1)"
             />
             <ChartLabelItem
               label="On Time"
-              value={statistics?.onTime?.value ?? 0}
+              value={StatisticsReader.GetChartValue(statistics, "onTime")}
               color="rgba(75, 192, 192, 1)"
             />
 
             <ChartLabelItem
               label="Delayed"
-              value={statistics?.delayed?.value ?? 0}
+              value={StatisticsReader.GetChartValue(statistics, "delayed")}
               color="rgba(255, 205, 86, 1)"
             />
 
             <ChartLabelItem
               label="Failed"
-              value={statistics?.failed?.value ?? 0}
+              value={StatisticsReader.GetChartValue(statistics, "failed")}
               color="rgba(255, 99, 132, 1)"
             />
           </div>
@@ -130,10 +131,13 @@ const Dashboard: React.FC<any> = () => {
         <div className="flex col-span-1 lg:col-span-3 xl:col-span-7 justify-center xl:justify-end my-auto">
           <DoughnutChart
             className="w-10/12 xl:w-80 lg:mr-12 h-1/4 lg:h-4/5 p-4"
-            inProgress={statistics?.inProgress?.value ?? 1}
-            onTime={statistics?.onTime?.value ?? 1}
-            delayed={statistics?.delayed?.value ?? 1}
-            failed={statistics?.failed?.value ?? 1}
+            inProgress={StatisticsReader.GetChartValue(
+              statistics,
+              "inProgress"
+            )}
+            onTime={StatisticsReader.GetChartValue(statistics, "onTime")}
+            delayed={StatisticsReader.GetChartValue(statistics, "delayed")}
+            failed={StatisticsReader.GetChartValue(statistics, "failed")}
           />
         </div>
       </div>

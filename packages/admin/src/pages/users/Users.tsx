@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  AvatarItem,
   DataTable,
   FullScreenLoader,
   NoDataFoundView,
@@ -7,6 +8,7 @@ import {
 } from "@odd/components";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
+import { UsersReaders } from "../../helpers";
 
 function Users() {
   const columns = React.useMemo(
@@ -17,12 +19,12 @@ function Users() {
         Cell: TextItem,
         imgAccessor: "index",
       },
-      // {
-      //   Header: "Profile",
-      //   accessor: "profile",
-      //   Cell: AvatarItem,
-      //   imgAccessor: "profile",
-      // },
+      {
+        Header: "Profile",
+        accessor: "profile",
+        Cell: AvatarItem,
+        imgAccessor: "profile",
+      },
       // {
       //   Header: "NAME",
       //   accessor: "name",
@@ -60,29 +62,16 @@ function Users() {
     for (let index = 0; index < inputData.length; index++) {
       const element = inputData[index];
       result.push({
-        _id: element?._id,
-        name: element?.name ?? "NULL",
-        profile:
-          element?.profile ??
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        phone: element?.mobile_number ?? "NULL",
-        orders: element?.total_order ?? 0,
-        action: element?.action ?? "",
-        status: element?.status ?? "",
+        _id: UsersReaders.UserId(element),
+        name: UsersReaders.UserName(element),
+        profile: UsersReaders.UserImage(element),
+        phone: UsersReaders.UserPhoneNumber(element),
+        orders: UsersReaders.UserTotalOrders(element),
+        action: UsersReaders.UserAction(element),
+        status: UsersReaders.UserStatus(element),
       });
     }
 
-    // console.log(inputData);
-    // console.log(result);
-    // {
-    //   name: "Jane Cooper",
-    //   profile:
-    //     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    //   phone: "+91 1231231230",
-    //   orders: 50,
-    //   action: "action",
-    //   status: "active",
-    // }
     return result;
   }
 
@@ -91,9 +80,13 @@ function Users() {
       const api = API.ADMIN_ENDPOINTS.USER_LIST;
       try {
         const result = await apiService.getApi(api);
-        const resultData = result.data;
-        console.log(resultData);
-        setData(mapData(resultData.data));
+        const data = result.data;
+        if (data && data.success) {
+          console.log(data);
+          setData(mapData(data.data));
+        } else {
+          setData([]);
+        }
       } catch (error) {
         setData([]);
       } finally {

@@ -10,6 +10,7 @@ import {
 } from "@odd/components";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
+import { OrdersReaders } from "../../helpers";
 
 function Orders() {
   const columns = React.useMemo(
@@ -73,31 +74,16 @@ function Orders() {
     for (let index = 0; index < inputData.length; index++) {
       const element = inputData[index];
       result.push({
-        orderId: element?.order_id ?? "NULL",
-        image:
-          element?.order_id ??
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-        userName: element?.user ?? "NULL",
-        driverName: element?.driver ?? "NULL",
-        charges: element?.rate ?? "₹ 0",
-        date: element?.date ?? "",
-        status: element?.status ?? "",
+        orderId: `#${OrdersReaders.OrderId(element)}`,
+        image: OrdersReaders.VehicleImage(element),
+        userName: OrdersReaders.UserName(element),
+        driverName: OrdersReaders.DriverName(element),
+        charges: `₹ ${OrdersReaders.FarePrice(element)}`,
+        date: OrdersReaders.OrderDate(element),
+        status: OrdersReaders.OrderStatus(element),
       });
     }
 
-    // console.log(inputData);
-    // console.log(result);
-
-    // {
-    //   orderId: "#120-765-665",
-    //   image:
-    //     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    //   userName: "Dharmendra",
-    //   driverName: "Akash",
-    //   charges: "₹ 350",
-    //   date: "21 - Jun - 2021",
-    //   status: "blue",
-    // }
     return result;
   }
 
@@ -106,9 +92,13 @@ function Orders() {
       const api = API.ADMIN_ENDPOINTS.ORDERS_LIST;
       try {
         const result = await apiService.getApi(api);
-        const resultData = result.data;
-        console.log(resultData);
-        setData(mapData(resultData.data));
+        const data = result.data;
+        if (data && data.success) {
+          console.log(data);
+          setData(mapData(data.data));
+        } else {
+          setData([]);
+        }
       } catch (error) {
         setData([]);
       } finally {
