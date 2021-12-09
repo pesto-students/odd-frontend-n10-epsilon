@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
+import { TripsAndPaymentsReaders } from "../../helpers";
 
 interface IProps {}
 
@@ -82,7 +83,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
           <div className="flex flex-row space-x-6 items-center">
             <div className="flex flex-row">
               <img
-                src={driverData?.image ?? null}
+                src={TripsAndPaymentsReaders.DriverImage(driverData)}
                 alt="profile"
                 className="w-20 h-20 rounded-full"
               />
@@ -91,9 +92,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
               <Label
                 className="flex text-lg"
                 medium
-                title={`${driverData?.first_name ?? ""} ${
-                  driverData?.last_name ?? ""
-                }`}
+                title={TripsAndPaymentsReaders.DriverFullName(driverData)}
               />
               <div className="flex flex-row items-center space-x-2">
                 <Icon
@@ -104,7 +103,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
                 <Label
                   className="text-sm"
                   medium
-                  title={driverData?.level ?? "-"}
+                  title={TripsAndPaymentsReaders.DriverLevel(driverData)}
                 />
               </div>
               <div className="flex flex-row items-center space-x-2 ">
@@ -116,7 +115,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
                 <Label
                   className="text-sm"
                   medium
-                  title={driverData?.rating ?? "-"}
+                  title={TripsAndPaymentsReaders.DriverRating(driverData)}
                 />
               </div>
             </div>
@@ -131,17 +130,17 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
               <StatisticsItem
                 iconName="icn-trip-state-earn"
                 label="Earned"
-                value={`${data?.earning ?? "0"} Rs`}
+                value={`${TripsAndPaymentsReaders.Earning(data)} Rs`}
               />
               <StatisticsItem
                 iconName="icn-trip-state-travel"
                 label="Traveled"
-                value={`${data?.distance ?? "0"} Km`}
+                value={`${TripsAndPaymentsReaders.Distance(data)} Km`}
               />
               <StatisticsItem
                 iconName="icn-trip-state-trip"
                 label="Trips"
-                value={`${data?.trips ?? "0"}`}
+                value={TripsAndPaymentsReaders.Trips(data)}
               />
             </div>
           </div>
@@ -149,19 +148,23 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
         {/* <div className="overflow-auto lg:max-h-80 py-3 no-scrollbar"> */}
         <div className="overflow-auto py-3 no-scrollbar">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {data && data.orders ? (
-              data.orders?.map((_order: any) => {
+            {TripsAndPaymentsReaders.Orders(data) ? (
+              TripsAndPaymentsReaders.Orders(data)?.map((_order: any) => {
                 return (
-                  <Link to={`/dashboard/trips/${_order.orderId}`}>
+                  <Link
+                    to={`/dashboard/trips/${TripsAndPaymentsReaders.OrderId(
+                      _order
+                    )}`}
+                  >
                     <OrderItem
-                      pickUpAddress={
-                        _order?.pickup_info?.complete_address ?? "-"
-                      }
-                      dropOffAddress={
-                        _order?.drop_off_info?.complete_address ?? "-"
-                      }
-                      pickDate={_order?.createdAt ?? "-"}
-                      amount={_order?.fare ?? "-"}
+                      pickUpAddress={TripsAndPaymentsReaders.OrderPickUpAddress(
+                        _order
+                      )}
+                      dropOffAddress={TripsAndPaymentsReaders.OrderDropOffAddress(
+                        _order
+                      )}
+                      pickDate={TripsAndPaymentsReaders.OrderCreateDate(_order)}
+                      amount={TripsAndPaymentsReaders.OrderFare(_order)}
                     />
                   </Link>
                 );

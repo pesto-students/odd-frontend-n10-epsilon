@@ -30,8 +30,11 @@ const SelectVehicleCard: React.FC<IProps> = ({ onSubmit }) => {
   const getVehicle = useCallback(async () => {
     const api = API.DRIVER_ENDPOINTS.VEHICLE_LIST;
     const result = await getApi(api);
-    setVehicles(result.data.data);
-    dispatch(addVehicleList(result.data.data));
+    const resultData = result.data;
+    if (resultData && resultData.success) {
+      setVehicles(result.data.data);
+      dispatch(addVehicleList(result.data.data));
+    }
   }, [dispatch]);
 
   const handleSubmit = async () => {

@@ -45,9 +45,14 @@ const DocumentUploadCard: React.FC<IProps> = ({ title, onSubmit }) => {
     try {
       setLoading(true);
       const result = await uploadFilePostApi(api, formData);
-      dispatch(updateDoc({ type, path: result.data.data }));
-      setLoading(false);
-      navigate("/dashboard/completeProfile/doc", { replace: true });
+      const data = result.data;
+      if (data && data.success) {
+        dispatch(updateDoc({ type, path: data.data }));
+        setLoading(false);
+        navigate("/dashboard/completeProfile/doc", { replace: true });
+      } else {
+        setLoading(false);
+      }
     } catch (error) {
       setLoading(false);
       console.log(error);

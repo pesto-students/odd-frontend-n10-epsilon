@@ -22,14 +22,15 @@ export interface OrderAttributes {
   haveCurrent: boolean;
   _id: string;
 }
+
 export const fetchCurrentOrder = createAsyncThunk(
   "order/fetchCurrentOrder",
   async () => {
     const api = API.DRIVER_ENDPOINTS.GET_CURRENT_ORDER;
     const id = toast.loading("Please wait...");
-    const order = await getApi(api);
+    const result = await getApi(api);
     toast.dismiss(id);
-    return order.data.data;
+    return result.data.data;
   }
 );
 
