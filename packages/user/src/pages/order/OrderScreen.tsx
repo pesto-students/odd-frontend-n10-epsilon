@@ -45,12 +45,15 @@ const OrderScreen: React.FC<any> = () => {
       const result = await apiService.getApi(api);
       const data = result.data;
       if (data && data.success) {
+        console.log(data);
         setError("");
         setOrderData(data.data);
       } else {
+        console.log(data.error);
         setError(data.error);
       }
     } catch (error) {
+      console.log(error);
       setError("Error while fetching order data.");
     } finally {
       setLoading(false);
