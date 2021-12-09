@@ -25,19 +25,19 @@ interface Values {
 const ProfileCard: React.FC<IProps> = ({ next }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const state = useSelector((state: any) => state.driver.state);
+  const driverState = useSelector((state: any) => state.driver.state);
 
   useEffect(() => {
-    console.log(state);
+    console.log(driverState);
     formRef.current.setValues({
-      first_name: state?.first_name ?? "",
-      last_name: state?.last_name ?? "",
-      languages: state?.languages ?? "English",
-      city_postal_code: state.city_postal_code ?? "",
-      email: state.email ?? "",
-      state: state.state ?? "Madhya pradesh",
+      first_name: driverState?.first_name ?? "",
+      last_name: driverState?.last_name ?? "",
+      languages: driverState?.languages ?? "English",
+      city_postal_code: driverState.city_postal_code ?? "",
+      email: driverState.email ?? "",
+      state: driverState.state ?? "Madhya pradesh",
     });
-  }, [state]);
+  }, [driverState]);
 
   const formRef: React.MutableRefObject<FormikProps<Values>> = useRef<any>();
   const validate = Yup.object({
@@ -77,12 +77,12 @@ const ProfileCard: React.FC<IProps> = ({ next }) => {
   return (
     <Formik
       initialValues={{
-        first_name: state?.first_name ?? "",
-        last_name: state?.last_name ?? "",
-        languages: state?.languages ?? "English",
-        city_postal_code: state.city_postal_code ?? "",
-        email: state.email ?? "",
-        state: state.state ?? "Madhya pradesh",
+        first_name: driverState?.first_name ?? "",
+        last_name: driverState?.last_name ?? "",
+        languages: driverState?.languages ?? "English",
+        city_postal_code: driverState.city_postal_code ?? "",
+        email: driverState.email ?? "",
+        state: driverState.state ?? "Madhya pradesh",
       }}
       onSubmit={handleSubmit}
       innerRef={formRef}

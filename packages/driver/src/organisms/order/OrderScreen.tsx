@@ -17,21 +17,22 @@ import { OtpConfirmDialog } from "../otp-confirm-dialog";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { toast } from "react-toastify";
+import { OrderInfoReaders } from "../../helpers";
 
 interface IProps {}
 
 const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
   const { orderId } = useParams();
-  const state = useSelector((state: any) => state.order);
+  const stateOrderData = useSelector((state: any) => state.order);
   const [loading, setLoading] = useState(false);
-  const [orderData, setOrderData] = useState<OrderAttributes>(state);
+  const [orderData, setOrderData] = useState<OrderAttributes>();
   const [open, setOpen] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {}, [orderId]);
 
   useEffect(() => {
-    setOrderData(state);
-  }, [state]);
+    setOrderData(stateOrderData);
+  }, [stateOrderData]);
 
   const getLatLong = (): Promise<{ latitude: number; longitude: number }> => {
     const options = {
@@ -55,35 +56,43 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
   };
 
   const updateOrderStatus = async (otp: string) => {
-    const api = API.DRIVER_ENDPOINTS.UPDATE_ORDER_STATUS;
     const id = toast.loading("Please wait...");
     try {
       setLoading(true);
       const coords = await getLatLong();
       const data = {
-        status: orderData.status === "accepted" ? "inprogress" : "delivered",
+        status:
+          OrderInfoReaders.OrderStatus(orderData) === "accepted"
+            ? "inprogress"
+            : "delivered",
         otp,
-        _id: orderData._id,
+        _id: OrderInfoReaders.OrderId(orderData),
         coordinates: [coords.latitude, coords.longitude],
       };
+      const api = API.DRIVER_ENDPOINTS.UPDATE_ORDER_STATUS;
       const result = await postApi(api, data);
-      dispatch(currentOrder(result.data.data));
+      const resultData = result.data;
+      if (resultData && resultData.success) {
+        dispatch(currentOrder(resultData.data));
+      } else {
+        console.log(resultData.error);
+      }
       toast.dismiss(id);
     } catch (error: any) {
-      toast.dismiss(id);
       toast.error(error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const getStatusString = () => {
-    return orderData.status !== "delivered"
+    return OrderInfoReaders.OrderStatus(orderData) !== "delivered"
       ? "Incoming Trip Request"
       : "Order Details";
   };
 
   const getDeliveryStatus = () => {
-    const status = orderData.status;
+    const status = OrderInfoReaders.OrderStatus(orderData);
 
     switch (status) {
       case "inprogress":
@@ -100,29 +109,33 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
   const getTitleView = () => {
     return (
       <FareTile
-        name={orderData?.pickup_info?.contact_person_name ?? "-"}
-        image={require("../../assets/driver.svg").default}
-        fare={orderData?.fare ?? "0"}
+        name={OrderInfoReaders.PickUpPersonName(orderData)}
+        image={
+          OrderInfoReaders.UserImage(orderData) ??
+          require("../../assets/driver.svg").default
+        }
+        fare={OrderInfoReaders.OrderFare(orderData)}
       />
     );
   };
 
   const modalTitle = () => {
-    if (orderData.status === "inprogress") return "Drop-Off";
-    if (orderData.status === "accepted") return "Pick-Up";
+    const status = OrderInfoReaders.OrderStatus(orderData);
+    if (status === "inprogress") return "Drop-Off";
+    if (status === "accepted") return "Pick-Up";
     return "-";
   };
 
   const modalDescription = () => {
-    if (orderData.status === "inprogress")
-      return "Enter the OTP to Drop-off package";
-    if (orderData.status === "accepted")
-      return "Enter the OTP to Pick-up package";
+    const status = OrderInfoReaders.OrderStatus(orderData);
+    if (status === "inprogress") return "Enter the OTP to Drop-off package";
+    if (status === "accepted") return "Enter the OTP to Pick-up package";
     return "-";
   };
 
   const buttonClick = () => {
-    if (orderData.status === "inprogress" || orderData.status === "accepted") {
+    const status = OrderInfoReaders.OrderStatus(orderData);
+    if (status === "inprogress" || status === "accepted") {
       setOpen(true);
     }
   };
@@ -130,6 +143,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
   const title = getStatusString();
   const deliveryStatus = getDeliveryStatus();
   const titleView = getTitleView();
+  const orderStatus = OrderInfoReaders.OrderStatus(orderData);
 
   return (
     <CardLayout title={title} icon={<Icon iconName="icn-order-history" />}>
@@ -139,37 +153,33 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
           <div className="grid grid-cols-6">
             <div
               className={`flex flex-col my-4 md:my-8 h-64 md:h-48 ${
-                orderData.status === "open" ? "col-span-6" : "col-span-4"
+                orderStatus === "open" ? "col-span-6" : "col-span-4"
               } `}
             >
               <SteppedAddresses
                 deliveryStatus={deliveryStatus}
-                pickAddressTitle={`${orderData?.pickup_info?.add_1 ?? "-"} ${
-                  orderData?.pickup_info?.add_2 ?? "-"
-                }`}
-                pickAddressFull={`${
-                  orderData?.pickup_info?.complete_address ?? "-"
-                }`}
-                dropAddressTitle={`${orderData?.drop_off_info?.add_1 ?? "-"} ${
-                  orderData?.drop_off_info?.add_2 ?? "-"
-                }`}
-                dropAddressFull={`${
-                  orderData?.drop_off_info?.complete_address ?? "-"
-                }`}
+                pickAddressTitle={OrderInfoReaders.PickUpTitleAddress(
+                  orderData
+                )}
+                pickAddressFull={OrderInfoReaders.PickUpFullAddress(orderData)}
+                dropAddressTitle={OrderInfoReaders.DropOffTitleAddress(
+                  orderData
+                )}
+                dropAddressFull={OrderInfoReaders.DropOffFullAddress(orderData)}
               />
             </div>
-            {orderData.status !== "open" && (
+            {orderStatus !== "open" && (
               <div className="col-span-2 flex flex-col my-8 justify-start">
                 <div className="flex-1 flex-col h-full">
                   <LabeledIcon
-                    title={orderData?.pickup_info?.contact_person_name ?? "-"}
+                    title={OrderInfoReaders.PickUpPersonName(orderData)}
                     fontSize={14}
                     iconName="icn-person"
                     iconColorType={IconColorType.primary}
                     reverse
                   />
                   <LabeledIcon
-                    title={orderData?.pickup_info?.contact_person_number ?? "-"}
+                    title={OrderInfoReaders.PickUpPersonPhoneNumber(orderData)}
                     fontSize={14}
                     iconName="icn-call"
                     iconColorType={IconColorType.primary}
@@ -178,16 +188,14 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
                 </div>
                 <div className="flex-1 flex-col h-full">
                   <LabeledIcon
-                    title={orderData?.drop_off_info?.contact_person_name ?? "-"}
+                    title={OrderInfoReaders.DropOffPersonName(orderData)}
                     fontSize={14}
                     iconName="icn-person"
                     iconColorType={IconColorType.primary}
                     reverse
                   />
                   <LabeledIcon
-                    title={
-                      orderData?.drop_off_info?.contact_person_number ?? "-"
-                    }
+                    title={OrderInfoReaders.DropOffPersonPhoneNumber(orderData)}
                     fontSize={14}
                     iconName="icn-call"
                     iconColorType={IconColorType.primary}
@@ -215,18 +223,18 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
             </div>
           </div>
           <div className="flex mt-1 md:mt-4 space-x-3">
-            {orderData.status !== "delivered" && (
+            {orderStatus !== "delivered" && (
               <Button
                 onClick={buttonClick}
                 shadow
                 disabled={loading}
                 className="float-right py-2 px-8 w-36"
                 children={
-                  orderData.status === "open"
+                  orderStatus === "open"
                     ? "Okay"
-                    : orderData.status === "accepted"
+                    : orderStatus === "accepted"
                     ? "Pick-Up"
-                    : orderData.status === "inprogress"
+                    : orderStatus === "inprogress"
                     ? "Drop-off"
                     : ""
                 }

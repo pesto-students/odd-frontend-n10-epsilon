@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
+import { ProfileReaders } from "../../helpers";
 
 interface IProps {}
 
@@ -72,7 +73,7 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
           <div className="col-span-1 md:col-span-2 flex flex-row space-x-6 items-center">
             <div className="flex flex-row">
               <img
-                src={driverData?.image ?? null}
+                src={ProfileReaders.DriverImage(driverData)}
                 alt="profile"
                 className="w-20 h-20 rounded-full"
               />
@@ -81,9 +82,7 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
               <Label
                 className="flex text-lg"
                 medium
-                title={`${driverData?.first_name ?? ""} ${
-                  driverData?.last_name ?? ""
-                }`}
+                title={ProfileReaders.DriverFullName(driverData)}
               />
               <div className="flex flex-row items-center space-x-2">
                 <Icon
@@ -94,7 +93,7 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
                 <Label
                   className="text-sm"
                   medium
-                  title={driverData?.level ?? "-"}
+                  title={ProfileReaders.DriverLevel(driverData)}
                 />
               </div>
               <div className="flex flex-row items-center space-x-2 ">
@@ -106,7 +105,7 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
                 <Label
                   className="text-sm"
                   medium
-                  title={driverData?.rating ?? "-"}
+                  title={ProfileReaders.DriverRating(driverData)}
                 />
               </div>
             </div>
@@ -115,7 +114,7 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
             <div className="flex flex-col justify-start items-start md:justify-end md:items-end">
               <div className="flex gap-1 items-center place-items-center flex-row-reverse">
                 <Label
-                  title={`${driverData?.total_earns ?? 0} Rs.`}
+                  title={`${ProfileReaders.DriverTotalEarns(driverData)} Rs.`}
                   primary
                   medium
                   className="text-xl lg:text-2xl font-medium"
@@ -150,17 +149,17 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
           <StatisticsItem
             iconName="icn-state-time"
             label="Hours Online"
-            value={data?.hours ?? "-"}
+            value={ProfileReaders.Hours(data)}
           />
           <StatisticsItem
             iconName="icn-state-distance"
             label="Total Distance"
-            value={data?.distance ?? "-"}
+            value={ProfileReaders.Distance(data)}
           />
           <StatisticsItem
             iconName="icn-state-trip"
             label="Total Trips"
-            value={data?.trips ?? "-"}
+            value={ProfileReaders.Trips(data)}
           />
         </div>
       </div>

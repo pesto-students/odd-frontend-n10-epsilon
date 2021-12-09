@@ -24,10 +24,16 @@ const DocumentListCard: React.FC<IProps> = () => {
     const id = toast.loading("Please wait...");
     try {
       const result = await getApi(api);
-      toast.dismiss(id);
-      dispatch(setValue(result.data.data));
-      console.log(state);
+      const data = result.data;
+      if (data && data.success) {
+        dispatch(setValue(result.data.data));
+        console.log(state);
+      } else {
+        console.log(data.error);
+      }
     } catch (error) {
+      console.log(error);
+    } finally {
       toast.dismiss(id);
     }
   }, [dispatch, state, isFetch]);
@@ -37,9 +43,10 @@ const DocumentListCard: React.FC<IProps> = () => {
     setLoading(true);
     try {
       await postApi(api, { document_submitted: true });
-      setLoading(false);
       navigate("/dashboard/home", { replace: true });
     } catch (error: any) {
+      console.log(error);
+    } finally {
       setLoading(false);
     }
   };

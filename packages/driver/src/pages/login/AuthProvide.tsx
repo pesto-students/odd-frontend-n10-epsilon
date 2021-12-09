@@ -19,14 +19,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   let [user, setUser] = React.useState<any>(CookieHelper.GetCookie("user"));
   const dispatch = useDispatch();
   const getMyDetails = useCallback(async () => {
-    const api = API.DRIVER_ENDPOINTS.MY_DETAILS;
     const id = toast.loading("Please wait...");
     try {
+      const api = API.DRIVER_ENDPOINTS.MY_DETAILS;
       const result = await getApi(api);
-      toast.dismiss(id);
-
-      dispatch(addInfo(result.data.data));
+      const resultData = result.data;
+      if (resultData && resultData.success) {
+        dispatch(addInfo(resultData.data));
+      } else {
+        console.log(resultData.error);
+      }
     } catch (error) {
+      console.log(error);
+    } finally {
       toast.dismiss(id);
     }
   }, [dispatch]);

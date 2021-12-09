@@ -103,13 +103,15 @@ const DOC = {
 export const toggleMode = createAsyncThunk(
   "driver/toggle_mode",
   async (currentState: boolean) => {
+    const id = toast.loading(`${currentState ? "You are going offline..." : "You are going online..."}`);
     try {
       const api = API.DRIVER_ENDPOINTS.TOGGLE_MODEL;
-      const id = toast.loading(`${currentState ? "You are going offline..." : "You are going online..."}`);
       const result = await getApi(api);
-      toast.dismiss(id);
       return result.data.data;
     } catch (error) {
+      console.log(error);
+    } finally {
+      toast.dismiss(id);
       return {};
     }
   }
