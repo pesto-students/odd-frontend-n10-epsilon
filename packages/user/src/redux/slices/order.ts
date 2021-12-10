@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Values } from "../../organisms/address-info-form-card/AddressInfoFormCard";
 
-
 export interface OrderAttributes {
   pickup_info: Values;
   drop_off_info: Values;
@@ -10,7 +9,7 @@ export interface OrderAttributes {
   fare: Vehicle[];
 }
 
- interface Vehicle {
+interface Vehicle {
   _id: string;
   name: string;
   recommendation: string;
@@ -39,12 +38,18 @@ const Order = createSlice({
       state.vehicle = actions.payload;
       state.vehicle_id = actions.payload._id;
     },
-    addFare:(state, actions) => {
+    addFare: (state, actions) => {
       state.fare = actions.payload;
-    }
+    },
+    clear: (state, actions) => {
+      state.pickup_info = {} as Values;
+      state.drop_off_info = {} as Values;
+      state.vehicle_id = null;
+    },
   },
 });
 
-export const { addPickupInfo, addDropOffInfo, addVehicle, addFare } = Order.actions;
+export const { addPickupInfo, addDropOffInfo, addVehicle, addFare, clear } =
+  Order.actions;
 
 export default Order.reducer;

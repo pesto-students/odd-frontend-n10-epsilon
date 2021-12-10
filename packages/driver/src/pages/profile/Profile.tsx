@@ -114,7 +114,7 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
             <div className="flex flex-col justify-start items-start md:justify-end md:items-end">
               <div className="flex gap-1 items-center place-items-center flex-row-reverse">
                 <Label
-                  title={`${ProfileReaders.DriverTotalEarns(driverData)} Rs.`}
+                  title={`${data.earning} Rs.`}
                   primary
                   medium
                   className="text-xl lg:text-2xl font-medium"
@@ -149,17 +149,17 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
           <StatisticsItem
             iconName="icn-state-time"
             label="Hours Online"
-            value={ProfileReaders.Hours(data)}
+            value={'-'}
           />
           <StatisticsItem
             iconName="icn-state-distance"
             label="Total Distance"
-            value={ProfileReaders.Distance(data)}
+            value={data.distance.toFixed(1)}
           />
           <StatisticsItem
             iconName="icn-state-trip"
             label="Total Trips"
-            value={ProfileReaders.Trips(data)}
+            value={data.order ?? 0}
           />
         </div>
       </div>

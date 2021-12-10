@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { getApi, postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { addVehicle, addVehicleList } from "../../redux/slices/driver";
-const IconVehicle = require("./../../assets/vehicle.svg").default;
 
 interface IProps {
   onSubmit(): void;
@@ -75,7 +74,7 @@ const SelectVehicleCard: React.FC<IProps> = ({ onSubmit }) => {
               _id={vehicle._id}
               desc={vehicle.recommendation}
               title={vehicle.name}
-              icon={IconVehicle}
+              icon={vehicle.image}
               showRates={false}
               defaultState={selectedVehicle}
               onSelect={() => setSelectedVehicles(vehicle._id)}

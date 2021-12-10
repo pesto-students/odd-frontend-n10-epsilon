@@ -29,7 +29,6 @@ export interface Values {
 const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state.order);
-  console.log(state);
 
   const formRef: React.MutableRefObject<FormikProps<Values>> = useRef<any>();
   const validate = Yup.object({
@@ -53,7 +52,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
       componentRestrictions: { country: "IND" },
     },
     onPlaceSelected: (place) => {
-      console.log(place);
+      
       const latLong = [
         place.geometry.location.lat(),
         place.geometry.location.lng(),
@@ -103,7 +102,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
   };
 
   function onSubmit(value: Values): void {
-    console.log(formRef.current.values);
+   
     if (mode === Mode.pickUP) {
       //todo: Add data to redux
       dispatch(addPickupInfo(value));
@@ -160,7 +159,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
                   <button
                     type="button"
                     onClick={() => {
-                      console.log("GPS Clicked");
+                     
                     }}
                   >
                     <Icon

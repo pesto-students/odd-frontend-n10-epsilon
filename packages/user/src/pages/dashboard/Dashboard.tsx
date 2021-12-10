@@ -19,7 +19,8 @@ function Dashboard() {
     <NavLink
       style={({ isActive }) => (isActive ? onActive : onInActive)}
       to="/dashboard/home"
-      className="py-4 px-7   "
+      className="py-4 px-7  "
+      key={3455}
     >
       {"Home"}
     </NavLink>,
@@ -27,6 +28,7 @@ function Dashboard() {
       style={({ isActive }) => (isActive ? onActive : onInActive)}
       to="/dashboard/order-history"
       className="py-4 px-7   "
+      key={345587}
     >
       {"Order History"}
     </NavLink>,
@@ -34,6 +36,7 @@ function Dashboard() {
 
   const profile = (
     <LogoutMenu
+      key={3457655}
       onSignOut={() => {
         console.log("onSignOut Clicked");
         auth.signout(() => {

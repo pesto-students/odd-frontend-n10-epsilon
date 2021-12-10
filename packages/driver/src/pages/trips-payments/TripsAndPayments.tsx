@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Icon,
   IconColorType,
@@ -13,6 +12,7 @@ import { useSelector } from "react-redux";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { TripsAndPaymentsReaders } from "../../helpers";
+import moment from "moment";
 
 interface IProps {}
 
@@ -62,6 +62,12 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
       </div>
     );
   }
+
+   const getDateFormat = (order: any) => {
+     return `${moment(
+       new Date(TripsAndPaymentsReaders.OrderCreateDate(order))
+     ).calendar()} `;
+   };
 
   return (
     <div className="relative m-auto lg:w-7/12 xs:w-11/12 lg:max-w-4xl">
@@ -151,11 +157,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
             {TripsAndPaymentsReaders.Orders(data) ? (
               TripsAndPaymentsReaders.Orders(data)?.map((_order: any) => {
                 return (
-                  <Link
-                    to={`/dashboard/trips/${TripsAndPaymentsReaders.OrderId(
-                      _order
-                    )}`}
-                  >
+                 
                     <OrderItem
                       pickUpAddress={TripsAndPaymentsReaders.OrderPickUpAddress(
                         _order
@@ -163,10 +165,10 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
                       dropOffAddress={TripsAndPaymentsReaders.OrderDropOffAddress(
                         _order
                       )}
-                      pickDate={TripsAndPaymentsReaders.OrderCreateDate(_order)}
+                      pickDate={getDateFormat(_order)}
                       amount={TripsAndPaymentsReaders.OrderFare(_order)}
                     />
-                  </Link>
+              
                 );
               })
             ) : (

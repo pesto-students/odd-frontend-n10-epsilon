@@ -17,7 +17,7 @@ export interface IProps {
 
 const LiveOrderItem: React.FC<IProps> = (props: IProps) => {
   return (
-    <div className="relative w-auto max-w-sm h-auto max-h-48 flex flex-row items-center justify-center bg-white rounded-xl shadow-xl">
+    <div className="relative w-auto max-w-sm h-auto  flex flex-row items-center justify-center bg-white rounded-xl shadow-xl">
       <div className="absolute left-0 h-full bg-green w-1.5 rounded-l-xl" />
       <div className="flex flex-col py-2">
         <div className="grid grid-flow-col pl-3 grid-cols-6">

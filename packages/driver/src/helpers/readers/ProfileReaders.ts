@@ -32,7 +32,7 @@ class ProfileReaders {
     }
 
     public static DriverTotalEarns(_object: any) {
-        return _.get(_object, ["total_earns"], 0);
+        return _.get(_object, ["earning"], 0);
     }
 }
 

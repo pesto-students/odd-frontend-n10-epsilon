@@ -25,7 +25,6 @@ const Otp = (props: IProps) => {
       inputStyle={style}
       focusStyle={{ borderBottomColor: "#00DEDE", outline: "none" }}
       onChange={(value: string) => {
-        console.log(value);
         setOtp(value);
         props.onChange(value);
       }}

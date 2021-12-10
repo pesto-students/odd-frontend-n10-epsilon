@@ -24,6 +24,9 @@ class OrderInfoReaders {
     return _.get(_object, ["vehicle", "name"], "-");
   }
 
+  public static VehicleImage(_object: any) {
+    return _.get(_object, ["vehicle", "image"], "-");
+  }
   public static VehicleEstimateFare(_object: any) {
     return _.get(_object, ["vehicle", "estimate_fare"], 0);
   }

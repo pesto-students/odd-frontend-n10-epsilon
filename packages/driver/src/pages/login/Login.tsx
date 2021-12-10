@@ -2,11 +2,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, Icon, IconColorType, OtpInput } from "@odd/components";
 
 import { useAuth } from "./AuthProvide";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as apiService from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { Formik, Form } from "formik";
 import { CookieHelper } from "@odd/base";
+import { useDispatch } from "react-redux";
+import { addInfo } from "../../redux/slices/driver";
 
 interface IProps {}
 
@@ -29,8 +31,12 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
   let navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
-
+  const dispatch = useDispatch();
   let from = location.state?.from?.pathname || "/dashboard/home";
+
+  useEffect(() => {
+    if (auth.user) navigate("/dashboard/home", { replace: true });
+  }, [auth.user, navigate]);
 
   async function handleSubmit(values: MyFormValues) {
     if (currentState === IStates.enter_number) {
@@ -62,21 +68,14 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
           _id: userId,
         });
         const data = result.data;
-        console.log(data);
+
         if (data && data.success) {
+          dispatch(addInfo(data.data));
           CookieHelper.SetCookie("token", data.token);
-          console.log(data.data.profile_completed);
-          if (!data.data.profile_completed) {
-            from = "/dashboard/completeProfile";
-          }
-          if (data.data.profile_completed && !data.data.document_submitted) {
-            from = "/dashboard/completeProfile/doc";
-          }
           auth.signin(number, () => {
             navigate(from, { replace: true });
           });
         } else {
-          console.log(data.error);
           setError(data.error);
         }
       } catch (error: any) {

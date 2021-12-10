@@ -175,6 +175,13 @@ const Reducer = createSlice({
       });
       state.docFetch = true;
     },
+    clear: (state, action) => {
+      state.state = {} as Driver;
+      state.doc = DOC;
+      state.vehicle = [];
+      state.docFetch = false;
+      state.isOnline = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(toggleMode.fulfilled, (state, { payload }) => {
@@ -191,7 +198,7 @@ const Reducer = createSlice({
   },
 });
 
-export const { addInfo, updateDoc, addVehicle, addVehicleList, setValue } =
+export const { addInfo, updateDoc, addVehicle, addVehicleList, setValue, clear } =
   Reducer.actions;
 
 export default Reducer.reducer;

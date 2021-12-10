@@ -37,7 +37,7 @@ const SteppedAddresses: React.FC<IProps> = (props: IProps & any) => {
             active={deliveryStatus != IDeliveryStatus.Created}
           />
         </div>
-        <div className="absolute bottom-0">
+        <div className="absolute bottom-0 ">
           <PickDropAddressItem
             title={dropAddressTitle ?? "Drop Address Title"}
             full={dropAddressFull ?? "Drop Address Full"}
