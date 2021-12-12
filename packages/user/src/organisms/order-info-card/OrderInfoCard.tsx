@@ -6,7 +6,7 @@ import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { OrderInfoReaders } from "../../helpers";
 import { clear, OrderAttributes } from "../../redux/slices/order";
-
+import { toast } from "react-toastify";
 
 export interface IProps {
   pickAddressTitle?: string;
@@ -44,7 +44,7 @@ const OrderInfoCard: React.FC<IProps> = ({ next }) => {
         pickup_info: OrderInfoReaders.PickUpInfo(orderData),
         vehicle_id: OrderInfoReaders.VehicleId(orderData),
       });
-      
+
       const data = result.data;
       if (data && data.success) {
         navigate(`/dashboard/order/${data.data._id}`, { replace: true });
@@ -53,7 +53,7 @@ const OrderInfoCard: React.FC<IProps> = ({ next }) => {
         // console.log(data.error);
       }
     } catch (error: any) {
-      // toast.error(error.data.error);
+      toast.error(error?.data?.error ?? "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -70,6 +70,8 @@ const OrderInfoCard: React.FC<IProps> = ({ next }) => {
       buttonDisabled={loading}
       next={createOrder}
       button="Create"
+      pickcoordinates={orderData.pickup_info.location.coordinates}
+      dropcoordinates={orderData.drop_off_info.location.coordinates}
       pickAddressTitle={OrderInfoReaders.PickUpTitleAddress(orderData)}
       pickAddressFull={OrderInfoReaders.PickUpFullAddress(orderData)}
       dropAddressTitle={OrderInfoReaders.DropOffTitleAddress(orderData)}

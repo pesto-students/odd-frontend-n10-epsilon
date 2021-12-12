@@ -51,7 +51,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
       types: [],
       componentRestrictions: { country: "IND" },
     },
-    onPlaceSelected: (place) => {
+    onPlaceSelected: (place:any) => {
       
       const latLong = [
         place.geometry.location.lat(),

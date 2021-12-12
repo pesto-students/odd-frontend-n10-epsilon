@@ -2,8 +2,6 @@ import { DashboardTemplate, LogoutMenu, Switch } from "@odd/components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { postApi } from "../../api-call";
-import { API } from "../../constant/Endpoints";
 import { Driver, toggleMode } from "../../redux/slices/driver";
 import { useAuth } from "../login/AuthProvide";
 import socketIOClient from "socket.io-client";
@@ -12,7 +10,6 @@ import { toast } from "react-toastify";
 
 const ENDPOINT = "http://localhost/";
 
-const api = API.DRIVER_ENDPOINTS.UPDATE_COORDINATES;
 const onActive: React.CSSProperties = {
   color: "#00DEDE",
   //borderBottomColor: "#00DEDE",
@@ -22,7 +19,10 @@ const onActive: React.CSSProperties = {
 const onInActive: React.CSSProperties = {
   color: "#000000",
 };
-
+ const socket = socketIOClient(ENDPOINT, {
+   path: "/socket/mysocket/",
+   transports: ["websocket", "polling"],
+ });
 function Dashboard() {
   const isOnline = useSelector((state: any) => state.driver.isOnline);
   const state = useSelector((state: any) => state.driver.state) as Driver;
@@ -32,13 +32,11 @@ function Dashboard() {
   let navigate = useNavigate();
 
   useEffect(() => {
+
     if (!state._id) return;
-    const socket = socketIOClient(ENDPOINT, {
-      path: "/socket/mysocket/",
-      transports: ["websocket", "polling"],
-    });
+   
     socket.emit("join", state._id);
-    socket.on("NEW_ORDER", (data) => {
+    socket.on("NEW_ORDER", (data:any) => {
     toast.info("You got new order");
     dispatch(fetchCurrentOrder());
     });
@@ -50,8 +48,11 @@ function Dashboard() {
       id = navigator.geolocation.watchPosition(
         (pos) => {
           var crd = pos.coords;
-          const location = { coordinates: [crd.latitude, crd.longitude] };
-          postApi(api, location);
+          const payload = {
+            driver_id: state._id,
+            coordinates: [crd.latitude, crd.longitude],
+          };
+          socket.emit("updateCoordinate", payload);
         },
         (err) => {
           console.warn("ERROR(" + err.code + "): " + err.message);
@@ -66,7 +67,7 @@ function Dashboard() {
     return () => {
       navigator.geolocation.clearWatch(id);
     };
-  }, [state.document_submitted]);
+  }, [state.document_submitted, state._id]);
 
   const action = [
     <NavLink

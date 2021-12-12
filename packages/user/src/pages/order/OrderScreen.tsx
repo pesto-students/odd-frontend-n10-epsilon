@@ -6,6 +6,7 @@ import {
   CardLayout,
   DriverTile,
   FullScreenLoader,
+  Map,
   OTPItem,
   SteppedAddresses,
 } from "@odd/components";
@@ -14,6 +15,7 @@ import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { OrderInfoReaders } from "../../helpers";
 import { toast } from "react-toastify";
+import GoogleMapReact from "google-map-react";
 const ENDPOINT = "http://localhost/";
 
 // function loadScript(src: string) {
@@ -133,7 +135,6 @@ const OrderScreen: React.FC<any> = () => {
   //   paymentObject.open();
   // }
 
- 
   const getStatusString = () => {
     const status = OrderInfoReaders.OrderStatus(orderData);
 
@@ -256,17 +257,10 @@ const OrderScreen: React.FC<any> = () => {
           </div>
           <div className="flex w-full bg-white">
             <div className="flex w-full rounded-xl overflow-hidden border-primary border-2 h-64">
-              <iframe
-                id="Map"
-                title="order-map"
-                width="100%"
-                frameBorder="0"
-                scrolling="no"
-                className="h-full"
-                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-              >
-                <a href="https://www.gps.ie/">gps vehicle tracker</a>
-              </iframe>
+              <Map
+                pickCood={orderData.pickup_info.location.coordinates}
+                dropCood={orderData.drop_off_info.location.coordinates}
+              />
             </div>
           </div>
           <div className="mt-2 lg:mt-4">

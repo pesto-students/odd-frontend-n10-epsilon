@@ -13,7 +13,6 @@ import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { TripsAndPaymentsReaders } from "../../helpers";
 import moment from "moment";
-
 interface IProps {}
 
 const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
@@ -78,7 +77,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
         <div className="hidden w-36 px-2 bg-opacity-20 rounded-sm lg:rounded">
           <Select
             defaultOptions={["All Time", "Last 7 days"]}
-            onSelectionChange={(value) => {
+            onSelectionChange={(value: string) => {
               console.log(value);
             }}
             outline={false}
@@ -159,6 +158,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
                 return (
                  
                     <OrderItem
+                    key={_order._id}
                       pickUpAddress={TripsAndPaymentsReaders.OrderPickUpAddress(
                         _order
                       )}

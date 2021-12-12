@@ -9,10 +9,11 @@ import {
   Icon,
   IconColorType,
   LabeledIcon,
+  Map,
   SteppedAddresses,
 } from "@odd/components";
 import { useDispatch, useSelector } from "react-redux";
-import { currentOrder, OrderAttributes } from "../../redux/slices/order";
+import { clearOrder, currentOrder, OrderAttributes } from "../../redux/slices/order";
 import { OtpConfirmDialog } from "../otp-confirm-dialog";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
@@ -34,32 +35,11 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
     setOrderData(stateOrderData);
   }, [stateOrderData]);
 
-  const getLatLong = (): Promise<{ latitude: number; longitude: number }> => {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0,
-    };
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          var crd = pos.coords;
-          resolve(crd);
-        },
-        (err) => {
-          reject(err);
-          console.warn(`ERROR(${err.code}): ${err.message}`);
-        },
-        options
-      );
-    });
-  };
-
   const updateOrderStatus = async (otp: string) => {
     const id = toast.loading("Please wait...");
     try {
       setLoading(true);
-      const coords = await getLatLong();
+      // const coords = await getLatLong();
       const data = {
         status:
           OrderInfoReaders.OrderStatus(orderData) === "accepted"
@@ -67,22 +47,24 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
             : "delivered",
         otp,
         _id: OrderInfoReaders.OrderId(orderData),
-        coordinates: [coords.latitude, coords.longitude],
+        coordinates: [22.7765, 44.9876], // for dummy coordinates
       };
       const api = API.DRIVER_ENDPOINTS.UPDATE_ORDER_STATUS;
       const result = await postApi(api, data);
       const resultData = result.data;
       if (resultData && resultData.success) {
         dispatch(currentOrder(resultData.data));
+        if (resultData.data.status === "delivered") {
+          dispatch(clearOrder(null));
+          return
+        }
       } else {
         console.log(resultData.error);
       }
       toast.dismiss(id);
     } catch (error: any) {
-      toast.error(error);
-      console.log('====================================');
-      console.log(error);
-      console.log('====================================');
+      toast.error(error?.data?.error);
+     
       toast.dismiss(id);
     } finally {
       setLoading(false);
@@ -213,17 +195,10 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
         <div className="md:col-span-2 gap-4 items-end flex flex-col pt-1 md:pt-3">
           <div className="bg-white md:mt-10">
             <div className="w-full lg:w-64 rounded-xl overflow-hidden border-primary border-2 h-64">
-              <iframe
-                id="Map"
-                title="order-map"
-                width="100%"
-                frameBorder="0"
-                scrolling="no"
-                className="h-full"
-                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-              >
-                <a href="https://www.gps.ie/">gps vehicle tracker</a>
-              </iframe>
+              <Map
+                pickCood={orderData?.pickup_info.location.coordinates ?? []}
+                dropCood={orderData?.drop_off_info.location.coordinates??[]}
+              />
             </div>
           </div>
           <div className="flex mt-1 md:mt-4 space-x-3">

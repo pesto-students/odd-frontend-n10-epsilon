@@ -52,6 +52,14 @@ const Order = createSlice({
       state.status = actions.payload.status;
       state._id = actions.payload._id;
     },
+    clearOrder: (state, actions) => {
+      state.pickup_info = {} as Values
+      state.drop_off_info  = {} as Values
+      state.fare = 0;
+      state.status ="";
+      state.haveCurrent = false;
+      state._id = "";
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCurrentOrder.fulfilled, (state, { payload }) => {
@@ -75,6 +83,6 @@ const Order = createSlice({
   },
 });
 
-export const { currentOrder } = Order.actions;
+export const { currentOrder, clearOrder } = Order.actions;
 
 export default Order.reducer;
