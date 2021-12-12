@@ -63,10 +63,8 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
       }
       toast.dismiss(id);
     } catch (error: any) {
-      toast.error(error);
-      console.log('====================================');
-      console.log(error);
-      console.log('====================================');
+      toast.error(error?.data?.error);
+     
       toast.dismiss(id);
     } finally {
       setLoading(false);
