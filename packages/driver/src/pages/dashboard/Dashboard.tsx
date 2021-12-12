@@ -19,10 +19,10 @@ const onActive: React.CSSProperties = {
 const onInActive: React.CSSProperties = {
   color: "#000000",
 };
- const socket = socketIOClient(ENDPOINT, {
-   path: "/socket/mysocket/",
-   transports: ["websocket", "polling"],
- });
+const socket = socketIOClient(ENDPOINT, {
+  path: "/socket/mysocket/",
+  transports: ["websocket", "polling"],
+});
 function Dashboard() {
   const isOnline = useSelector((state: any) => state.driver.isOnline);
   const state = useSelector((state: any) => state.driver.state) as Driver;
@@ -32,13 +32,12 @@ function Dashboard() {
   let navigate = useNavigate();
 
   useEffect(() => {
-
     if (!state._id) return;
-   
+
     socket.emit("join", state._id);
-    socket.on("NEW_ORDER", (data:any) => {
-    toast.info("You got new order");
-    dispatch(fetchCurrentOrder());
+    socket.on("NEW_ORDER", (data: any) => {
+      toast.info("You got new order");
+      dispatch(fetchCurrentOrder());
     });
   }, [state._id, dispatch]);
 

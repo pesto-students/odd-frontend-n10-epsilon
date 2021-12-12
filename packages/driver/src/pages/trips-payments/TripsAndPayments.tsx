@@ -140,7 +140,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
               <StatisticsItem
                 iconName="icn-trip-state-travel"
                 label="Traveled"
-                value={`${TripsAndPaymentsReaders.Distance(data)} Km`}
+                value={`${TripsAndPaymentsReaders.Distance(data).toFixed(1)} Km`}
               />
               <StatisticsItem
                 iconName="icn-trip-state-trip"

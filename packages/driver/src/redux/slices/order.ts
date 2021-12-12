@@ -26,11 +26,17 @@ export interface OrderAttributes {
 export const fetchCurrentOrder = createAsyncThunk(
   "order/fetchCurrentOrder",
   async () => {
-    const api = API.DRIVER_ENDPOINTS.GET_CURRENT_ORDER;
-    const id = toast.loading("Please wait...");
-    const result = await getApi(api);
-    toast.dismiss(id);
-    return result.data.data;
+     const id = toast.loading("Please wait...");
+   try {
+      const api = API.DRIVER_ENDPOINTS.GET_CURRENT_ORDER;
+     
+      const result = await getApi(api);
+      toast.dismiss(id);
+      return result.data.data;
+   } catch (error) {
+     toast.dismiss(id);
+      
+   }
   }
 );
 
