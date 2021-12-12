@@ -15,7 +15,6 @@ import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { OrderInfoReaders } from "../../helpers";
 import { toast } from "react-toastify";
-import GoogleMapReact from "google-map-react";
 const ENDPOINT = "http://localhost/";
 
 // function loadScript(src: string) {
