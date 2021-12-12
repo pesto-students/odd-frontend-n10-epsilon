@@ -19,7 +19,7 @@ class TripsAndPaymentsReaders {
     }
 
     public static OrderId(_object: any) {
-        return _.get(_object, ["orderId"], "0");
+        return _.get(_object, ["_id"], "0");
     }
 
     public static OrderPickUpAddress(_object: any) {

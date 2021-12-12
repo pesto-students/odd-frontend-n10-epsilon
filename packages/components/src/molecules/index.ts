@@ -17,3 +17,4 @@ export { default as SearchLocationInput } from "./google-autocomplete/GoogleAuto
 export * from "./loader";
 export * from "./no-data";
 export * from "./log-out";
+export * from "./map"

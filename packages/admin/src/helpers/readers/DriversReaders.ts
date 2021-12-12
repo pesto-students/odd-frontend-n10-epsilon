@@ -3,7 +3,7 @@ import _ from "lodash";
 class DriversReaders {
 
     public static UserName(_object: any) {
-        return _.get(_object, ["name"], "Null");
+        return _.get(_object, ["first_name"], "Null");
     }
 
     public static UserImage(_object: any) {

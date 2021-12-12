@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Icon,
   IconColorType,
@@ -13,7 +12,7 @@ import { useSelector } from "react-redux";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { TripsAndPaymentsReaders } from "../../helpers";
-
+import moment from "moment";
 interface IProps {}
 
 const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
@@ -63,6 +62,12 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
     );
   }
 
+   const getDateFormat = (order: any) => {
+     return `${moment(
+       new Date(TripsAndPaymentsReaders.OrderCreateDate(order))
+     ).calendar()} `;
+   };
+
   return (
     <div className="relative m-auto lg:w-7/12 xs:w-11/12 lg:max-w-4xl">
       <div className="flex flex-row text-2xl font-semibold space-x-2">
@@ -72,7 +77,7 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
         <div className="hidden w-36 px-2 bg-opacity-20 rounded-sm lg:rounded">
           <Select
             defaultOptions={["All Time", "Last 7 days"]}
-            onSelectionChange={(value) => {
+            onSelectionChange={(value: string) => {
               console.log(value);
             }}
             outline={false}
@@ -151,22 +156,19 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
             {TripsAndPaymentsReaders.Orders(data) ? (
               TripsAndPaymentsReaders.Orders(data)?.map((_order: any) => {
                 return (
-                  <Link
-                    to={`/dashboard/trips/${TripsAndPaymentsReaders.OrderId(
-                      _order
-                    )}`}
-                  >
+                 
                     <OrderItem
+                    key={_order._id}
                       pickUpAddress={TripsAndPaymentsReaders.OrderPickUpAddress(
                         _order
                       )}
                       dropOffAddress={TripsAndPaymentsReaders.OrderDropOffAddress(
                         _order
                       )}
-                      pickDate={TripsAndPaymentsReaders.OrderCreateDate(_order)}
+                      pickDate={getDateFormat(_order)}
                       amount={TripsAndPaymentsReaders.OrderFare(_order)}
                     />
-                  </Link>
+              
                 );
               })
             ) : (

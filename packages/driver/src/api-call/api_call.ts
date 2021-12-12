@@ -5,6 +5,7 @@ import {
   BaseClient,
   CookieHelper,
 } from "@odd/base";
+import { toast } from "react-toastify";
 const baseClient = new BaseClient();
 
 export const getApi = (
@@ -38,6 +39,7 @@ export const postApi = async (
       .apiPost(api, data, config)
       .then(resolve)
       .catch((err: AxiosError) => {
+        handleAuthorization(err.response?.status as number);
         reject(err.response);
       });
   });
@@ -88,6 +90,7 @@ const handleAuthorization = (status: number) => {
   if (status !== 401) return;
   CookieHelper.DeleteCookie("token");
   CookieHelper.DeleteCookie("user");
+  toast.error("Your session is expired. Please login again...")
 };
 
 const token = () => {

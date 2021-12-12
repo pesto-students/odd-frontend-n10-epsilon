@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import socketIOClient from "socket.io-client";
 import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
 import {
-  // Button,
   CardLayout,
   DriverTile,
   FullScreenLoader,
+  Map,
   OTPItem,
   SteppedAddresses,
 } from "@odd/components";
@@ -14,6 +14,22 @@ import { Skeleton } from ".";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { OrderInfoReaders } from "../../helpers";
+import { toast } from "react-toastify";
+const ENDPOINT = "http://localhost/";
+
+// function loadScript(src: string) {
+//   return new Promise((resolve) => {
+//     const script = document.createElement("script");
+//     script.src = src;
+//     script.onload = () => {
+//       resolve(true);
+//     };
+//     script.onerror = () => {
+//       resolve(false);
+//     };
+//     document.body.appendChild(script);
+//   });
+// }
 
 const OrderScreen: React.FC<any> = () => {
   let params = useParams();
@@ -22,30 +38,101 @@ const OrderScreen: React.FC<any> = () => {
   const [orderData, setOrderData] = useState<any>({});
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function loadData() {
-      setLoading(true);
-      try {
-        const api = API.ORDER_ENDPOINTS.ORDERS_INFO(String(orderId));
-        const result = await apiService.getApi(api);
-        const data = result.data;
-        if (data && data.success) {
-          console.log(data);
-          setError("");
-          setOrderData(data.data);
-        } else {
-          console.log(data.error);
-          setError(data.error);
-        }
-      } catch (error) {
-        console.log(error);
-        setError("Error while fetching order data.");
-      } finally {
-        setLoading(false);
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const api = API.ORDER_ENDPOINTS.ORDERS_INFO(String(orderId));
+      const result = await apiService.getApi(api);
+      const data = result.data;
+      if (data && data.success) {
+        setError("");
+        setOrderData(data.data);
+      } else {
+        setError(data.error);
       }
+    } catch (error) {
+      setError("Error while fetching order data.");
+    } finally {
+      setLoading(false);
     }
+  }, [orderId]);
+
+  useEffect(() => {
     loadData();
-  }, [orderId, error]);
+  }, [loadData]);
+
+  useEffect(() => {
+    if (!(orderId && orderData?.status !== "delivered")) return;
+    const socket = socketIOClient(ENDPOINT, {
+      path: "/socket/mysocket/",
+      transports: ["websocket", "polling"],
+    });
+    socket.emit("join", orderId);
+    socket.on("STATUS_CHANGE", (data) => {
+      loadData();
+    });
+  }, [loadData, orderData?.status, orderId]);
+
+  useEffect(() => {
+    if (OrderInfoReaders.OrderStatus(orderData) !== "open") return;
+    let interval: any;
+    let timeout: any;
+    clearInterval(interval);
+    clearTimeout(timeout);
+    const api = API.ORDER_ENDPOINTS.FIND_NEARBY_DRIVER(
+      OrderInfoReaders.ID(orderData)
+    );
+    const id = toast.loading("Finding driver..");
+    interval = setInterval(async function () {
+      const driver = await apiService.getApi(api);
+      if (driver.data.data) {
+        clearInterval(interval);
+        clearTimeout(timeout);
+        toast.success("Congrats your trip is assign to driver");
+        toast.dismiss(id);
+        loadData();
+      }
+    }, 1000);
+
+    timeout = setTimeout(function () {
+      clearInterval(interval);
+      toast.dismiss(id);
+      toast.error("No driver available please try later");
+    }, 20000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [loadData, orderData]);
+
+  // async function displayRazorpay() {
+  //   const res = await loadScript(
+  //     "https://checkout.razorpay.com/v1/checkout.js"
+  //   );
+
+  //   if (!res) {
+  //     toast.error("Razorpay SDK failed to load. Are you online?");
+  //     return;
+  //   }
+
+  //   const options = {
+  //     key: "rzp_test_AvZQq5684ArgeL",
+  //     currency: "INR",
+  //     amount: (orderData.fare * 100).toString(),
+  //     order_id: orderData.order_id,
+  //     name: "ODD Payment",
+  //     description: "Thank you for making order",
+  //     handler: function (response: any) {
+  //       toast.success("Payment done successfully")
+  //     },
+  //     prefill: {
+  //       phone_number: "9899999999",
+  //     },
+  //   };
+  //   const _window = window as any;
+  //   const paymentObject = new _window.Razorpay(options);
+  //   paymentObject.open();
+  // }
 
   const getStatusString = () => {
     const status = OrderInfoReaders.OrderStatus(orderData);
@@ -169,32 +256,23 @@ const OrderScreen: React.FC<any> = () => {
           </div>
           <div className="flex w-full bg-white">
             <div className="flex w-full rounded-xl overflow-hidden border-primary border-2 h-64">
-              <iframe
-                id="Map"
-                title="order-map"
-                width="100%"
-                frameBorder="0"
-                scrolling="no"
-                className="h-full"
-                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-              >
-                <a href="https://www.gps.ie/">gps vehicle tracker</a>
-              </iframe>
+              <Map
+                pickCood={orderData.pickup_info.location.coordinates}
+                dropCood={orderData.drop_off_info.location.coordinates}
+              />
             </div>
           </div>
-          {/* <div className="mt-2 lg:mt-4">
-            {deliveryStatus === IDeliveryStatus.Created && (
-              <Button
-                onClick={() => {
-                  console.log("Button Clicked");
-                }}
-                shadow
-                className="float-right py-2 px-4"
-                children={"Cancel Pickup"}
-                primary
-              />
-            )}
-          </div> */}
+          <div className="mt-2 lg:mt-4">
+            {/* <Button
+              onClick={() => {
+                displayRazorpay();
+              }}
+              shadow
+              className="float-right py-2 px-4"
+              children={"Cancel Pickup"}
+              primary
+            /> */}
+          </div>
         </div>
       </div>
     </CardLayout>

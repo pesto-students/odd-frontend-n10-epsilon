@@ -9,13 +9,13 @@ export interface IProps {
   driverName: string;
   driverPhone: string;
   pickDate: string;
-  pickTime: string;
+  
   amount: string;
 }
 
 const OrderItem: React.FC<IProps> = (props: IProps) => {
   return (
-    <div className="relative w-auto max-w-sm h-auto max-h-28 flex flex-row bg-white rounded-xl shadow-xl">
+    <div className="relative w-auto max-w-sm h-auto max-h-46 flex flex-row bg-white rounded-xl shadow-xl">
       <div className="absolute left-0 h-full bg-primary w-1.5 rounded-l-xl" />
       <div className="grid grid-flow-col pt-3 pl-3 grid-cols-6">
         <div className="col-span-4 space-y-1 flex flex-col">
@@ -70,8 +70,7 @@ const OrderItem: React.FC<IProps> = (props: IProps) => {
             className="flex-col font-normal text-xs pl-1 my-auto"
             style={{ color: "#3F3D56" }}
           >
-            <Label title={props.pickTime} gray />
-            <br />
+           
             <Label title={props.pickDate} gray />
           </div>
         </div>

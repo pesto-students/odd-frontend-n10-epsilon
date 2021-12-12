@@ -12,6 +12,7 @@ import {
 import { LiveOrderItem, OrderItem } from "../../molecules/order-items";
 import { round } from "lodash";
 import { OrderHistoryReaders } from "../../helpers";
+import moment from "moment";
 
 interface IProps {}
 
@@ -21,7 +22,7 @@ enum ITabType {
 }
 
 const getStatusType = (status: string) => {
-  if (status === "completed") {
+  if (status === "delivered") {
     return ITabType.completed;
   }
   return ITabType.live;
@@ -43,11 +44,11 @@ const OrderHistory: React.FC<IProps> = () => {
         const result = await apiService.getApi(api);
         const data = result.data;
         if (data && data.success) {
-          console.log(data);
+         
           setError("");
           setOrders(data.data);
         } else {
-          console.log(error);
+          
           setError(data.error);
         }
       } catch (error) {
@@ -59,6 +60,12 @@ const OrderHistory: React.FC<IProps> = () => {
     }
     loadData();
   }, [tab, error]);
+
+  const getDateFormat = (order: string) => {
+    return `${moment(
+      new Date(OrderHistoryReaders.OrderPickDate(order))
+    ).calendar()} `;
+  };
 
   return (
     <div className="h-full py-5 items-center justify-center">
@@ -111,7 +118,7 @@ const OrderHistory: React.FC<IProps> = () => {
                     )}`}
                     className="flex items-center py-4 col-span-1"
                   >
-                    {tab === ITabType.live ? (
+                    {tab === ITabType.live && (
                       <LiveOrderItem
                         orderId={OrderHistoryReaders.OrderId(order)}
                         pickUpAddress={OrderHistoryReaders.OrderPickAddressFull(
@@ -120,10 +127,10 @@ const OrderHistory: React.FC<IProps> = () => {
                         dropOffAddress={OrderHistoryReaders.OrderDropAddressFull(
                           order
                         )}
-                        pickTime={`${OrderHistoryReaders.OrderPickDate(
-                          order
-                        )} at ${OrderHistoryReaders.OrderPickTime(order)}`}
-                        driverName={OrderHistoryReaders.DriverName(order)}
+                        pickTime={getDateFormat(order)}
+                        driverName={
+                          OrderHistoryReaders.DriverName(order) ?? "Not assign"
+                        }
                         driverPhone={OrderHistoryReaders.DriverPhone(order)}
                         vehicleImage={OrderHistoryReaders.VehicleImage(order)}
                         vehicleName={OrderHistoryReaders.VehicleName(order)}
@@ -131,7 +138,8 @@ const OrderHistory: React.FC<IProps> = () => {
                           round(OrderHistoryReaders.OrderFare(order))
                         )}
                       />
-                    ) : (
+                    )}
+                    {tab === ITabType.completed && (
                       <OrderItem
                         orderId={OrderHistoryReaders.OrderId(order)}
                         pickUpAddress={OrderHistoryReaders.OrderPickAddressFull(
@@ -142,8 +150,7 @@ const OrderHistory: React.FC<IProps> = () => {
                         )}
                         driverName={OrderHistoryReaders.DriverName(order)}
                         driverPhone={OrderHistoryReaders.DriverPhone(order)}
-                        pickTime={OrderHistoryReaders.OrderPickTime(order)}
-                        pickDate={OrderHistoryReaders.OrderPickDate(order)}
+                        pickDate={getDateFormat(order)}
                         amount={String(
                           round(OrderHistoryReaders.OrderFare(order))
                         )}

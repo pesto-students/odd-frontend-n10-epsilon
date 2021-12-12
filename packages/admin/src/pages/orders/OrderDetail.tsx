@@ -8,6 +8,7 @@ import {
   IconColorType,
   Label,
   LabeledIcon,
+  Map,
   SteppedAddresses,
 } from "@odd/components";
 import { API } from "../../constant/Endpoints";
@@ -259,17 +260,10 @@ const OrderDetail: React.FC<any> = () => {
                 <TitleLabel title="Route" />
                 <div className="flex w-full bg-white">
                   <div className="flex w-full rounded-xl overflow-hidden border-gray border-2 h-64">
-                    <iframe
-                      id="Map2"
-                      title="order-info-map"
-                      width="100%"
-                      frameBorder="0"
-                      scrolling="no"
-                      className="h-full"
-                      src="https://maps.google.com/maps?width=100%25&amp;hl=en&amp;q=Malet%20St,%20London%20WC1E%207HU,%20United%20Kingdom+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                    >
-                      <a href="https://www.gps.ie/">gps vehicle tracker</a>
-                    </iframe>
+                    <Map
+                      pickCood={data.pickup_info.location.coordinates}
+                      dropCood={data.drop_off_info.location.coordinates}
+                    />
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 justify-center my-2">

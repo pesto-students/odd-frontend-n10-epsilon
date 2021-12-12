@@ -7,7 +7,9 @@ interface IProps {
 const FareTile: React.FC<IProps> = ({ name, fare, image }) => {
   return (
     <div className="flex">
-      <img src={image} alt="img" />
+      <div className="m-1 mr-2 w-16 h-16 relative flex justify-center items-center rounded-full text-xl text-white">
+        <img alt="img" src={image} className="rounded-full"></img>
+      </div>
       <div className="ml-2 lg:ml-4">
         <h2 className="text-xl font-semibold uppercase">{name}</h2>
         <div className="flex items-center mt-1">

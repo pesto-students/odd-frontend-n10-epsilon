@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getApi, postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
-import { setValue } from "../../redux/slices/driver";
+import { addInfo, setValue } from "../../redux/slices/driver";
 
 interface IProps {}
 
@@ -31,10 +31,10 @@ const DocumentListCard: React.FC<IProps> = () => {
       } else {
         console.log(data.error);
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
       toast.dismiss(id);
+    } catch (error) {
+      toast.dismiss(id);
+      console.log(error);
     }
   }, [dispatch, state, isFetch]);
 
@@ -42,8 +42,9 @@ const DocumentListCard: React.FC<IProps> = () => {
     const api = API.DRIVER_ENDPOINTS.UPDATE_PROFILE;
     setLoading(true);
     try {
-      await postApi(api, { document_submitted: true });
+      const result = await postApi(api, { document_submitted: true });
       navigate("/dashboard/home", { replace: true });
+      dispatch(addInfo(result.data.data));
     } catch (error: any) {
       console.log(error);
     } finally {
@@ -55,12 +56,12 @@ const DocumentListCard: React.FC<IProps> = () => {
     getMyDetails();
   }, [dispatch, getMyDetails]);
 
-  const checkAllDoc = () => {
-    for (let doc in state) {
-      if (!state[doc].completed) return false;
-    }
-    return true;
-  };
+  // const checkAllDoc = () => {
+  //   for (let doc in state) {
+  //     if (!state[doc].completed) return false;
+  //   }
+  //   return true;
+  // };
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-1 lg:grid-cols-3 pl-5 pt-10 gap-4">
@@ -112,7 +113,8 @@ const DocumentListCard: React.FC<IProps> = () => {
           className="float-right mt-2 py-2 px-10 shadow-lg"
           children="Submit"
           primary
-          disabled={!checkAllDoc() || loading}
+          // disabled={!checkAllDoc() || loading}
+          disabled={loading}
           shadow
           onClick={handleSubmit}
         />

@@ -103,7 +103,9 @@ const DOC = {
 export const toggleMode = createAsyncThunk(
   "driver/toggle_mode",
   async (currentState: boolean) => {
-    const id = toast.loading(`${currentState ? "You are going offline..." : "You are going online..."}`);
+    const id = toast.loading(
+      `${currentState ? "You are going offline..." : "You are going online..."}`
+    );
     try {
       const api = API.DRIVER_ENDPOINTS.TOGGLE_MODEL;
       const result = await getApi(api);
@@ -112,7 +114,6 @@ export const toggleMode = createAsyncThunk(
       console.log(error);
     } finally {
       toast.dismiss(id);
-      return {};
     }
   }
 );
@@ -161,12 +162,12 @@ const Reducer = createSlice({
       action.payload.doc.forEach((doc: any) => {
         const { type, path } = doc as {
           type:
-          | "aadhar_card"
-          | "driving_licence"
-          | "pan_card"
-          | "profile_photo"
-          | "registration_card"
-          | "vehicle_insurance";
+            | "aadhar_card"
+            | "driving_licence"
+            | "pan_card"
+            | "profile_photo"
+            | "registration_card"
+            | "vehicle_insurance";
           path: string;
         };
         state.doc[type].completed = true;
@@ -174,12 +175,17 @@ const Reducer = createSlice({
       });
       state.docFetch = true;
     },
+    clear: (state, action) => {
+      state.state = {} as Driver;
+      state.doc = DOC;
+      state.vehicle = [];
+      state.docFetch = false;
+      state.isOnline = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(toggleMode.fulfilled, (state, { payload }) => {
-      if (payload && payload.isOnline) {
-        state.isOnline = payload.isOnline;
-      }
+      state.isOnline = payload.isOnline;
     });
     builder.addCase(toggleMode.rejected, (state, action) => {
       if (action.payload) {
@@ -192,7 +198,7 @@ const Reducer = createSlice({
   },
 });
 
-export const { addInfo, updateDoc, addVehicle, addVehicleList, setValue } =
+export const { addInfo, updateDoc, addVehicle, addVehicleList, setValue, clear } =
   Reducer.actions;
 
 export default Reducer.reducer;

@@ -1,12 +1,12 @@
 import { OrderInfoCard as InfoCard, CardType } from "@odd/components";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { OrderInfoReaders } from "../../helpers";
-import { OrderAttributes } from "../../redux/slices/order";
-const IconRupee: string = require("./../../assets/vehicle.svg").default;
+import { clear, OrderAttributes } from "../../redux/slices/order";
+import { toast } from "react-toastify";
 
 export interface IProps {
   pickAddressTitle?: string;
@@ -32,6 +32,7 @@ export interface IProps {
 const OrderInfoCard: React.FC<IProps> = ({ next }) => {
   const orderData = useSelector((state: any) => state.order) as OrderAttributes;
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   let navigate = useNavigate();
 
   const createOrder = async () => {
@@ -43,15 +44,16 @@ const OrderInfoCard: React.FC<IProps> = ({ next }) => {
         pickup_info: OrderInfoReaders.PickUpInfo(orderData),
         vehicle_id: OrderInfoReaders.VehicleId(orderData),
       });
-      console.log(result);
+
       const data = result.data;
       if (data && data.success) {
         navigate(`/dashboard/order/${data.data._id}`, { replace: true });
+        dispatch(clear(null));
       } else {
-        console.log(data.error);
+        // console.log(data.error);
       }
     } catch (error: any) {
-      console.log(error);
+      toast.error(error?.data?.error ?? "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -63,11 +65,13 @@ const OrderInfoCard: React.FC<IProps> = ({ next }) => {
       info={{
         name: OrderInfoReaders.VehicleName(orderData),
         fare: +OrderInfoReaders.VehicleEstimateFare(orderData).toFixed(0),
-        image: IconRupee,
+        image: OrderInfoReaders.VehicleImage(orderData),
       }}
       buttonDisabled={loading}
       next={createOrder}
       button="Create"
+      pickcoordinates={orderData.pickup_info.location.coordinates}
+      dropcoordinates={orderData.drop_off_info.location.coordinates}
       pickAddressTitle={OrderInfoReaders.PickUpTitleAddress(orderData)}
       pickAddressFull={OrderInfoReaders.PickUpFullAddress(orderData)}
       dropAddressTitle={OrderInfoReaders.DropOffTitleAddress(orderData)}

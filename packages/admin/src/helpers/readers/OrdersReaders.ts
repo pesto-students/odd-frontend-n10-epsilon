@@ -1,9 +1,10 @@
 import _ from "lodash";
+import moment from "moment";
 
 class OrdersReaders {
 
     public static OrderId(_object: any) {
-        return _.get(_object, ["order_id"], "-");
+        return _.get(_object, ["_id"], "-");
     }
 
     public static VehicleImage(_object: any) {
@@ -12,19 +13,19 @@ class OrdersReaders {
     }
 
     public static UserName(_object: any) {
-        return _.get(_object, ["user"], "Null");
+        return _.get(_object, ["user_id","mobile_number"], "Null");
     }
 
     public static DriverName(_object: any) {
-        return _.get(_object, ["driver"], "Null");
+        return _.get(_object, ["driver_id", "first_name"], "Null");
     }
 
     public static FarePrice(_object: any) {
-        return _.get(_object, ["rate"], false);
+        return _.get(_object, ["fare"], false);
     }
 
     public static OrderDate(_object: any) {
-        return _.get(_object, ["date"], "");
+        return moment(_.get(_object, ["createdAt"], "")).fromNow();
     }
 
     public static OrderStatus(_object: any) {
