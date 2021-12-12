@@ -11,6 +11,7 @@ import {
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { DriversReaders } from "../../helpers";
+import _ from "lodash";
 
 function Users() {
   const columns = React.useMemo(
@@ -68,15 +69,20 @@ function Users() {
     let result: Array<any> = [];
     for (let index = 0; index < inputData.length; index++) {
       const element = inputData[index];
-      result.push({
-        name: DriversReaders.UserName(element),
-        profile: DriversReaders.UserImage(element),
-        phone: DriversReaders.UserPhoneNumber(element),
-        trips: DriversReaders.UserTotalOrders(element),
-        verified: DriversReaders.UserVerified(element),
-        action: DriversReaders.UserAction(element),
-        status: DriversReaders.UserOnline(element) ? "active" : "inactive",
-      });
+      if (!_.isNull(DriversReaders.UserName(element)) &&
+        !_.isNull(DriversReaders.UserPhoneNumber(element)) &&
+        !_.isNull(DriversReaders.UserImage(element))
+      ) {
+        result.push({
+          name: DriversReaders.UserName(element),
+          profile: DriversReaders.UserImage(element),
+          phone: DriversReaders.UserPhoneNumber(element),
+          trips: DriversReaders.UserTotalOrders(element),
+          verified: DriversReaders.UserVerified(element),
+          action: DriversReaders.UserAction(element),
+          status: DriversReaders.UserOnline(element) ? "active" : "inactive",
+        });
+      }
     }
     return result;
   }

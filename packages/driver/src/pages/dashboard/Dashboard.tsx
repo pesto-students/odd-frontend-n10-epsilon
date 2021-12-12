@@ -8,7 +8,7 @@ import socketIOClient from "socket.io-client";
 import { fetchCurrentOrder } from "../../redux/slices/order";
 import { toast } from "react-toastify";
 
-const ENDPOINT = "http://localhost/";
+const ENDPOINT = "http://pestooddbackend.ap-south-1.elasticbeanstalk.com/   ";
 
 const onActive: React.CSSProperties = {
   color: "#00DEDE",

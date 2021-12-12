@@ -11,6 +11,7 @@ import {
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { OrdersReaders } from "../../helpers";
+import _ from "lodash";
 
 function Orders() {
   const columns = React.useMemo(
@@ -73,15 +74,20 @@ function Orders() {
     let result: Array<any> = [];
     for (let index = 0; index < inputData.length; index++) {
       const element = inputData[index];
-      result.push({
-        orderId: `#${OrdersReaders.OrderId(element)}`,
-        image: OrdersReaders.VehicleImage(element),
-        userName: OrdersReaders.UserName(element),
-        driverName: OrdersReaders.DriverName(element),
-        charges: `₹ ${OrdersReaders.FarePrice(element)}`,
-        date: OrdersReaders.OrderDate(element),
-        status: OrdersReaders.OrderStatus(element),
-      });
+      if (!_.isNull(OrdersReaders.OrderId(element)) &&
+        !_.isNull(OrdersReaders.UserName(element)) &&
+        !_.isNull(OrdersReaders.DriverName(element))
+      ) {
+        result.push({
+          orderId: `#${OrdersReaders.OrderId(element)}`,
+          image: OrdersReaders.VehicleImage(element),
+          userName: OrdersReaders.UserName(element),
+          driverName: OrdersReaders.DriverName(element),
+          charges: `₹ ${OrdersReaders.FarePrice(element)}`,
+          date: OrdersReaders.OrderDate(element),
+          status: OrdersReaders.OrderStatus(element),
+        });
+      }
     }
 
     return result;

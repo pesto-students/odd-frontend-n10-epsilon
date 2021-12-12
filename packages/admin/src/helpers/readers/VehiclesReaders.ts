@@ -3,12 +3,12 @@ import _ from "lodash";
 class VehiclesReaders {
 
     public static VehicleName(_object: any) {
-        return _.get(_object, ["name"], "Null");
+        return _.get(_object, ["name"], null);
     }
 
     public static VehicleImage(_object: any) {
         const value = _.get(_object, ["image"]);
-        return !_.isEmpty(value) ? value : undefined;
+        return !_.isEmpty(value) ? value : null;
     }
 
     public static VehicleBaseFare(_object: any) {
@@ -20,11 +20,11 @@ class VehiclesReaders {
     }
 
     public static VehicleRecommendation(_object: any) {
-        return _.get(_object, ["recommendation"], "-");
+        return _.get(_object, ["recommendation"], null);
     }
 
     public static VehicleAction(_object: any) {
-        return _.get(_object, ["action"], "");
+        return _.get(_object, ["action"], null);
     }
 
     public static VehicleStatus(_object: any) {

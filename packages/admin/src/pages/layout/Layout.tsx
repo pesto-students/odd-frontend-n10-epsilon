@@ -16,7 +16,7 @@ const Layout: React.FC<any> = () => {
 
   useEffect(() => {
     console.log(auth.user);
-    setUser(auth.user.substring(0, 8));
+    setUser(auth.user);
   }, [auth.user]);
 
   function onLogoutClick() {

@@ -1,4 +1,4 @@
-const environment = { baseUrl: "http://localhost" };
+const environment = { baseUrl: "http://pestooddbackend.ap-south-1.elasticbeanstalk.com" };
 class Endpoints {
   baseUrl: string = environment.baseUrl;
   USER_BASE = this.baseUrl;
