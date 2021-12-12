@@ -1,14 +1,5 @@
 import _ from "lodash";
 
-
-// const _ = require("lodash");  
-
-// // Given object
-// var object = { 'c': [{ 'python': { 'java': 3 } }] };
-
-// // Use of _.get method 
-// console.log(_.get(object, ['c', '0', 'python', 'java'])); 
-
 class StatisticsReader {
     public static TotalUsers(_object: any) {
         return _.get(_object, ["user"], 0);

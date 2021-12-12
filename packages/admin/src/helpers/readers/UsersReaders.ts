@@ -3,11 +3,11 @@ import _ from "lodash";
 class UsersReaders {
 
     public static UserId(_object: any) {
-        return _.get(_object, ["_id"], "");
+        return _.get(_object, ["_id"], null);
     }
 
     public static UserName(_object: any) {
-        return _.get(_object, ["name"], "Null");
+        return _.get(_object, ["name"], null);
     }
 
     public static UserImage(_object: any) {
@@ -16,7 +16,7 @@ class UsersReaders {
     }
 
     public static UserPhoneNumber(_object: any) {
-        return _.get(_object, ["mobile_number"], "-");
+        return _.get(_object, ["mobile_number"], null);
     }
 
     public static UserTotalOrders(_object: any) {
@@ -24,7 +24,7 @@ class UsersReaders {
     }
 
     public static UserAction(_object: any) {
-        return _.get(_object, ["action"], "");
+        return _.get(_object, ["action"], null);
     }
 
     public static UserStatus(_object: any) {

@@ -3,16 +3,16 @@ import _ from "lodash";
 class DriversReaders {
 
     public static UserName(_object: any) {
-        return _.get(_object, ["first_name"], "Null");
+        return _.get(_object, ["first_name"], null);
     }
 
     public static UserImage(_object: any) {
         const value = _.get(_object, ["image"]);
-        return !_.isEmpty(value) ? value : "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60";
+        return !_.isEmpty(value) ? value : null;
     }
 
     public static UserPhoneNumber(_object: any) {
-        return _.get(_object, ["mobile_number"], "-");
+        return _.get(_object, ["mobile_number"], null);
     }
 
     public static UserTotalOrders(_object: any) {
