@@ -14,7 +14,7 @@ import {
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 
-import DummyMap from "../../assets/dummymap.svg";
+import DummyProfile from "../../assets/dummyprofile.svg";
 import { OrderDetailsReaders } from "../../helpers";
 
 const OrderDetail: React.FC<any> = () => {
@@ -99,9 +99,9 @@ const OrderDetail: React.FC<any> = () => {
                     <div className="flex h-11 w-11 mx-auto ">
                       <img
                         src={
-                          OrderDetailsReaders.UserProfileImage(data) ?? DummyMap
+                          OrderDetailsReaders.UserProfileImage(data) ?? DummyProfile
                         }
-                        alt="user profile"
+                        alt="user"
                         className="rounded-full"
                       />
                     </div>
@@ -135,9 +135,9 @@ const OrderDetail: React.FC<any> = () => {
                       <img
                         src={
                           OrderDetailsReaders.DriverProfileImage(data) ??
-                          DummyMap
+                          DummyProfile
                         }
-                        alt="driver profile"
+                        alt="driver"
                         className="rounded-full"
                       />
                     </div>
@@ -171,7 +171,7 @@ const OrderDetail: React.FC<any> = () => {
                   <TitleLabel title="Vehicle" />
                   <div className="h-11 w-11 flex-1 xl:mx-auto">
                     <img
-                      src={OrderDetailsReaders.VehicleImage(data) ?? DummyMap}
+                      src={OrderDetailsReaders.VehicleImage(data) ?? DummyProfile}
                       alt="vehicle"
                     />
                   </div>

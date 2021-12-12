@@ -8,7 +8,7 @@ class OrdersReaders {
     }
 
     public static VehicleImage(_object: any) {
-        const value = _.get(_object, ["image"]);
+        const value = _.get(_object, ["vehicle_id", "image"]);
         return !_.isEmpty(value) ? value : null;
     }
 

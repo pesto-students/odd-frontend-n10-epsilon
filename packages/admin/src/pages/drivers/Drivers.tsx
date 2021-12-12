@@ -6,7 +6,7 @@ import {
   NoDataFoundView,
   StatusItem,
   TextItem,
-  VerifiedItem,
+  // VerifiedItem,
 } from "@odd/components";
 import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
@@ -43,11 +43,11 @@ function Users() {
         accessor: "trips",
         Cell: TextItem,
       },
-      {
-        Header: "VERIFIED",
-        accessor: "verified",
-        Cell: VerifiedItem,
-      },
+      // {
+      //   Header: "VERIFIED",
+      //   accessor: "verified",
+      //   Cell: VerifiedItem,
+      // },
       // {
       //   Header: "ACTIONS",
       //   accessor: "action",
