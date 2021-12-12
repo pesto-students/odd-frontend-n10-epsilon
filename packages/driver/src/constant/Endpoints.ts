@@ -1,4 +1,4 @@
-const environment = { baseUrl: "http://pestooddbackend.ap-south-1.elasticbeanstalk.com" };
+const environment = { baseUrl: "http://localhost" };
 class Endpoints {
   baseUrl: string = environment.baseUrl;
   DRIVER_BASE = this.baseUrl + "/driver";

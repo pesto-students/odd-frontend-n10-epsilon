@@ -13,7 +13,11 @@ import {
   SteppedAddresses,
 } from "@odd/components";
 import { useDispatch, useSelector } from "react-redux";
-import { clearOrder, currentOrder, OrderAttributes } from "../../redux/slices/order";
+import {
+  clearOrder,
+  currentOrder,
+  OrderAttributes,
+} from "../../redux/slices/order";
 import { OtpConfirmDialog } from "../otp-confirm-dialog";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
@@ -52,19 +56,19 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
       const api = API.DRIVER_ENDPOINTS.UPDATE_ORDER_STATUS;
       const result = await postApi(api, data);
       const resultData = result.data;
+      toast.dismiss(id);
       if (resultData && resultData.success) {
         dispatch(currentOrder(resultData.data));
         if (resultData.data.status === "delivered") {
           dispatch(clearOrder(null));
-          return
+          return;
         }
       } else {
         console.log(resultData.error);
       }
-      toast.dismiss(id);
     } catch (error: any) {
       toast.error(error?.data?.error);
-     
+
       toast.dismiss(id);
     } finally {
       setLoading(false);
@@ -197,7 +201,7 @@ const OrderScreen: React.FC<IProps> = (props: IProps & any) => {
             <div className="w-full lg:w-64 rounded-xl overflow-hidden border-primary border-2 h-64">
               <Map
                 pickCood={orderData?.pickup_info.location.coordinates ?? []}
-                dropCood={orderData?.drop_off_info.location.coordinates??[]}
+                dropCood={orderData?.drop_off_info.location.coordinates ?? []}
               />
             </div>
           </div>

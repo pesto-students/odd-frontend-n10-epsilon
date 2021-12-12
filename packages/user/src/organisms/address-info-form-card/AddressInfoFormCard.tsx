@@ -39,9 +39,12 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
       .required("This is required"),
     contact_person_name: Yup.string().required("This is required"),
     "location.coordinates": Yup.array(),
+
     complete_address: Yup.string().when("location.coordinates", {
       is: (val: any) => val.length !== 2,
-      then: Yup.string().required("Select location from lookup"),
+      then: Yup.string()
+        .length(100000000, "Select location from lookup")
+        .required("Select location from lookup"),
     }),
   });
 
@@ -51,8 +54,10 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
       types: [],
       componentRestrictions: { country: "IND" },
     },
-    onPlaceSelected: (place:any) => {
-      
+    onPlaceSelected: (place: any) => {
+      if (!place?.geometry) return;
+      console.log(place);
+
       const latLong = [
         place.geometry.location.lat(),
         place.geometry.location.lng(),
@@ -102,7 +107,6 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
   };
 
   function onSubmit(value: Values): void {
-   
     if (mode === Mode.pickUP) {
       //todo: Add data to redux
       dispatch(addPickupInfo(value));
@@ -156,12 +160,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
                 }
                 inputRef={ref}
                 trailing={
-                  <button
-                    type="button"
-                    onClick={() => {
-                     
-                    }}
-                  >
+                  <button type="button" onClick={() => {}}>
                     <Icon
                       iconName="gps"
                       size="20"

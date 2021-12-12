@@ -44,7 +44,6 @@ const OrderInfoCard: React.FC<IProps> = ({ next }) => {
         pickup_info: OrderInfoReaders.PickUpInfo(orderData),
         vehicle_id: OrderInfoReaders.VehicleId(orderData),
       });
-
       const data = result.data;
       if (data && data.success) {
         navigate(`/dashboard/order/${data.data._id}`, { replace: true });
