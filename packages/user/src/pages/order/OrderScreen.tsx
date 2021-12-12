@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 import { IDeliveryStatus } from "@odd/components/src/molecules/address/enum";
 import {
+  Button,
   CardLayout,
   DriverTile,
   FullScreenLoader,
@@ -17,19 +18,19 @@ import { OrderInfoReaders } from "../../helpers";
 import { toast } from "react-toastify";
 const ENDPOINT = "http://pestooddbackend.ap-south-1.elasticbeanstalk.com/";
 
-// function loadScript(src: string) {
-//   return new Promise((resolve) => {
-//     const script = document.createElement("script");
-//     script.src = src;
-//     script.onload = () => {
-//       resolve(true);
-//     };
-//     script.onerror = () => {
-//       resolve(false);
-//     };
-//     document.body.appendChild(script);
-//   });
-// }
+function loadScript(src: string) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
 
 const OrderScreen: React.FC<any> = () => {
   let params = useParams();
@@ -37,7 +38,7 @@ const OrderScreen: React.FC<any> = () => {
   const [loading, setLoading] = useState(true);
   const [orderData, setOrderData] = useState<any>({});
   const [error, setError] = useState("");
-
+const [payment, setPayment]= useState(false)
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
@@ -105,34 +106,35 @@ const OrderScreen: React.FC<any> = () => {
     };
   }, [loadData, orderData]);
 
-  // async function displayRazorpay() {
-  //   const res = await loadScript(
-  //     "https://checkout.razorpay.com/v1/checkout.js"
-  //   );
+  async function displayRazorpay() {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
 
-  //   if (!res) {
-  //     toast.error("Razorpay SDK failed to load. Are you online?");
-  //     return;
-  //   }
+    if (!res) {
+      toast.error("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
 
-  //   const options = {
-  //     key: "rzp_test_AvZQq5684ArgeL",
-  //     currency: "INR",
-  //     amount: (orderData.fare * 100).toString(),
-  //     order_id: orderData.order_id,
-  //     name: "ODD Payment",
-  //     description: "Thank you for making order",
-  //     handler: function (response: any) {
-  //       toast.success("Payment done successfully")
-  //     },
-  //     prefill: {
-  //       phone_number: "9899999999",
-  //     },
-  //   };
-  //   const _window = window as any;
-  //   const paymentObject = new _window.Razorpay(options);
-  //   paymentObject.open();
-  // }
+    const options = {
+      key: "rzp_test_AvZQq5684ArgeL",
+      currency: "INR",
+      amount: (orderData.fare * 100).toString(),
+      order_id: orderData.order_id,
+      name: "ODD Payment",
+      description: "Thank you for making order",
+      handler: function (response: any) {
+        toast.success("Payment done successfully");
+        setPayment(true);
+      },
+      prefill: {
+        phone_number: "9899999999",
+      },
+    };
+    const _window = window as any;
+    const paymentObject = new _window.Razorpay(options);
+    paymentObject.open();
+  }
 
   const getStatusString = () => {
     const status = OrderInfoReaders.OrderStatus(orderData);
@@ -250,7 +252,10 @@ const OrderScreen: React.FC<any> = () => {
         </div>
         <div className="col-span-1 lg:col-span-2 gap-2 items-end justify-center flex flex-col pt-2 lg:pt-3">
           <div className="h-auto">
-            {otp && (
+            {otp && orderData.status === "inprogress" && payment && (
+              <OTPItem otp={otp} info="Provide OTP when driver arrives" />
+            )}
+            {otp && orderData.status === "accepted" && (
               <OTPItem otp={otp} info="Provide OTP when driver arrives" />
             )}
           </div>
@@ -263,15 +268,17 @@ const OrderScreen: React.FC<any> = () => {
             </div>
           </div>
           <div className="mt-2 lg:mt-4">
-            {/* <Button
-              onClick={() => {
-                displayRazorpay();
-              }}
-              shadow
-              className="float-right py-2 px-4"
-              children={"Cancel Pickup"}
-              primary
-            /> */}
+            {orderData.status === "inprogress" && !payment && (
+              <Button
+                onClick={() => {
+                  displayRazorpay();
+                }}
+                shadow
+                className="float-right py-2 px-4"
+                children={"Pay now"}
+                primary
+              />
+            )}
           </div>
         </div>
       </div>

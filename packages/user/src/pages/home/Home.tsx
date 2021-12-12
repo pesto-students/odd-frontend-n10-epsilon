@@ -17,7 +17,7 @@ const stepper = [
     setOn: 1,
   },
   { title: "Choose Vehicle", active: false, completed: false, setOn: 2 },
-  { title: "Payment", active: false, completed: false, setOn: 3 },
+  { title: "Order Details", active: false, completed: false, setOn: 3 },
 ];
 
 const Home = () => {
