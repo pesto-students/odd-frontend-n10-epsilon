@@ -19,21 +19,19 @@ const onInActive: React.CSSProperties = {
 
 const Navbar: React.FC<IProps> = ({ actionLeft, actionRight }) => {
   return (
-    <div>
+    <div className="flex w-full">
       <nav
-        className="fixed w-full z-50 h-20 items-center"
+        className="w-full z-50 h-20 items-center"
         style={{ backgroundColor: "#E6FCFC" }}
       >
-        <div className="flex justify-between h-full items-center px-4">
+        <div className="flex justify-between h-full items-center px-1 xl:px-4">
           <div className="flex">
-            <div>
-              <Link to="/" className="flex items-center py-4 ">
-                <img src={logo} alt="Logo" className=" mr-2" />
-              </Link>
-            </div>
+            <Link to="/" className="flex items-center py-2 xl:py-4 ">
+              <img src={logo} alt="Logo" className="mr-2" />
+            </Link>
             <div>{actionLeft}</div>
           </div>
-          <div className="flex items-center space-x-3 mr-8">
+          <div className="flex items-center space-x-1 xl:space-x-3 mr-2 xl:mr-8">
             <div>{actionRight}</div>
           </div>
         </div>

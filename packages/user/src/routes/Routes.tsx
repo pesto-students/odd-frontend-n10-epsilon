@@ -4,11 +4,11 @@ import {
   Dashboard,
   Home,
   Layout,
-  LoginPage,
   OrderHistory,
   OrderScreen,
   RequireAuth,
   OnAuth,
+  LandingPageUser,
 } from "../pages";
 
 function AppRoutes() {
@@ -21,7 +21,7 @@ function AppRoutes() {
             path="/login"
             element={
               <OnAuth>
-                <LoginPage />
+                <LandingPageUser />
               </OnAuth>
             }
           />

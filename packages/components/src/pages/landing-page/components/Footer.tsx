@@ -80,9 +80,9 @@ const Item = ({ title, list }: any) => {
 
 const Footer: React.FC<IProps> = () => {
   return (
-    <footer className="bg-gray-800" aria-labelledby="footer-heading">
-      <div className="max-w-7xl mx-auto py-12 lg:py-16">
-        <div className="grid grid-cols-2">
+    <footer aria-labelledby="footer-heading">
+      <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16">
+        <div className="hidden">
           <div className="flex">
             <div>
               <Link to="/" className="flex items-center py-4 ">
@@ -94,14 +94,14 @@ const Footer: React.FC<IProps> = () => {
               </Link>
             </div>
           </div>
-          <div className="pb-8 xl:grid xl:grid-cols-3">
+          <div className="pb-8 xl:grid xl:grid-cols-3 xl:gap-3 space-y-3 xl:space-y-0">
             <Item title="Mobile app" list={navigation.mobileapp} />
             <Item title="Company" list={navigation.company} />
             <Item title="legal" list={navigation.legal} />
           </div>
         </div>
-        <div className="border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
-          <div className="flex space-x-6 md:order-2">
+        <div className="border-t border-gray-700 pt-4 lg:pt-8 lg:flex lg:items-center lg:justify-between">
+          <div className="flex space-x-3 lg:space-x-6 lg:order-2 justify-center xl:justify-start">
             {navigation.social.map((item) => (
               <a
                 key={item.name}
@@ -113,7 +113,7 @@ const Footer: React.FC<IProps> = () => {
               </a>
             ))}
           </div>
-          <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
+          <p className="mt-8 text-base text-gray-400 lg:mt-0 lg:order-1 justify-center xl:justify-start text-center xl:text-left">
             &copy; ODD, Inc. 2021. We love our users!
           </p>
         </div>

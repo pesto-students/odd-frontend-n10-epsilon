@@ -1,5 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Input, Icon, IconColorType, OtpInput } from "@odd/components";
+import {
+  Button,
+  Input,
+  Icon,
+  IconColorType,
+  OtpInput,
+  AppModal,
+} from "@odd/components";
 
 import { useAuth } from "./AuthProvide";
 import { useEffect, useState } from "react";
@@ -10,8 +17,10 @@ import { CookieHelper } from "@odd/base";
 import { useDispatch } from "react-redux";
 import { addInfo } from "../../redux/slices/driver";
 
-interface IProps {}
-
+interface IProps {
+  open: boolean;
+  onClose: () => void;
+}
 interface MyFormValues {
   phone_number: string;
 }
@@ -21,7 +30,7 @@ enum IStates {
   enter_otp,
 }
 
-const LoginPage: React.FC<IProps> = (props: IProps & any) => {
+const LoginPage: React.FC<IProps> = (props: IProps) => {
   const [currentState, setCurrentState] = useState(IStates.enter_number);
   const [userId, setUserId] = useState(null);
   const [number, setNumber] = useState("");
@@ -92,13 +101,15 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <AppModal open={props.open}>
       <div
-        className="mx-4 w-full md:mx-auto md:w-1/2 h-auto rounded-xl shadow-2xl"
+        className="text-left inline-block align-bottom w-full md:max-w-sm mx-4 md:mx-0 bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all sm:align-middle"
         style={{ maxWidth: 388, maxHeight: 335 }}
       >
         <Button
-          onClick={() => {}}
+          onClick={() => {
+            props.onClose();
+          }}
           className="relative float-right mr-2.5 mt-2.5"
         >
           <Icon
@@ -183,7 +194,7 @@ const LoginPage: React.FC<IProps> = (props: IProps & any) => {
           </Formik>
         </div>
       </div>
-    </div>
+    </AppModal>
   );
 };
 
