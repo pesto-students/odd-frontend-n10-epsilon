@@ -9,7 +9,7 @@ import {
 } from "@odd/components";
 
 import { useAuth } from "./AuthProvide";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import * as apiService from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { Formik, Form } from "formik";
@@ -43,9 +43,6 @@ const LoginPage: React.FC<IProps> = (props: IProps) => {
   const dispatch = useDispatch();
   let from = location.state?.from?.pathname || "/dashboard/home";
 
-  useEffect(() => {
-    if (auth.user) navigate("/dashboard/home", { replace: true });
-  }, [auth.user, navigate]);
 
   async function handleSubmit(values: MyFormValues) {
     if (currentState === IStates.enter_number) {

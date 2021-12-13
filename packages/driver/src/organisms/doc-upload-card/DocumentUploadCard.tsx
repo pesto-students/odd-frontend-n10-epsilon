@@ -7,6 +7,7 @@ import { FilePreviewItem, FileUploadItem } from ".";
 import { uploadFilePostApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { updateDoc } from "../../redux/slices/driver";
+import { toast } from "react-toastify";
 
 interface IProps {
   title?: string;
@@ -27,8 +28,9 @@ const DocumentUploadCard: React.FC<IProps> = ({ title, onSubmit }) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    accept: "image/*",
     multiple: false,
-    maxFiles: 2,
+    maxFiles: 1,
   });
 
   const [file, setFile] = useState(null as File | null);
@@ -55,7 +57,7 @@ const DocumentUploadCard: React.FC<IProps> = ({ title, onSubmit }) => {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      toast.error("File size is to large");
     }
   };
 
