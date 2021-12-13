@@ -38,7 +38,7 @@ const OrderScreen: React.FC<any> = () => {
   const [loading, setLoading] = useState(true);
   const [orderData, setOrderData] = useState<any>({});
   const [error, setError] = useState("");
-const [payment, setPayment]= useState(false)
+  const [payment, setPayment] = useState(false);
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
@@ -61,6 +61,10 @@ const [payment, setPayment]= useState(false)
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  useEffect(() => {
+    document.title = "Order Details - User App";
+  }, []);
 
   useEffect(() => {
     if (!(orderId && orderData?.status !== "delivered")) return;

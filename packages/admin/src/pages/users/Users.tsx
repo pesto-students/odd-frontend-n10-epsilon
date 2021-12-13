@@ -11,6 +11,10 @@ import * as apiService from "../../api-call";
 import { UsersReaders } from "../../helpers";
 
 function Users() {
+  useEffect(() => {
+    document.title = "Users - Admin App";
+  }, []);
+
   const columns = React.useMemo(
     () => [
       {

@@ -14,6 +14,10 @@ import { OrdersReaders } from "../../helpers";
 import _ from "lodash";
 
 function Orders() {
+  useEffect(() => {
+    document.title = "Orders - Admin App";
+  }, []);
+
   const columns = React.useMemo(
     () => [
       {
@@ -74,7 +78,8 @@ function Orders() {
     let result: Array<any> = [];
     for (let index = 0; index < inputData.length; index++) {
       const element = inputData[index];
-      if (!_.isNull(OrdersReaders.OrderId(element)) &&
+      if (
+        !_.isNull(OrdersReaders.OrderId(element)) &&
         !_.isNull(OrdersReaders.UserName(element)) &&
         !_.isNull(OrdersReaders.DriverName(element))
       ) {

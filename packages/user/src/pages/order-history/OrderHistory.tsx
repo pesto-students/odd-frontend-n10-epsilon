@@ -35,6 +35,10 @@ const OrderHistory: React.FC<IProps> = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    document.title = "Orders History - User App";
+  }, []);
+
+  useEffect(() => {
     async function loadData() {
       setLoading(true);
       try {
@@ -44,11 +48,9 @@ const OrderHistory: React.FC<IProps> = () => {
         const result = await apiService.getApi(api);
         const data = result.data;
         if (data && data.success) {
-         
           setError("");
           setOrders(data.data);
         } else {
-          
           setError(data.error);
         }
       } catch (error) {

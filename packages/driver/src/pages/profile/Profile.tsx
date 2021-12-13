@@ -24,6 +24,10 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    document.title = "Statistics - Driver App";
+  }, []);
+
+  useEffect(() => {
     async function loadData() {
       setLoading(true);
       try {
@@ -149,7 +153,7 @@ const Profile: React.FC<IProps> = (props: IProps & any) => {
           <StatisticsItem
             iconName="icn-state-time"
             label="Hours Online"
-            value={'-'}
+            value={"-"}
           />
           <StatisticsItem
             iconName="icn-state-distance"

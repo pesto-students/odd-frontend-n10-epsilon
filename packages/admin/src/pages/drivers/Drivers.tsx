@@ -14,6 +14,10 @@ import { DriversReaders } from "../../helpers";
 import _ from "lodash";
 
 function Users() {
+  useEffect(() => {
+    document.title = "Drivers - Admin App";
+  }, []);
+
   const columns = React.useMemo(
     () => [
       {
@@ -69,7 +73,8 @@ function Users() {
     let result: Array<any> = [];
     for (let index = 0; index < inputData.length; index++) {
       const element = inputData[index];
-      if (!_.isNull(DriversReaders.UserName(element)) &&
+      if (
+        !_.isNull(DriversReaders.UserName(element)) &&
         !_.isNull(DriversReaders.UserPhoneNumber(element)) &&
         !_.isNull(DriversReaders.UserImage(element))
       ) {

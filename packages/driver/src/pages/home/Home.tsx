@@ -11,6 +11,10 @@ const Home: React.FC<IProps> = () => {
   const state = useSelector((state: any) => state.order);
 
   useEffect(() => {
+    document.title = "Home - Driver App";
+  }, []);
+
+  useEffect(() => {
     dispatch(fetchCurrentOrder());
   }, [dispatch]);
 

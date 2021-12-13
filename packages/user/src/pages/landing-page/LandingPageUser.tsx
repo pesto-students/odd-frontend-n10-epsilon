@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LandingPage } from "@odd/components";
 import { LoginPage } from "..";
 
 const LandingPageUser: React.FC = () => {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    document.title = "User App";
+  }, []);
 
   return (
     <div className="relative flex">

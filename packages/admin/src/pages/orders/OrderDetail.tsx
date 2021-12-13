@@ -27,6 +27,10 @@ const OrderDetail: React.FC<any> = () => {
   const order_id = params.id;
 
   useEffect(() => {
+    document.title = "Order Details - Admin App";
+  }, []);
+
+  useEffect(() => {
     async function loadData() {
       const api = API.ADMIN_ENDPOINTS.ORDERS_INFO(String(order_id));
       try {
@@ -99,7 +103,8 @@ const OrderDetail: React.FC<any> = () => {
                     <div className="flex h-11 w-11 mx-auto ">
                       <img
                         src={
-                          OrderDetailsReaders.UserProfileImage(data) ?? DummyProfile
+                          OrderDetailsReaders.UserProfileImage(data) ??
+                          DummyProfile
                         }
                         alt="user"
                         className="rounded-full"
@@ -171,7 +176,9 @@ const OrderDetail: React.FC<any> = () => {
                   <TitleLabel title="Vehicle" />
                   <div className="h-11 w-11 flex-1 xl:mx-auto">
                     <img
-                      src={OrderDetailsReaders.VehicleImage(data) ?? DummyProfile}
+                      src={
+                        OrderDetailsReaders.VehicleImage(data) ?? DummyProfile
+                      }
                       alt="vehicle"
                     />
                   </div>
