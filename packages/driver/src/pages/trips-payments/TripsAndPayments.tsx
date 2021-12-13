@@ -23,6 +23,10 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    document.title = "Trips and Payments - Driver App";
+  }, []);
+
+  useEffect(() => {
     async function loadData() {
       setLoading(true);
       try {
@@ -62,11 +66,11 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
     );
   }
 
-   const getDateFormat = (order: any) => {
-     return `${moment(
-       new Date(TripsAndPaymentsReaders.OrderCreateDate(order))
-     ).calendar()} `;
-   };
+  const getDateFormat = (order: any) => {
+    return `${moment(
+      new Date(TripsAndPaymentsReaders.OrderCreateDate(order))
+    ).calendar()} `;
+  };
 
   return (
     <div className="relative m-auto lg:w-7/12 xs:w-11/12 lg:max-w-4xl">
@@ -140,7 +144,9 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
               <StatisticsItem
                 iconName="icn-trip-state-travel"
                 label="Traveled"
-                value={`${TripsAndPaymentsReaders.Distance(data).toFixed(1)} Km`}
+                value={`${TripsAndPaymentsReaders.Distance(data).toFixed(
+                  1
+                )} Km`}
               />
               <StatisticsItem
                 iconName="icn-trip-state-trip"
@@ -156,19 +162,17 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
             {TripsAndPaymentsReaders.Orders(data) ? (
               TripsAndPaymentsReaders.Orders(data)?.map((_order: any) => {
                 return (
-                 
-                    <OrderItem
+                  <OrderItem
                     key={_order._id}
-                      pickUpAddress={TripsAndPaymentsReaders.OrderPickUpAddress(
-                        _order
-                      )}
-                      dropOffAddress={TripsAndPaymentsReaders.OrderDropOffAddress(
-                        _order
-                      )}
-                      pickDate={getDateFormat(_order)}
-                      amount={TripsAndPaymentsReaders.OrderFare(_order)}
-                    />
-              
+                    pickUpAddress={TripsAndPaymentsReaders.OrderPickUpAddress(
+                      _order
+                    )}
+                    dropOffAddress={TripsAndPaymentsReaders.OrderDropOffAddress(
+                      _order
+                    )}
+                    pickDate={getDateFormat(_order)}
+                    amount={TripsAndPaymentsReaders.OrderFare(_order)}
+                  />
                 );
               })
             ) : (

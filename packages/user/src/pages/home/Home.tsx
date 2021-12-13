@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CardLayout, Icon, IconColorType } from "@odd/components";
 import {
   AddressInfoFormCard,
@@ -22,6 +22,10 @@ const stepper = [
 
 const Home = () => {
   const [step, setStep] = useState(stepper);
+
+  useEffect(() => {
+    document.title = "Home - User App";
+  }, []);
 
   const next = (index: number) => {
     const update = reset();

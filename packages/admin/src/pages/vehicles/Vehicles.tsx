@@ -12,6 +12,10 @@ import * as apiService from "../../api-call";
 import { VehiclesReaders } from "../../helpers";
 
 function Users() {
+  useEffect(() => {
+    document.title = "Vehicles - Admin App";
+  }, []);
+
   const columns = React.useMemo(
     () => [
       {

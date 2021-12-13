@@ -7,7 +7,7 @@ import { Form, Formik } from "formik";
 import * as apiService from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { CookieHelper } from "@odd/base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface MyFormValues {
   email: string;
@@ -22,6 +22,10 @@ function LoginPage() {
   let from = location.state?.from?.pathname || "/dashboard";
 
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    document.title = "Admin App";
+  }, []);
 
   async function handleSubmit(value: MyFormValues, callback: () => void) {
     console.log(value);

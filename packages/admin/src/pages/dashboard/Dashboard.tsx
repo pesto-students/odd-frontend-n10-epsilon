@@ -17,6 +17,10 @@ const Dashboard: React.FC<any> = () => {
   const [statistics, setStatistics] = useState<any>(null);
 
   useEffect(() => {
+    document.title = "Dashboard - Admin App";
+  }, []);
+
+  useEffect(() => {
     async function loadData() {
       const api = API.ADMIN_ENDPOINTS.STATISTICS;
       try {
