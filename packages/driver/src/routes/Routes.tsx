@@ -5,13 +5,13 @@ import {
   Dashboard,
   Home,
   Layout,
-  LoginPage,
   Profile as ProfileScreen,
   CompleteProfile,
   RequireAuth,
   OnAuth,
   TripsAndPayments as TripsAndPaymentsScreen,
   ChooseVehicle,
+  LandingPageDriver,
 } from "../pages";
 import DocumentUpload from "../pages/compete-profile/DocUpload";
 import CompleteDocument from "../pages/compete-profile/UploadDoc";
@@ -26,7 +26,7 @@ function AppRoutes() {
             path="/login"
             element={
               <OnAuth>
-                <LoginPage />
+                <LandingPageDriver />
               </OnAuth>
             }
           />
