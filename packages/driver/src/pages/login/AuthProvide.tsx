@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   let signin = (newUser: string, callback: VoidFunction) => {
     setUser(newUser);
-
+    getMyDetails();
     CookieHelper.SetCookie("user", newUser);
     callback();
   };

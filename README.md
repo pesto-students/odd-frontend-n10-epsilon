@@ -11,8 +11,6 @@ ODD tries to solve the problems by providing a platform where users can find and
 - DRIVER - A person who is responsible for delivering a package
 - ADMIN - A person who can see statistics of services and details of Users, Drivers and Orders.
 
-
-
 ## Tech Stack
 
 **Client:** React, Redux, TailwindCSS
@@ -35,47 +33,60 @@ ODD tries to solve the problems by providing a platform where users can find and
 
 ## Application URLs
 
-- `Admin App:` [https://odd-admin.netlify.app/](https://odd-admin.netlify.app/)
-    - **`Email`**: ***admin@mailinator.com*** 
-    - **`Password`**: ***12345678***
+- `Admin App:` [admin-app-odd](http://admin-app-odd.s3-website.ap-south-1.amazonaws.com/)
 
-- `User App:` [https://odd-user.netlify.app/](https://odd-user.netlify.app/)
-    - **`Phone Number`**: ***9999999999***
-    - **`OTP`**: ***0000***
+  - **`Email`**: ***admin@mailinator.com***
+  - **`Password`**: **_12345678_**
 
-- `Driver App:` [https://odd-driver.netlify.app/](https://odd-driver.netlify.app/)
-    - **`Phone Number`**: ***8888888888***
-    - **`OTP`**: ***0000***
-    
+- `User App:` [user-app-odd](http://user-app-odd.s3-website.ap-south-1.amazonaws.com/)
+
+  - **`Phone Number`**: **_9999999999_**
+  - **`OTP`**: **_0000_**
+
+- `Driver App:` [driver-app-odd](http://driver-app-odd.s3-website.ap-south-1.amazonaws.com/)
+  - **`Phone Number`**: **_8888888888_**
+  - **`OTP`**: **_0000_**
+
 # Run locally
 
 ## Cloning Project
 
 Use below command to clone project along with the submodules.
+
 ```
 git clone https://github.com/pesto-students/odd-frontend-n10-epsilon
 ```
+
 ## Download Dependencies
+
 Use below command to download dependencies.
+
 ```
 yarn install
 ```
 
 ## `Admin App`
+
 ## Run:
+
 Runs the app in the development mode.
+
 ```
 yarn start:admin
 ```
+
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 - The page will reload if you make edits.
 - You will also see any lint errors in the console.
 
 ## Build:
+
 Builds the app for production to the `packages/admin/build` folder.
+
 ```
 yarn build:admin
 ```
+
 - It correctly bundles React in production mode and optimizes the build for the best performance.
 - The build is minified and the filenames include the hashes.
 - Your app is ready to be deployed!
@@ -83,38 +94,69 @@ yarn build:admin
 ## `Driver App`
 
 ## Run:
+
 Runs the app in the development mode.
+
 ```
 yarn start:driver
 ```
+
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 - The page will reload if you make edits.
 - You will also see any lint errors in the console.
 
 ## Build:
+
 Builds the app for production to the `packages/driver/build` folder.
+
 ```
 yarn build:driver
 ```
+
 - It correctly bundles React in production mode and optimizes the build for the best performance.
 - The build is minified and the filenames include the hashes.
 - Your app is ready to be deployed!
 
 ## `User App`
+
 ## Run:
+
 Runs the app in the development mode.
+
 ```
 yarn start:user
 ```
+
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 - The page will reload if you make edits.
 - You will also see any lint errors in the console.
 
 ## Build:
+
 Builds the app for production to the `packages/user/build` folder.
+
 ```
 yarn build:user
 ```
+
 - It correctly bundles React in production mode and optimizes the build for the best performance.
 - The build is minified and the filenames include the hashes.
 - Your app is ready to be deployed!
+
+## To start with Driver app Todo
+
+step to follow
+
+type url in chrome
+
+```bash
+    chrome://flags/#unsafely-treat-insecure-origin-as-secure
+```
+
+Enter url in the textarea
+
+```bash
+  http://driver-app-odd.s3-website.ap-south-1.amazonaws.com
+```
+
+Choose Enabled in the select option.
