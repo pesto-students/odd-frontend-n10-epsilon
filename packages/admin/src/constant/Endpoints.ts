@@ -1,4 +1,6 @@
-const environment = { baseUrl: "http://localhost" };
+const environment = {
+  baseUrl: "http://pestooddbackend.ap-south-1.elasticbeanstalk.com",
+};
 class Endpoints {
   baseUrl: string = environment.baseUrl;
   ADMIN_BASE = this.joinPaths(this.baseUrl, "admin");
