@@ -12,6 +12,9 @@
     "build:admin": "yarn && lerna exec --scope @odd/admin -- yarn build",
     "build:user": "yarn && lerna exec --scope @odd/user -- yarn build",
     "build:driver": "yarn && lerna exec --scope @odd/driver -- yarn build",
+    "deploy:admin": "yarn && lerna exec --scope @odd/admin -- yarn deploy",
+    "deploy:user": "yarn && lerna exec --scope @odd/user -- yarn deploy",
+    "deploy:driver": "yarn && lerna exec --scope @odd/driver -- yarn deploy",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix"
   },

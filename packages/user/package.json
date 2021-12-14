@@ -41,7 +41,7 @@
     "eject": "yarn run lint && craco eject",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "yarn run lint -- --fix",
-    "deploy":"aws s3 sync build/ s3://user-app-odd"
+    "deploy":"yarn run build && aws s3 sync build/ s3://user-app-odd"
   },
   "eslintConfig": {
     "extends": [
