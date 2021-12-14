@@ -39,7 +39,7 @@
     "eject": "yarn run lint && craco eject",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
-    "deploy":"aws s3 sync build/ s3://admin-app-odd"
+    "deploy":"yarn run build && aws s3 sync build/ s3://admin-app-odd"
 
   },
   "eslintConfig": {
