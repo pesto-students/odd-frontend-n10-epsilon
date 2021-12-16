@@ -1,5 +1,5 @@
 const environment = {
-  baseUrl: "http://pestooddbackend.ap-south-1.elasticbeanstalk.com",
+  baseUrl: "http://167.71.234.112",
 };
 class Endpoints {
   baseUrl: string = environment.baseUrl;

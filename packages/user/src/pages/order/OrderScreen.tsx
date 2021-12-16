@@ -16,7 +16,7 @@ import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { OrderInfoReaders } from "../../helpers";
 import { toast } from "react-toastify";
-const ENDPOINT = "http://pestooddbackend.ap-south-1.elasticbeanstalk.com/";
+const ENDPOINT = "http://167.71.234.112/";
 
 function loadScript(src: string) {
   return new Promise((resolve) => {
