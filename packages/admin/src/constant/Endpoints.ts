@@ -1,5 +1,5 @@
 const environment = {
-  baseUrl: "http://pestooddbackend.ap-south-1.elasticbeanstalk.com",
+  baseUrl: "http://167.71.234.112",
 };
 class Endpoints {
   baseUrl: string = environment.baseUrl;
@@ -14,7 +14,7 @@ class Endpoints {
     VEHICLES_LIST: this.joinPaths(this.ADMIN_BASE, "vehicle_listing"),
     ORDERS_LIST: this.joinPaths(this.ADMIN_BASE, "order_listing"),
     ORDERS_INFO: (orderId: string) => {
-      return this.joinPaths(this.ORDER_BASE, "getOrder", orderId)
+      return this.joinPaths(this.ORDER_BASE, "getOrder", orderId);
     },
   };
   private joinPaths(...params: string[]) {
