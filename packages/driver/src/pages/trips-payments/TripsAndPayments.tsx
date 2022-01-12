@@ -6,7 +6,7 @@ import {
   Select,
   FullScreenLoader,
 } from "@odd/components";
-import { OrderItem, StatisticsItem } from "./components";
+import { OrderItem, /*Skeleton,*/ StatisticsItem } from "./components";
 import { useSelector } from "react-redux";
 
 import { API } from "../../constant/Endpoints";
@@ -157,9 +157,17 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
           </div>
         </div>
         {/* <div className="overflow-auto lg:max-h-80 py-3 no-scrollbar"> */}
-        <div className="overflow-auto py-3 no-scrollbar">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {TripsAndPaymentsReaders.Orders(data) ? (
+        <div className="mt-11 flex flex-row items-center space-x-4 my-auto">
+          <Label
+            title="TRIPS"
+            primary
+            className="flex align-text-bottom h-full text-base font-semibold"
+          />
+        </div>
+        <div className="overflow-auto py-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-48 md:max-h-96">
+            {TripsAndPaymentsReaders.Orders(data) &&
+            TripsAndPaymentsReaders.Orders(data).length > 0 ? (
               TripsAndPaymentsReaders.Orders(data)?.map((_order: any) => {
                 return (
                   <OrderItem
@@ -176,8 +184,8 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
                 );
               })
             ) : (
-              <div className="col-span-1 md:col-span-2 justify-center items-center text-center flex w-full">
-                No order history found
+              <div className="col-span-1 md:col-span-2 justify-center items-center text-center flex w-full h-48">
+                You have no previous travel history
               </div>
             )}
           </div>
