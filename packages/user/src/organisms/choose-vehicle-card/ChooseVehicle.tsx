@@ -57,7 +57,7 @@ const ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 px-0 lg:px-5 mt-5 gap-2 lg:gap-4">
-      {!vehicles && [0, 1, 2, 3].map(() => <Skeleton />)}
+      {!vehicles && [0, 1, 2, 3].map((x) => <Skeleton key={x} />)}
       {vehicles &&
         vehicles?.map((_vehicle: Vehicle) => (
           <div key={ChooseVehicleReaders.VehicleId(_vehicle)}>

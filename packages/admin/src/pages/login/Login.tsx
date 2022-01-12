@@ -18,7 +18,10 @@ function LoginPage() {
   let navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
-  const initialValues: MyFormValues = { email: "", password: "" };
+  const initialValues: MyFormValues = {
+    email: "admin@mailinator.com",
+    password: "12345678",
+  };
   let from = location.state?.from?.pathname || "/dashboard";
 
   const [error, setError] = useState("");

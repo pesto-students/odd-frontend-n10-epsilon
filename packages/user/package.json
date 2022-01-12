@@ -18,12 +18,14 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-geocode": "^0.2.0",
     "classnames": "^2.3.1",
     "formik": "^2.2.9",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-geocode": "^0.2.3",
     "react-google-autocomplete": "^2.6.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "6",
@@ -41,7 +43,7 @@
     "eject": "yarn run lint && craco eject",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "yarn run lint -- --fix",
-    "deploy":"yarn run build && aws s3 sync build/ s3://user-app-odd"
+    "deploy": "yarn run build && aws s3 sync build/ s3://user-app-odd"
   },
   "eslintConfig": {
     "extends": [

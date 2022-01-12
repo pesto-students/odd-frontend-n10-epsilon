@@ -5,8 +5,9 @@ import React, { useEffect, useRef } from "react";
 import { usePlacesWidget } from "react-google-autocomplete";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
+import Geocode from "react-geocode";
 import { addDropOffInfo, addPickupInfo } from "../../redux/slices/order";
-
+import { toast } from "react-toastify";
 export enum Mode {
   pickUP,
   dropOff,
@@ -26,6 +27,22 @@ export interface Values {
   complete_address: string;
   location: { coordinates: number[] };
 }
+
+Geocode.setApiKey("AIzaSyDtyq14eeHpWEwCYm50RjBhvt4GqeMENUg");
+
+const get_address_by_coords = (lat: string, lng: string) =>
+  new Promise((resolve, reject) => {
+    // Get address from latitude & longitude.
+    Geocode.fromLatLng(lat, lng).then(
+      (response) => {
+        resolve(response.results[0]);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+
 const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state.order);
@@ -71,6 +88,35 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
     },
   });
 
+  const getGpsLocation = () => {
+    const id = toast.loading("Fetching location");
+    navigator.geolocation.getCurrentPosition(async function (position) {
+      try {
+        const place: any = await get_address_by_coords(
+          position.coords.latitude.toString(),
+          position.coords.longitude.toString()
+        );
+        if (!place?.geometry) return;
+        console.log(place);
+
+        const latLong = [
+          place.geometry.location.lat,
+          place.geometry.location.lng,
+        ];
+        setAddress(place.address_components);
+        formRef.current.setFieldValue("location.coordinates", latLong);
+        formRef.current.setFieldValue(
+          "complete_address",
+          place.formatted_address
+        );
+      } catch (error) {
+        toast.dismiss(id);
+      }
+      toast.dismiss(id);
+      // console.log(address);
+    });
+  };
+
   const setAddress = (googleAddress: any) => {
     googleAddress.forEach((element: any) => {
       element.types.forEach((x: any) => {
@@ -108,11 +154,9 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
 
   function onSubmit(value: Values): void {
     if (mode === Mode.pickUP) {
-      //todo: Add data to redux
       dispatch(addPickupInfo(value));
     }
     if (mode === Mode.dropOff) {
-      //todo
       dispatch(addDropOffInfo(value));
     }
     formRef.current.resetForm();
@@ -160,7 +204,7 @@ const AddressInfoFormCard: React.FC<IProps> = ({ next, mode }: IProps) => {
                 }
                 inputRef={ref}
                 trailing={
-                  <button type="button" onClick={() => {}}>
+                  <button type="button" onClick={getGpsLocation}>
                     <Icon
                       iconName="gps"
                       size="20"
