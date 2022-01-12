@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postApi } from "../../api-call";
 import { API } from "../../constant/Endpoints";
 import { ChooseVehicleReaders } from "../../helpers";
+import { Skeleton } from "..";
 import { addFare, addVehicle, OrderAttributes } from "../../redux/slices/order";
 
 export interface Vehicle {
@@ -22,39 +23,41 @@ interface IProps {
 }
 
 const ChooseVehicleCard: React.FC<IProps> = ({ next }) => {
-   const state = useSelector((state: any) => state.order) as OrderAttributes;
-   const [vehicles, setVehicles] = useState(state.fare);
-   const [selectedVehicles, setSelectedVehicles] = useState({} as Vehicle);
-   const dispatch = useDispatch();
+  const state = useSelector((state: any) => state.order) as OrderAttributes;
+  const [vehicles, setVehicles] = useState(state.fare);
+  const [selectedVehicles, setSelectedVehicles] = useState({} as Vehicle);
+  const dispatch = useDispatch();
 
-
-    const getVehicle = useCallback(async () => {
-      const latLong = {
-        pickup: state.pickup_info.location.coordinates,
-        dropoff: state.drop_off_info.location.coordinates,
-      };
-      const api = API.ORDER_ENDPOINTS.GET_FARE;
-      const result = await postApi(api, { latLong });
-      setVehicles(result.data.data);
-      dispatch(addFare(result.data.data));
-    }, [
-      state.drop_off_info.location.coordinates,
-      state.pickup_info.location.coordinates,
-      dispatch,
-    ]);
-
-    const addVehicleToRedux = () => {
-      dispatch(addVehicle(selectedVehicles));
-      next();
+  const getVehicle = useCallback(async () => {
+    const latLong = {
+      pickup: state.pickup_info.location.coordinates,
+      dropoff: state.drop_off_info.location.coordinates,
     };
-    useEffect(() => {
-      getVehicle();
-      if (state.vehicle_id) {
-        setSelectedVehicles(state.vehicle);
-      }
-    }, [getVehicle, state.vehicle_id, state.vehicle]);
+    const api = API.ORDER_ENDPOINTS.GET_FARE;
+    const result = await postApi(api, { latLong });
+    setVehicles(result.data.data);
+    dispatch(addFare(result.data.data));
+  }, [
+    state.drop_off_info.location.coordinates,
+    state.pickup_info.location.coordinates,
+    dispatch,
+  ]);
+
+  const addVehicleToRedux = () => {
+    dispatch(addVehicle(selectedVehicles));
+    next();
+  };
+
+  useEffect(() => {
+    getVehicle();
+    if (state.vehicle_id) {
+      setSelectedVehicles(state.vehicle);
+    }
+  }, [getVehicle, state.vehicle_id, state.vehicle]);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 px-0 lg:px-5 mt-5 gap-2 lg:gap-4">
+      {!vehicles && [0, 1, 2, 3].map(() => <Skeleton />)}
       {vehicles &&
         vehicles?.map((_vehicle: Vehicle) => (
           <div key={ChooseVehicleReaders.VehicleId(_vehicle)}>
