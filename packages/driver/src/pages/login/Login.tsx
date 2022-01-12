@@ -33,8 +33,8 @@ enum IStates {
 const LoginPage: React.FC<IProps> = (props: IProps) => {
   const [currentState, setCurrentState] = useState(IStates.enter_number);
   const [userId, setUserId] = useState(null);
-  const [number, setNumber] = useState("");
-  const [otp, setOtp] = useState("");
+  const [number, setNumber] = useState("9999999999");
+  const [otp, setOtp] = useState("0000");
   const [error, setError] = useState("");
   const initialValues: MyFormValues = { phone_number: "" };
   let navigate = useNavigate();
@@ -151,6 +151,8 @@ const LoginPage: React.FC<IProps> = (props: IProps) => {
                     onChange={(value) => {
                       setOtp(value);
                     }}
+                    value="0000"
+
                   />
                   <p className="text-primary mt-2 mb-5 text-xs font-medium">
                     <a href="#resend">Resend OTP</a>

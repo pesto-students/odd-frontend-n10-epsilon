@@ -14,12 +14,12 @@ const LandingPageUser: React.FC = () => {
       <LandingPage
         isUser={true}
         onUserLoginClick={() => {
-          console.log("User login...");
           setOpen(true);
         }}
         onDriverLoginClick={() => {
-          console.log("Driver login...");
-          window.location.assign("https://odd-driver.netlify.app");
+          window.location.assign(
+            "http://driver-app-odd.s3-website.ap-south-1.amazonaws.com"
+          );
         }}
       />
       <div className="absolute bg-white z-50">

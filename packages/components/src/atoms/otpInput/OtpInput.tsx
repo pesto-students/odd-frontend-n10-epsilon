@@ -13,6 +13,7 @@ const style: React.CSSProperties = {
 
 interface IProps {
   onChange(value: string): void;
+  value?: string;
 }
 
 const Otp = (props: IProps) => {
@@ -20,7 +21,7 @@ const Otp = (props: IProps) => {
 
   return (
     <OtpInput
-      value={otp}
+      value={props.value || otp}
       className="p-0 outline-none border-none box-shadow-none ring-0 text-sm"
       inputStyle={style}
       focusStyle={{ borderBottomColor: "#00DEDE", outline: "none" }}
