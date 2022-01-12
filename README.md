@@ -1,9 +1,9 @@
+
 # ODD (On Demand Delivery)
 
 ODD is an on-demand delivery app, where users can make request to deliver their packages from one location to another within India(for now some of the selected cities)
 
-Most of the time what happens is, If someone wants to deliver a package to another location, they have to search nearby “Truck wala or Rrickshaw wala" with no fixed prices.
-ODD tries to solve the problems by providing a platform where users can find and book the vehicle that suits their needs, and deliver packages to the destination without any extra effort and within fair price.
+Most of the time what happens is, If someone wants to deliver a package to another location, they have to search nearby “Truck wala or Rrickshaw wala" with no fixed prices. ODD tries to solve the problems by providing a platform where users can find and book the vehicle that suits their needs, and deliver packages to the destination without any extra effort and within fair price.
 
 ## Roles
 
@@ -11,137 +11,52 @@ ODD tries to solve the problems by providing a platform where users can find and
 - DRIVER - A person who is responsible for delivering a package
 - ADMIN - A person who can see statistics of services and details of Users, Drivers and Orders.
 
-## Tech Stack
+# Table of Contents
 
-**Client:** React, Redux, TailwindCSS
+1. [Demo](#demo)
+2. [Installation](#installation)
+3. [Technology Stack](#technology-stack)
+4. [Authors](#authors)
+5. [License](#license)
 
-**Server:** Node, Express, Socket
+# Demo
+- [Driver App](http://driver-app-odd.s3-website.ap-south-1.amazonaws.com/)
+- [User App](http://user-app-odd.s3-website.ap-south-1.amazonaws.com/)
+- [Admin App](http://admin-app-odd.s3-website.ap-south-1.amazonaws.com/)
 
-**Database:** Mongodb, S3 bucket
+Test Credentials:
 
-**Event Queue:** RabbitMQ
+- For Driver
+  - Phone: 9999999999
+  - OTP: 0000
+- For User
+  - Phone: 8888888888
+  - OTP: 0000
+- For Admin
+  - Email: admin@mailinator.com
+  - Password: 12345678
 
-**Proxy Server:** Nginx
+# Installation
 
-## Artifacts
+- Fork or directly clone this repository to your local machine
+- Use the `yarn` command to install dependencies
+- Once the dependencies are finished installing, use the `yarn start` command inside the root directory of app to open the app in your local browser of choice
 
-- `Product Requirements Document:` [PRD](https://drive.google.com/file/d/1KIVEf0Sr-K_P09xhqasXgidkMhf_AvHv/view?usp=sharing)
+# Technology Stack
 
-- `High Level Design:` [HLD](https://www.figma.com/file/pHuFpzxNUNjTGn2nU0773T/ODD-HLD)
+We tried to use a completely modern tech stack while testing out some new technologies that we had never used before. This resulted in a fast, performant, and easily-extensible web app that should be fairly future-proof for the coming next several years. We used:
 
-- `Wireframes:` [UI/UX](https://www.figma.com/file/rhJiTyanT7Toql18QuTcVj/UI%2FUX-On-Demand-Delivery)
+- [Typescript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Axios](https://axios-http.com/)
+- [Socket](https://socket.io/)
 
-## Application URLs
+# Authors
 
-- `Admin App:` [admin-app-odd](http://admin-app-odd.s3-website.ap-south-1.amazonaws.com/)
-
-  - **`Email`**: ***admin@mailinator.com***
-  - **`Password`**: **_12345678_**
-
-- `User App:` [user-app-odd](http://user-app-odd.s3-website.ap-south-1.amazonaws.com/)
-
-  - **`Phone Number`**: **_9999999999_**
-  - **`OTP`**: **_0000_**
-
-- `Driver App:` [driver-app-odd](http://driver-app-odd.s3-website.ap-south-1.amazonaws.com/)
-  - **`Phone Number`**: **_8888888888_**
-  - **`OTP`**: **_0000_**
-
-# Run locally
-
-## Cloning Project
-
-Use below command to clone project along with the submodules.
-
-```
-git clone https://github.com/pesto-students/odd-frontend-n10-epsilon
-```
-
-## Download Dependencies
-
-Use below command to download dependencies.
-
-```
-yarn install
-```
-
-## `Admin App`
-
-## Run:
-
-Runs the app in the development mode.
-
-```
-yarn start:admin
-```
-
-- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-- The page will reload if you make edits.
-- You will also see any lint errors in the console.
-
-## Build:
-
-Builds the app for production to the `packages/admin/build` folder.
-
-```
-yarn build:admin
-```
-
-- It correctly bundles React in production mode and optimizes the build for the best performance.
-- The build is minified and the filenames include the hashes.
-- Your app is ready to be deployed!
-
-## `Driver App`
-
-## Run:
-
-Runs the app in the development mode.
-
-```
-yarn start:driver
-```
-
-- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-- The page will reload if you make edits.
-- You will also see any lint errors in the console.
-
-## Build:
-
-Builds the app for production to the `packages/driver/build` folder.
-
-```
-yarn build:driver
-```
-
-- It correctly bundles React in production mode and optimizes the build for the best performance.
-- The build is minified and the filenames include the hashes.
-- Your app is ready to be deployed!
-
-## `User App`
-
-## Run:
-
-Runs the app in the development mode.
-
-```
-yarn start:user
-```
-
-- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-- The page will reload if you make edits.
-- You will also see any lint errors in the console.
-
-## Build:
-
-Builds the app for production to the `packages/user/build` folder.
-
-```
-yarn build:user
-```
-
-- It correctly bundles React in production mode and optimizes the build for the best performance.
-- The build is minified and the filenames include the hashes.
-- Your app is ready to be deployed!
+- [Dharmendra Jagodana](https://github.com/JagodanaDharmendra)
+- [Akash Malviya](https://github.com/Akashmalviya)
 
 ## To start with Driver app Todo
 
@@ -160,3 +75,7 @@ Enter url in the textarea
 ```
 
 Choose Enabled in the select option.
+
+# License
+
+[MIT](https://opensource.org/licenses/MIT)
