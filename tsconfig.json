@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "outDir": "./build",
+    "baseUrl": ".",
+    "moduleResolution": "Node",
+    "module": "esnext",
+    "target": "es5",
+    "sourceMap": true,
+    "lib": [
+      "esnext"
+    ],
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@monorepo/*": [
+        "packages/*/src/index.ts"
+      ]
+    }
+  },
+  "references": [
+    {
+      "path": "packages/admin"
+    },
+    {
+      "path": "packages/components"
+    },
+    {
+      "path": "packages/driver"
+    },
+    {
+      "path": "packages/user"
+    },
+    {
+      "path": "packages/base"
+    }
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "builds",
+    "build",
+    "*.d.ts"
+  ]
+}

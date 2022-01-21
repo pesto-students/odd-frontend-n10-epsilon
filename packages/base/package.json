@@ -1,0 +1,19 @@
+{
+  "name": "@odd/base",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./libs/index.ts",
+  "description": "Utils for app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "universal-cookie": "^4.0.4"
+  }
+}

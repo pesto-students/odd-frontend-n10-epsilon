@@ -1,0 +1,14 @@
+{
+  "name": "@odd/eslint-config-typescript",
+  "version": "1.0.0",
+  "license": "ISC",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.5.0",
+    "@typescript-eslint/parser": "^3.5.0",
+    "eslint-import-resolver-typescript": "^2.0.0"
+  }
+}
