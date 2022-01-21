@@ -55,11 +55,10 @@ const LandingPage: React.FC<IProps> = (props: IProps) => {
     <div className="flex flex-col w-full h-auto">
       <Navbar actionLeft={actionsLeft} actionRight={actionsRight} />
       <div
-        className={`${
-          props.isUser
-            ? "h-auto lg:h-screen py-8 lg:pt-16 lg:mb-16"
-            : "h-screen"
-        }`}
+        className={`${props.isUser
+          ? "h-auto lg:h-screen py-8 lg:pt-16 lg:mb-16"
+          : "h-screen"
+          }`}
         style={{ backgroundColor: "#E6FCFC" }}
       >
         <div className="grid grid-cols-1 lg:grid-cols-5 px-2 lg:px-20 justify-center items-center h-full">
@@ -67,18 +66,10 @@ const LandingPage: React.FC<IProps> = (props: IProps) => {
             {props.isUser ? (
               <>
                 <div className="text-2xl lg:text-4xl 2xl:text-6xl font-semibold">
-                  <span>Easily connect with a</span>
-                  <br />
-                  <span>delivery driver whenever</span>
-                  <br />
-                  <span>you need</span>
+                  <span>Easily connect with a delivery driver whenever you need</span>
                 </div>
                 <div className="mt-4 lg:mt-8 font-medium text-base opacity-50 w-full lg:w-2/4">
-                  <span>We provide you deliveries of your couriers inside</span>
-                  <br className="hidden lg:flex" />
-                  <span> Your city from one place to another. We make it</span>
-                  <br className="hidden lg:flex" />
-                  <span> easy for you by accepting parcels of Every Size.</span>
+                  <span>We deliver your courier from place to another within your city. We make it easy for you by accepting parcels of every size.</span>
                 </div>
                 <div className="mt-9">
                   <Button
@@ -166,14 +157,14 @@ const LandingPage: React.FC<IProps> = (props: IProps) => {
                 className="z-10 top-0 left-0 bottom-0 right-0 h-auto "
               />
             </div>
-            <img
+            {/* <img
               src={
                 require("../../assets/svgs/img-landingpage-03-injection-bkg.svg")
                   .default
               }
               alt="landing-page"
               className="hidden lg:flex absolute z-20 -right-2 -top-2 -bottom-2 h-full"
-            />
+            /> */}
             <div className="flex z-30">
               <div className="flex flex-col pl-4 pr-4 lg:pl-28 py-4">
                 <div className="text-2xl lg:text-5xl font-semibold">
@@ -211,14 +202,14 @@ const LandingPage: React.FC<IProps> = (props: IProps) => {
                   alt="bike"
                   className="max-h-80"
                 />
-                <img
+                {/* <img
                   src={
                     require("../../assets/svgs/img-landingpage-bike.svg")
                       .default
                   }
                   alt="bike"
                   className="h-52 w-52 max-h-52 hidden xl:flex"
-                />
+                /> */}
               </div>
               <div className="hidden lg:flex flex-row max-h-96 items-baseline">
                 <img
