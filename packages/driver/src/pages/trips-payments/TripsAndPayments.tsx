@@ -13,6 +13,7 @@ import { API } from "../../constant/Endpoints";
 import * as apiService from "../../api-call";
 import { TripsAndPaymentsReaders } from "../../helpers";
 import moment from "moment";
+import { socket } from "../dashboard/Dashboard";
 interface IProps {}
 
 const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
@@ -49,6 +50,10 @@ const TripsAndPayments: React.FC<IProps> = (props: IProps & any) => {
       }
     }
     loadData();
+
+    socket.on("STAT_CHANGE", (data: any) => {
+     loadData();
+    });
   }, []);
 
   if (loading) {

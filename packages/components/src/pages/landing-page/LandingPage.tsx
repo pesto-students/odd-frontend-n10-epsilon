@@ -69,7 +69,7 @@ const LandingPage: React.FC<IProps> = (props: IProps) => {
                   <span>Easily connect with a delivery driver whenever you need</span>
                 </div>
                 <div className="mt-4 lg:mt-8 font-medium text-base opacity-50 w-full lg:w-2/4">
-                  <span>We deliver your courier from place to another within your city. We make it easy for you by accepting parcels of every size.</span>
+                  <span>We provide you delivery of your couriers inside your city from one place to another. We make it easy for you by accepting parcels of Every Size..</span>
                 </div>
                 <div className="mt-9">
                   <Button
@@ -171,7 +171,7 @@ const LandingPage: React.FC<IProps> = (props: IProps) => {
                   Fully Vaccinated
                 </div>
                 <div className="mt-4 lg:mt-8 font-normal text-2xl lg:text-4xl w-full lg:w-2/4">
-                  Our drivers are fully vaccinated &amp; sanitated, so Corona or
+                  Our drivers are fully vaccinated &amp; sanitized, so Corona or
                   not, you can send or recieve parcels without worrying.
                 </div>
                 <div className="mt-4 lg:mt-8">

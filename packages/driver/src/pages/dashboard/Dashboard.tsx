@@ -19,7 +19,7 @@ const onActive: React.CSSProperties = {
 const onInActive: React.CSSProperties = {
   color: "#000000",
 };
-const socket = socketIOClient(ENDPOINT, {
+export const socket = socketIOClient(ENDPOINT, {
   path: "/socket/mysocket/",
   transports: ["websocket", "polling"],
 });

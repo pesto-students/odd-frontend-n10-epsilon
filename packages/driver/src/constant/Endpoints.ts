@@ -1,10 +1,10 @@
 const environment = {
-  baseUrl: "http://167.71.234.112",
+  baseUrl: "http://localhost",
 };
 class Endpoints {
   baseUrl: string = environment.baseUrl;
-  DRIVER_BASE = this.baseUrl + "/driver";
-  ORDER_BASE = this.baseUrl + "/order";
+  DRIVER_BASE = this.baseUrl + ":4003";
+  ORDER_BASE = this.baseUrl + ":4004";
   DRIVER_ENDPOINTS = {
     LOGIN: this.joinPaths(this.DRIVER_BASE, "login"),
     VERIFY_OTP: this.joinPaths(this.DRIVER_BASE, "verify_otp"),
